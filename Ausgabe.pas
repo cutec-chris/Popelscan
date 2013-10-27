@@ -99,7 +99,7 @@ if Status=1 then
             // Erster Punkt im Bild
              if z=1 then
                  begin
-                   QueryPerformancecounter(Zykpoint^);
+                   //TODO:QueryPerformancecounter(Zykpoint^);
                    if prozzyklus>=TT_Mir_h then Winkelberechnenhor;
                    if prozzyklus>=TT_Mir_v then Winkelberechnenver;
 

@@ -18,6 +18,7 @@ uses lasersoftware;
 
 procedure Easylase_angeschlossen;
 begin
+ {$IFDEF WINDOWS}
   if (EasyLaseGetCardNum >0) and (LPTPort=999) then
   begin
     form1.panel8.color:=clbtnface;
@@ -27,11 +28,13 @@ begin
     form1.panel8.color:=clred;
     USB_CardNR:=99;
   end;
+  {$ENDIF}
 end;
 
 Procedure Easylase_Writeframe;
 var i:integer; p:word;
 Begin
+ {$IFDEF WINDOWS}
   if EasyLaseGetStatus(USB_CardNr)<>1 then Exit;
   if ( (lptport=999) and (form1.panel8.color=clbtnface) )then
   Begin
@@ -46,15 +49,18 @@ Begin
      //form1.panel52.caption:=inttostr(Framesdraussen);
     end;
   end;
+  {$ENDIF}
 end;
 
 // Stopp
 Procedure EasyLase_Stop;
 var a:integer;
 Begin
+ {$IFDEF WINDOWS}
  a:=0;USB_TTL:=0;
  EasylaseStop(a);
  EasyLaseWriteTTL(USB_CardNr,USB_TTL);
+ {$ENDIF}
 end;
 
 // Function bin; UMWANDLUNG
@@ -74,14 +80,18 @@ end;
 Procedure Easylase_Write_TTL;
 var p:word;
 Begin
+ {$IFDEF WINDOWS}
  p:=psw;
  if easylasegetcardnum>0 then
  EasyLaseWriteTTL(USB_CardNr,p);
+ {$ENDIF}
 end;
 
 Procedure DMX_Out;
 begin
+ {$IFDEF WINDOWS}
   EasyLaseWriteDMX(USB_CardNR,@DMX_Buffer);
+ {$ENDIF}
 end;
 
 

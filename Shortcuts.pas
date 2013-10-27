@@ -4,8 +4,8 @@ unit Shortcuts;
 
 interface
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, Menus, QCCom32,ausgabe;
+  LMessages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, ExtCtrls, Menus, ausgabe;
 
 procedure start;
 procedure Stop;
@@ -32,4 +32,4 @@ begin
 form1.button2.click;
 form1.Sequenzspeichern1.Click;
 end;
-end.
+end.

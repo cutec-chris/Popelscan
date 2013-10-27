@@ -32,8 +32,8 @@ type
     Button2: TButton;
     GB2: TGroupBox;
     FileListBox1: TFileListBox;
-    dlb1: TDirectoryListBox;
-    DriveComboBox1: TDriveComboBox;
+    dlb1: TListBox;
+    DriveComboBox1: TComboBox;
     N2: TMenuItem;
     DeletefromFilelist1: TMenuItem;
     PopupMenu1: TPopupMenu;
@@ -150,7 +150,6 @@ type
     Button19: TButton;
     Button20: TButton;
     Button21: TButton;
-    MediaPlayer1: TMediaPlayer;
     Button22: TButton;
     UpDown1: TUpDown;
     Timer3: TTimer;
@@ -415,11 +414,13 @@ type
   private
      procedure GetMidiInDevs;
   protected
-    procedure MMMIMDATA (var message : TMessage); message MM_MIM_DATA;
+    //procedure MMMIMDATA (var message : TMessage); message MM_MIM_DATA;
+    //TODO: MIDI Support
   public
    procedure UpdateMidiIn (statusm, db1, db2 : DWord);
   end;
      // USB
+     {$IFDEF WINDOWS}
      Function EasyLaseWriteTTL(var USB_CardNr:integer;USB_TTL: word):boolean;stdcall; external 'Easylase.dll';
    
      function EasyLaseGetCardNum():Integer;stdcall; external 'Easylase.dll';
@@ -434,6 +435,7 @@ type
      function EasyLaseWriteDMX(var CardNumber:integer;DMXBuffer:pointer ):
               boolean;stdcall;external 'easylase.dll';
      // Ende USB
+     {$ENDIF}
     function IntToBin (z : integer):string;
     function GetNibble (nr, z : integer) : integer;
     procedure GetStrings (statusm : integer; var s1, s2, s3 : string);
@@ -580,8 +582,9 @@ procedure TForm1.GetMidiInDevs;
 var
   devs : integer;
   I    : integer;
-  Caps : TMidiInCaps;
+  //Caps : TMidiInCaps;
 begin
+  {
   if not MidiInOpened then exit;
   ComboMidiIn.Clear;
   devs := midiInGetNumDevs;
@@ -591,8 +594,10 @@ begin
     ComboMidiIn.Items.Add (Caps.szPname);
   end;
   ComboMidiIn.ItemIndex := 0;
+  }
 end;
 
+{
 procedure TForm1.MMMIMDATA (var message : TMessage);
 var
   stat   : integer;
@@ -609,7 +614,7 @@ begin
   UpdateMidiIn (stat, d1, d2);
   inherited;
 end;
-
+}
 procedure TForm1.UpdateMidiIn;
 var
   s1, s2, s3 ,filenamen: string;
@@ -645,13 +650,13 @@ begin
                if (filelistbox1.items.count>tastennr)  then
                  begin
                    filenamen:=filelistbox1.Items[tastennr];
-                   filenamen:=dlb1.Directory+'\'+filenamen;
+                   //TODO:filenamen:=dlb1.Directory+'\'+filenamen;
                    alterton:=neuerton;
 
                      if FileExistsUTF8(filenamen) { *Converted from FileExists* } then
                        begin
-                         midiInStop (MidiInHandle);
-                         midiInReset (MidiInHandle);
+                         //TODO:midiInStop (MidiInHandle);
+                         //midiInReset (MidiInHandle);
                          button2.click;
                          FileListBox1.enabled:=false;
                          alterton:=neuerton;
@@ -660,8 +665,8 @@ begin
                          form1.lb1.items.loadfromfile(filenamen);
                          form1.sb1.position:=1;punkte:=0;neuzeichnen; image_loeschen; redraw;
                          faderupdate;form1.sb4.position:=strtoint(form1.lb1.items[5]);
-                         midiInReset (MidiInHandle);
-                         midiInStart (MidiInHandle);
+                         //TODO:midiInReset (MidiInHandle);
+                         //midiInStart (MidiInHandle);
                          FileListBox1.enabled:=true;
                          button1.click;
                        end;
@@ -726,7 +731,7 @@ bild:=tbitmap.create; image_loeschen;
 
 getdir(0,hauptverzeichnis);
 ini:=hauptverzeichnis+'\ini.dat';
-dlb1.Drive:='C'; dlb1.directory:='C:\';
+//TODO:dlb1.Drive:='C'; dlb1.directory:='C:\';
 
 // Settings laden
   if FileExistsUTF8(ini) { *Converted from FileExists* } then
@@ -749,8 +754,8 @@ dlb1.Drive:='C'; dlb1.directory:='C:\';
      if copy(memo2.lines[5],1,1)='c' then d:='c';
      if copy(memo2.lines[5],1,1)='d' then d:='d';
      if copy(memo2.lines[5],1,1)='e' then d:='e';
-     drivecombobox1.drive:=d;
-     dlb1.directory:=memo2.lines[7];
+     //TODO:drivecombobox1.drive:=d;
+     //TODO:dlb1.directory:=memo2.lines[7];
      sb2.position:=strtoint(memo2.lines[9]);
      panel3.caption:=inttostr(sb2.position);
      sb3.position:=strtoint(memo2.lines[11]);
@@ -782,6 +787,7 @@ dlb1.Drive:='C'; dlb1.directory:='C:\';
 
      // Interpolate Lines
      if copy(memo2.lines[39],1,1)='1'  then cb39.checked:=true;
+     {TODO:
      if memo2.lines[29] <> '' then
      begin
        com.port:=strtoint(memo2.lines[29]);
@@ -798,7 +804,7 @@ dlb1.Drive:='C'; dlb1.directory:='C:\';
      end;
      com.close;com.open; com.Baud:=9600; com.showerrors:=false;
      com.responsetime:=300;
-
+     }
 
      // - - - Ende seriell - - - -
 
@@ -891,7 +897,7 @@ dlb1.Drive:='C'; dlb1.directory:='C:\';
   //
   // Query Performance Counter ini
      Freqpoint:=@prozfreq;Zykpoint:=@prozzyklus;
-
+     {TODO:
      QueryPerformancefrequency(Freqpoint^); QueryPerformancecounter(Zykpoint^);
      QueryPerformanceFrequency(iFreq);
      QueryPerformanceCounter(iCountStart);  QueryPerformanceCounter(iCountEnd);
@@ -917,6 +923,7 @@ dlb1.Drive:='C'; dlb1.directory:='C:\';
        Delay_pps:=sb2.position*10;
        Delay_Time:=Icounttime / Delay_PPS;
        Del_Time:=Round(Delay_Time);
+      }
 end;
 
 // Menue "Neue Datei"
@@ -1048,7 +1055,8 @@ begin
 cb12.checked:=false;
 status:=0;
 button2.click;
-com.close;form1.close;
+//TODO:com.close;
+form1.close;
 end;
 
 // Bildumschaltung
@@ -1309,6 +1317,7 @@ winkel:=180;winkhor:=180;winkver:=180; winkel1:=360;punkte:=0;
 application.ProcessMessages;
 // Mediaplayer MOT to MP3  ? ?
 // Läuft Player ?
+{TODO:
 if mediaplayer1.filename<>''  then
   begin
     // Aktuelle Position wirklich letzte Zeile ?
@@ -1326,7 +1335,7 @@ if mediaplayer1.filename<>''  then
         begin
         end;
   end;
-
+}
 
 if status=1 then
  begin
@@ -1418,9 +1427,9 @@ memo2.lines[0]:='LPT Adress';memo2.lines[1]:=inttostr(lptport);
 // Sichern SB7  M-Delay
 memo2.lines[2]:='M-Delay';memo2.lines[3]:=inttostr(sb7.position);
 // Sichern Drive
-memo2.lines[4]:='Drive';memo2.lines[5]:=drivecombobox1.Drive;
+//TODO:memo2.lines[4]:='Drive';memo2.lines[5]:=drivecombobox1.Drive;
 // Sichern aktuelles Verzeichnis
-memo2.lines[6]:='Directory';memo2.lines[7]:=Dlb1.Directory;;
+//TODO:memo2.lines[6]:='Directory';memo2.lines[7]:=Dlb1.Directory;;
 // Sichern SB2  P-Delay
 memo2.lines[8]:='P-Delay';memo2.lines[9]:=inttostr(sb2.position);
 // Sichern SB 3 Blank-Delay
@@ -1445,7 +1454,7 @@ if cb10.checked=true then memo2.lines[25]:='1' else memo2.lines[25]:='0';
 memo2.lines[26]:='Invert X';
 if cb11.checked=true then memo2.lines[27]:='1' else memo2.lines[27]:='0';
 // Sichern Comport
-memo2.lines[28]:='Comport'; memo2.lines[29]:=inttostr(com.port);
+//TODO:memo2.lines[28]:='Comport'; memo2.lines[29]:=inttostr(com.port);
 // Sichern CB 37 Invert Blank
 memo2.lines[30]:='Invert blank';
 if cb37.checked=true then memo2.lines[31]:='1' else memo2.lines[31]:='0';
@@ -1507,9 +1516,12 @@ end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
-bild.free;
- easylaseclose;
+  bild.free;
+  {$IFDEF WINDOWS}
+  easylaseclose;
+  {$ENDIF}
 end;
+
 // Bild ausblenden
 procedure TForm1.Button5Click(Sender: TObject);
 begin
@@ -1685,15 +1697,20 @@ procedure TForm1.bs9Click(Sender: TObject);
 begin psw:=0;if status=0 then ausgabe_bsw;end;
 
 procedure TForm1.Com11Click(Sender: TObject);
-begin com.close;com.port:=1;com.open;
+begin
+  {TODO:
+  com.close;com.port:=1;com.open;
 
-com11.checked:=true;com21.checked:=false;
-;end;
+  com11.checked:=true;com21.checked:=false;
+  }
+end;
 
 procedure TForm1.Com21Click(Sender: TObject);
-begin com.close;com.port:=2; com.open;
-com21.checked:=true;com11.checked:=false;
-
+begin
+  {TODO:
+  com.close;com.port:=2; com.open;
+  com21.checked:=true;com11.checked:=false;
+  }
 end;
 
 procedure TForm1.pg2Change(Sender: TObject);
@@ -1724,11 +1741,12 @@ var liedname,aktpfad:string;
 begin
 button12.click;
 opendialog1.FilterIndex:=4;
+{
 if opendialog1.execute then liedname:=opendialog1.filename;
  if liedname<>'' then
    begin
       GetDir(0, aktpfad);
-      dlb1.Directory:=aktpfad;
+      //TODO:dlb1.Directory:=aktpfad;
       mediaplayer1.filename:=liedname;
       mediaplayer1.close;
       mediaplayer1.open;
@@ -1738,18 +1756,22 @@ if opendialog1.execute then liedname:=opendialog1.filename;
       lastpos:=0;lastsetpos:=0;
       panel34.caption:='';panel34.refresh;
    end;
+}
 end;
 // MP3 Play
 procedure TForm1.Button10Click(Sender: TObject);
 begin
+{TODO:
 if mediaplayer1.filename<>'' then
  begin
    mediaplayer1.play;timer2.enabled:=true;
  end;
+}
 end;
 // MP3 Pause
 procedure TForm1.Button11Click(Sender: TObject);
 begin
+{TODO:
 if mediaplayer1.filename<>'' then
   begin
    mediaplayer1.Pause;
@@ -1757,10 +1779,12 @@ if mediaplayer1.filename<>'' then
    panel34.caption:=inttostr( mediaplayer1.position);
    cuepos:=mediaplayer1.position;
   end;
+}
 end;
 //MP3 STOP
 procedure TForm1.Button12Click(Sender: TObject);
 begin
+{TODO:
 if mediaplayer1.filename<>'' then
  begin
   mediaplayer1.stop;
@@ -1769,20 +1793,24 @@ if mediaplayer1.filename<>'' then
   panel34.caption:='0';panel34.refresh;lastpos:=0;cuepos:=0;
   button2.click;
  end;
+}
 end;
 
 procedure TForm1.Button13Click(Sender: TObject);
 begin
+{TODO:
 if mediaplayer1.filename<>'' then
  begin
   cuepos:=mediaplayer1.position;
   if mediaplayer1.mode=mpplaying then mediaplayer1.pause;
   panel34.caption:=inttostr( mediaplayer1.position);panel34.refresh;
  end;
+}
 end;
 // Cue+50
 procedure TForm1.Button14Click(Sender: TObject);
 begin
+{TODO:
  if mediaplayer1.filename<>'' then
   begin
     mediaplayer1.pause;
@@ -1791,11 +1819,12 @@ begin
     panel34.caption:=inttostr( mediaplayer1.position);panel34.refresh;
     if cb32.checked=true then mediaplayer1.play else mediaplayer1.stop;
   end;
-  
+}  
 end;
 // Cue -50
 procedure TForm1.Button15Click(Sender: TObject);
 begin
+{TODO:
  if mediaplayer1.filename<>'' then
  begin
    mediaplayer1.pause; 
@@ -1804,21 +1833,25 @@ begin
    panel34.caption:=inttostr(mediaplayer1.position);panel34.refresh;
    if cb32.checked=true then mediaplayer1.play else mediaplayer1.stop;
  end;
+}
 end;
 // Jump to Cue
 procedure TForm1.Button16Click(Sender: TObject);
 begin
+{TODO:
  if mediaplayer1.filename<>'' then
   begin
     mediaplayer1.position:=cuepos;
     if mediaplayer1.mode=mpplaying then mediaplayer1.pause;
     panel34.caption:=inttostr(cuepos);panel34.refresh;
   end;
+}
 end;
 
 procedure TForm1.Timer2Timer(Sender: TObject);
 var Pfad:string;
 begin
+{TODO:
 opendialog1.filterindex:=1;
 tb1.position:=mediaplayer1.position; selfchange:=1;
 panel34.caption:=inttostr(mediaplayer1.position);
@@ -1847,13 +1880,14 @@ if pstatus=1 then
                button1.click;
 end;end; end;
 if mediaplayer1.position=mediaplayer1.TrackLength[1] then button18.click;
+}
 end;
-
 
 // Play MP§ + MOT
 procedure TForm1.Button17Click(Sender: TObject);
 begin
 button12.click;
+{TODO:
 if (mediaplayer1.filename<>'') and
 ( memo4.lines[0]<>' ') then
       begin
@@ -1863,10 +1897,12 @@ if (mediaplayer1.filename<>'') and
         zindex:=strtoint(memo4.lines[plinie]);
         pfile:=memo4.lines[plinie+1];
       end;
+}
 end;
 
 procedure TForm1.Button18Click(Sender: TObject);
 begin
+{TODO:
  if (mediaplayer1.filename<>'') then
  begin
    mediaplayer1.stop;lastpos:=0;
@@ -1875,6 +1911,7 @@ begin
  end;
  timer2.enabled:=false;plinie:=0; pstatus:=0;
  form1.button2.click;
+}
 end;
 // Load MOTLIST
 procedure TForm1.Button19Click(Sender: TObject);
@@ -1908,30 +1945,30 @@ procedure TForm1.Button22Click(Sender: TObject);
 begin
 if linienzahl>2 then
  begin
-   if mediaplayer1.mode=mpplaying then mediaplayer1.pause;
+   //TODO:if mediaplayer1.mode=mpplaying then mediaplayer1.pause;
    memo4.lines[linienzahl-1]:='';memo4.lines[linienzahl-2]:='';
    linienzahl:=linienzahl-2;memo4.refresh;
    lastsetpos:=strtoint(memo4.lines[linienzahl-2]);
    cuepos:=lastsetpos+1;
-   mediaplayer1.position:=cuepos;
-   panel34.caption:=inttostr( mediaplayer1.position);panel34.refresh;
+   //TODO:mediaplayer1.position:=cuepos;
+   //TODO:panel34.caption:=inttostr( mediaplayer1.position);panel34.refresh;
 
  end else // wenn >2 Bzw. 0
 
   begin
-   if mediaplayer1.mode=mpplaying then mediaplayer1.pause;
+   //TODO:if mediaplayer1.mode=mpplaying then mediaplayer1.pause;
    memo4.lines[linienzahl-1]:='';memo4.lines[linienzahl-2]:='';
    linienzahl:=0 ;memo4.refresh;
    lastsetpos:=0;
-   cuepos:=lastsetpos+1;mediaplayer1.position:=0;
+   //TODO:cuepos:=lastsetpos+1;mediaplayer1.position:=0;
    tb1.position:=0;
   end;
 
 
 if linienzahl>2 then
  begin
-  mediaplayer1.position:=strtoint(memo4.lines[linienzahl-2]);
-  mediaplayer1.play;
+  //TODO:mediaplayer1.position:=strtoint(memo4.lines[linienzahl-2]);
+  //TODO:mediaplayer1.play;
  end;
 end;
 
@@ -1947,7 +1984,7 @@ end;
 
 procedure TForm1.Play(Sender: TObject);
 begin
-mediaplayer1.play;
+//TODO:mediaplayer1.play;
 end;
 
 procedure TForm1.cb14Click(Sender: TObject);
@@ -1967,12 +2004,12 @@ begin
  if panel32.color=clbtnface then
    begin
      panel32.color:=clred;panel32.refresh;
-     com.rts:=true;
+     //TODO:com.rts:=true;
      timer3.enabled:=true;
    end else
    begin
      panel32.color:=clbtnface;panel32.refresh;
-     com.rts:=false;
+     //TODO:com.rts:=false;
      timer3.enabled:=false;
    end
 
@@ -1982,7 +2019,7 @@ end;
 procedure TForm1.Timer3Timer(Sender: TObject);
 begin
 panel32.color:=clbtnface;panel32.refresh;
-com.rts:=false;
+//TODO:com.rts:=false;
 timer3.enabled:=false;
 end;
 
@@ -2042,6 +2079,7 @@ end;
 
 procedure TForm1.Button23Click(Sender: TObject);
 begin
+{TODO:
 if mediaplayer1.filename<>'' then
   begin
     mediaplayer1.pause;
@@ -2050,10 +2088,12 @@ if mediaplayer1.filename<>'' then
     panel34.caption:=inttostr( mediaplayer1.position);panel34.refresh;
     if cb32.checked=true then mediaplayer1.play else mediaplayer1.stop;
   end;
+}
 end;
 
 procedure TForm1.Button24Click(Sender: TObject);
 begin
+{TODO:
 if mediaplayer1.filename<>'' then
   begin
     mediaplayer1.pause; 
@@ -2062,6 +2102,7 @@ if mediaplayer1.filename<>'' then
     panel34.caption:=inttostr( mediaplayer1.position);panel34.refresh;
     if cb32.checked=true then mediaplayer1.play else mediaplayer1.stop;
   end;
+}
 end;
 
 
@@ -2158,40 +2199,44 @@ end;
 
 procedure CloseMidiIn;
 begin
+{TODO:
   if MidiInOpened then
   begin
-    midiInReset (MidiInHandle);
+    TODO:midiInReset (MidiInHandle);
     midiInClose (MidiInHandle);
     MidiInOpened := FALSE;
   end;
+}
 end;
 
 procedure OpenMidiIn (DeviceID : integer);
 begin
+{TODO:
   CloseMidiIn;
   MidiInOpened := midiInOpen (@MidiInHandle, DeviceID, Form1.Handle, 0, CALLBACK_WINDOW) = MMSYSERR_NOERROR;
+}
 end;
 
 procedure StartMidiIn;
 begin
-  if MidiInOpened then midiInStart (MidiInHandle);
+//  if MidiInOpened then midiInStart (MidiInHandle);
 end;
 
 procedure StopMidiIn;
 begin
-  if MidiInOpened then midiInStop (MidiInHandle);
+//  if MidiInOpened then midiInStop (MidiInHandle);
 end;
 
 procedure ResetMidiIn;
 begin
-  if MidiInOpened then midiInReset (MidiInHandle);
+//  if MidiInOpened then midiInReset (MidiInHandle);
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
-OpenMidiIn (0);
-GetMidiInDevs;
-StartMidiIn;
+//TODO:OpenMidiIn (0);
+//TODO:GetMidiInDevs;
+//TODO:StartMidiIn;
 end;
 
 
@@ -2225,6 +2270,7 @@ end;
 // 10 sec Vorspulen
 procedure TForm1.Button25Click(Sender: TObject);
 begin
+{TODO:
  if mediaplayer1.filename<>'' then
   begin
     mediaplayer1.pause;
@@ -2233,11 +2279,12 @@ begin
     panel34.caption:=inttostr( mediaplayer1.position);panel34.refresh;
     if cb32.checked=true then mediaplayer1.play else mediaplayer1.stop;
   end;
-
+}
 end;
 // 10 sec zurückspulen
 procedure TForm1.Button28Click(Sender: TObject);
 begin
+{TODO:
  if mediaplayer1.filename<>'' then
   begin
     mediaplayer1.pause;
@@ -2248,12 +2295,13 @@ begin
     panel34.caption:=inttostr( mediaplayer1.position);panel34.refresh;
     if cb32.checked=true then mediaplayer1.play else mediaplayer1.stop;
   end;
+}
 end;
 
 // Monitor Ausschalten
 procedure TForm1.Button29Click(Sender: TObject);
 begin
- SendMessage(Application.Handle, WM_SYSCOMMAND, SC_MONITORPOWER, 1); 
+ //SendMessage(Application.Handle, WM_SYSCOMMAND, SC_MONITORPOWER, 1); 
 end;
 
 // Ausgabetimer pps

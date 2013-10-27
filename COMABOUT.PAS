@@ -1,4 +1,6 @@
-unit Comabout;
+unit COMABOUT;
+
+{$MODE Delphi}
 
 interface
 
@@ -32,7 +34,7 @@ var
 
 implementation
 
-{$R *.DFM}
+{$R *.lfm}
 
 procedure TAboutComponent.WebBrowerClick(Sender: TObject);
 begin

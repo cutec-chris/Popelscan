@@ -1,10 +1,12 @@
-unit FMXWin;
+unit FMXWIN;
+
+{$MODE Delphi}
 
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, FileCtrl, Grids, Outline, DirOutln, Tabs, ExtCtrls, Menus;
+  LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, FileCtrl, Grids, Outline, DirOutln, Tabs, ExtCtrls, Menus, FileUtil;
 
 type
   TFMForm = class(TForm)
@@ -62,9 +64,9 @@ var
 
 implementation
 
-uses FmxUtils, FAttrDlg, FChngDlg;
+uses FMXUTILS, FAttrDlg, FChngDlg;
 
-{$R *.DFM}
+{$R *.lfm}
 
 procedure TFMForm.Exit1Click(Sender: TObject);
 begin
@@ -131,7 +133,7 @@ begin
     if ItemIndex >= 0 then
     begin
       TheFileName := Items[ItemIndex];
-      FilePanel.Caption := Format('%s, %d bytes', [TheFileName, GetFileSize(TheFileName)]);
+      FilePanel.Caption := Format('%s, %d bytes', [TheFileName, FileSize(TheFileName) { *Converted from GetFileSize* }]);
     end
     else FilePanel.Caption := '';
   end;
@@ -177,7 +179,7 @@ begin
   with FileList do
     if MessageDlg('Delete ' + FileName + '?', mtConfirmation,
       [mbYes, mbNo], 0) = mrYes then
-      if DeleteFile(FileName) then Update;
+      if DeleteFileUTF8(FileName) { *Converted from DeleteFile* } then Update;
 end;
 
 procedure TFMForm.Properties1Click(Sender: TObject);
@@ -189,7 +191,7 @@ begin
     FileDirName.Caption := FileList.Items[FileList.ItemIndex];
     FilePathName.Caption := FileList.Directory;
     ChangeDate.Caption := DateTimeToStr(FileDateTime(FileList.FileName));
-    Attributes := FileGetAttr(FileDirName.Caption);
+    Attributes := FileGetAttrUTF8(FileDirName.Caption); { *Converted from FileGetAttr* }
     ReadOnly.Checked := (Attributes and faReadOnly) = faReadOnly;
     Archive.Checked := (Attributes and faArchive) = faArchive;
     System.Checked := (Attributes and faSysFile) = faSysFile;
@@ -206,7 +208,7 @@ begin
       if Hidden.Checked then NewAttributes := NewAttributes or faHidden
       else NewAttributes := NewAttributes and not faHidden;
       if NewAttributes <> Attributes then
-        FileSetAttr(FileDirName.Caption, NewAttributes);
+        FileSetAttrUTF8(FileDirName.Caption,NewAttributes); { *Converted from FileSetAttr* }
     end;
   end;
 end;
@@ -221,7 +223,7 @@ begin
     else if ACaption = 'Copy' then
       CopyFile(FromFile, ToFile)
     else if ACaption = 'Rename' then
-      RenameFile(FromFile, ToFile);
+      RenameFileUTF8(FromFile,ToFile); { *Converted from RenameFile* }
     FileList.Update;
   end;
 end;
