@@ -17,9 +17,6 @@ type
     FAbout: string;
   protected
     { Protected declarations }
-    {$IFDEF WIN32}
-    procedure ValidateRename(AComponent: TComponent; const CurName, NewName: string);  override;
-    {$ENDIF}
   public
     { Public declarations }
     procedure Write;
@@ -99,4 +96,4 @@ Result := Byte(ReadData);
 }
 end;
 
-end.
+end.

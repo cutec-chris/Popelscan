@@ -32,6 +32,7 @@ end;
 // Zeichenfläche löschen und Gitter zeichnen
 procedure Image_loeschen;
 begin
+  form1.iOutput.canvas.Lock;
   form1.iOutput.canvas.Brush.color := clbtnface;
   form1.iOutput.Canvas.FillRect(rect(0, 0, 258, 258));
   form1.iOutput.canvas.pen.color := 10003608;
@@ -76,6 +77,7 @@ begin
 
   form1.iOutput.canvas.pen.color := clred;
   form1.iOutput.canvas.pen.Width := 2;
+  form1.iOutput.canvas.Unlock;
 end;
 
 // Zeichnen nach Mausklick
@@ -153,13 +155,13 @@ begin
   form1.sb3.position := StrToInt(form1.lb1.items[1]);
   form1.panel4.Caption := IntToStr(form1.sb3.position);
   form1.sb1.position := 1;
-
 end;
 
 procedure redraw;
 var
   x, y, a: integer;
 begin
+  form1.iOutput.canvas.Lock;
   if (copy((form1.lb1.items[form1.sb1.position + 20]), 1, 1) <> '') and (punkte = 0) then
   begin
     port := StrToInt('$' + copy(form1.lb1.items[form1.sb1.position + 20], 1, 2));
@@ -216,6 +218,7 @@ begin
     last_pic_malen;
   a := length(form1.lb1.items[form1.sb1.position + 20]);
   form1.panel29.Caption := IntToStr(round(a / 6));
+  form1.iOutput.canvas.Unlock;
 end;
 
 procedure last_pic_malen;

@@ -135,7 +135,6 @@ object FMForm: TFMForm
     Align = alClient
     FileType = [ftReadOnly, ftDirectory, ftArchive, ftNormal]
     ItemHeight = 16
-    ShowGlyphs = True
     TabOrder = 3
     OnChange = FileListChange
     OnEndDrag = FileListEndDrag
