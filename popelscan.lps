@@ -5,8 +5,9 @@
     <BuildModes Active="Default"/>
     <Units Count="15">
       <Unit0>
-        <Filename Value="Project1.lpr"/>
+        <Filename Value="popelscan.lpr"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="popelscan"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
