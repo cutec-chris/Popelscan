@@ -25,8 +25,8 @@
         <UnitName Value="Lasersoftware"/>
         <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="937"/>
-        <CursorPos X="1" Y="956"/>
+        <TopLine Value="1"/>
+        <CursorPos X="60" Y="10"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -36,9 +36,10 @@
         <Filename Value="Ausgabe.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Ausgabe"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="20"/>
+        <TopLine Value="1"/>
         <CursorPos X="36" Y="20"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
@@ -75,7 +76,7 @@
         <UnitName Value="Shortcuts"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="4"/>
+        <TopLine Value="3"/>
         <CursorPos X="12" Y="33"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
@@ -86,10 +87,9 @@
         <Filename Value="Ausgabeeffekte.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Ausgabeeffekte"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="342"/>
+        <TopLine Value="1"/>
         <CursorPos X="1" Y="359"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
@@ -109,10 +109,9 @@
       </Unit7>
       <Unit8>
         <Filename Value="BAIOPORT.PAS"/>
-        <IsPartOfProject Value="True"/>
         <UnitName Value="BAIOPORT"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="25"/>
+        <TopLine Value="20"/>
         <CursorPos X="1" Y="20"/>
         <UsageCount Value="22"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -212,7 +211,7 @@
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="Lasersoftware.pas"/>
         <Caret Line="422" Column="1" TopLine="408"/>
@@ -238,101 +237,97 @@
         <Caret Line="375" Column="11" TopLine="355"/>
       </Position6>
       <Position7>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="9" Column="44" TopLine="2860"/>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="371" Column="3" TopLine="342"/>
       </Position7>
       <Position8>
         <Filename Value="Ausgabe.pas"/>
-        <Caret Line="371" Column="3" TopLine="342"/>
+        <Caret Line="370" Column="1" TopLine="342"/>
       </Position8>
       <Position9>
         <Filename Value="Ausgabe.pas"/>
-        <Caret Line="370" Column="1" TopLine="342"/>
+        <Caret Line="371" Column="1" TopLine="342"/>
       </Position9>
       <Position10>
         <Filename Value="Ausgabe.pas"/>
-        <Caret Line="371" Column="1" TopLine="342"/>
+        <Caret Line="373" Column="1" TopLine="342"/>
       </Position10>
       <Position11>
         <Filename Value="Ausgabe.pas"/>
-        <Caret Line="373" Column="1" TopLine="342"/>
+        <Caret Line="371" Column="1" TopLine="342"/>
       </Position11>
       <Position12>
         <Filename Value="Ausgabe.pas"/>
-        <Caret Line="371" Column="1" TopLine="342"/>
+        <Caret Line="373" Column="1" TopLine="342"/>
       </Position12>
       <Position13>
         <Filename Value="Ausgabe.pas"/>
-        <Caret Line="373" Column="1" TopLine="342"/>
+        <Caret Line="371" Column="1" TopLine="342"/>
       </Position13>
       <Position14>
         <Filename Value="Ausgabe.pas"/>
-        <Caret Line="371" Column="1" TopLine="342"/>
+        <Caret Line="373" Column="1" TopLine="342"/>
       </Position14>
       <Position15>
         <Filename Value="Ausgabe.pas"/>
-        <Caret Line="373" Column="1" TopLine="342"/>
+        <Caret Line="371" Column="1" TopLine="342"/>
       </Position15>
       <Position16>
-        <Filename Value="Ausgabe.pas"/>
-        <Caret Line="371" Column="1" TopLine="342"/>
+        <Filename Value="Ausgabeeffekte.pas"/>
+        <Caret Line="359" Column="1" TopLine="342"/>
       </Position16>
       <Position17>
         <Filename Value="Ausgabeeffekte.pas"/>
-        <Caret Line="359" Column="1" TopLine="342"/>
+        <Caret Line="360" Column="1" TopLine="342"/>
       </Position17>
       <Position18>
         <Filename Value="Ausgabeeffekte.pas"/>
-        <Caret Line="360" Column="1" TopLine="342"/>
+        <Caret Line="361" Column="1" TopLine="342"/>
       </Position18>
       <Position19>
         <Filename Value="Ausgabeeffekte.pas"/>
-        <Caret Line="361" Column="1" TopLine="342"/>
+        <Caret Line="359" Column="1" TopLine="342"/>
       </Position19>
       <Position20>
         <Filename Value="Ausgabeeffekte.pas"/>
-        <Caret Line="359" Column="1" TopLine="342"/>
+        <Caret Line="360" Column="1" TopLine="342"/>
       </Position20>
       <Position21>
         <Filename Value="Ausgabeeffekte.pas"/>
-        <Caret Line="360" Column="1" TopLine="342"/>
+        <Caret Line="359" Column="30" TopLine="342"/>
       </Position21>
       <Position22>
-        <Filename Value="Ausgabeeffekte.pas"/>
-        <Caret Line="359" Column="30" TopLine="342"/>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="33" Column="100" TopLine="23"/>
       </Position22>
       <Position23>
         <Filename Value="Ausgabe.pas"/>
-        <Caret Line="33" Column="100" TopLine="23"/>
+        <Caret Line="219" Column="1" TopLine="203"/>
       </Position23>
       <Position24>
-        <Filename Value="Ausgabe.pas"/>
-        <Caret Line="219" Column="1" TopLine="203"/>
+        <Filename Value="Lasersoftware.pas"/>
+        <Caret Line="2886" Column="3" TopLine="1071"/>
       </Position24>
       <Position25>
         <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="2886" Column="3" TopLine="1071"/>
+        <Caret Line="491" Column="11" TopLine="473"/>
       </Position25>
       <Position26>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="491" Column="11" TopLine="473"/>
-      </Position26>
-      <Position27>
         <Filename Value="Ausgabeeffekte.pas"/>
         <Caret Line="359" Column="1" TopLine="342"/>
+      </Position26>
+      <Position27>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="355" Column="36" TopLine="338"/>
       </Position27>
       <Position28>
         <Filename Value="Ausgabe.pas"/>
-        <Caret Line="355" Column="36" TopLine="338"/>
+        <Caret Line="20" Column="36" TopLine="20"/>
       </Position28>
       <Position29>
-        <Filename Value="Ausgabe.pas"/>
-        <Caret Line="20" Column="36" TopLine="20"/>
-      </Position29>
-      <Position30>
         <Filename Value="Lasersoftware.pas"/>
         <Caret Line="956" Column="1" TopLine="937"/>
-      </Position30>
+      </Position29>
     </JumpHistory>
   </ProjectSession>
   <EditorMacros Count="0"/>

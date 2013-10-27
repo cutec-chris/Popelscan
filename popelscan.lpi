@@ -37,7 +37,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="10">
+    <Units Count="9">
       <Unit0>
         <Filename Value="popelscan.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -85,15 +85,10 @@
         <UnitName Value="Easylase"/>
       </Unit7>
       <Unit8>
-        <Filename Value="BAIOPORT.PAS"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="BAIOPORT"/>
-      </Unit8>
-      <Unit9>
         <Filename Value="stopwatch.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="stopwatch"/>
-      </Unit9>
+      </Unit8>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

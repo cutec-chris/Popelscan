@@ -7,8 +7,8 @@ interface
 uses
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics,
   Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, Menus, Ausgabe, Image, Live, FileCtrl, BAIOPORT,
-  ComCtrls, {OleCtrls, isp3, MPlayer,} DBCtrls, FileUtil,
+  StdCtrls, ExtCtrls, Menus, Ausgabe, Image, Live, FileCtrl,
+  ComCtrls, DBCtrls, FileUtil,
   Ausgabeeffekte, Easylase,stopwatch;
 
 type
@@ -2891,4 +2891,4 @@ end;
 initialization
   MidiInOpened := False;
 
-end.
+end.
