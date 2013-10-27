@@ -1,18 +1,20 @@
 unit Lasersoftware;
 
+{$MODE Delphi}
+
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, Menus, QCCom32,ausgabe,image,live,FileCtrl, BAIOPort,
-  ComCtrls,mmsystem, OleCtrls, isp3, MPlayer, DBCtrls,ausgabeeffekte,Easylase;
+  LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, ExtCtrls, Menus, Ausgabe, Image, Live, FileCtrl, BAIOPORT,
+  ComCtrls, {OleCtrls, isp3, MPlayer,} DBCtrls, FileUtil,
+  Ausgabeeffekte, Easylase;
 
 type
   TForm1 = class(TForm)
     MainMenu1: TMainMenu;
     OpenDialog1: TOpenDialog;
     SaveDialog1: TSaveDialog;
-    com: T_QCCom32;
     datei: TMenuItem;
     Sequenzladen1: TMenuItem;
     Sequenzspeichern1: TMenuItem;
@@ -477,7 +479,7 @@ var
   winkel1d,winkhord,winkverd,wfix:integer;
   Durchlaeufe, DLZaehler:integer;
   Bildumschalten:boolean;
-  // Für MIDI
+  // FÃ¼r MIDI
   Alterton,neuerton,Tastennr:word;
   Loadfile:boolean;
   keyoffset:integer;
@@ -489,8 +491,8 @@ var
   // Pause
   ASMNOPwert:integer;
 
-  // Für Timing per Performance Counter
-   // Pausenzeiten für DAC
+  // FÃ¼r Timing per Performance Counter
+   // Pausenzeiten fÃ¼r DAC
   Pause:integer;
   Delay_pps:word;
   Delay_Time:real;
@@ -547,7 +549,7 @@ implementation
 //uses fmxutils;
 
 
-{$R *.DFM}
+{$R *.lfm}
 function IntToBin (z : integer) : string;
 var
   I : integer;
@@ -646,7 +648,7 @@ begin
                    filenamen:=dlb1.Directory+'\'+filenamen;
                    alterton:=neuerton;
 
-                     if fileexists(filenamen) then
+                     if FileExistsUTF8(filenamen) { *Converted from FileExists* } then
                        begin
                          midiInStop (MidiInHandle);
                          midiInReset (MidiInHandle);
@@ -727,7 +729,7 @@ ini:=hauptverzeichnis+'\ini.dat';
 dlb1.Drive:='C'; dlb1.directory:='C:\';
 
 // Settings laden
-  if fileexists(ini) then
+  if FileExistsUTF8(ini) { *Converted from FileExists* } then
     begin
     // Start INI
 
@@ -802,7 +804,7 @@ dlb1.Drive:='C'; dlb1.directory:='C:\';
 
      // Hilfedatei vorhanden ?
      b:=hauptverzeichnis+'\hilfe.html';
-     if fileexists(b) then hilfe2.enabled:=true;
+     if FileExistsUTF8(b) { *Converted from FileExists* } then hilfe2.enabled:=true;
 
      // Namen der Bankschalter laden
      bs9.caption:=memo2.lines[55];
@@ -831,7 +833,7 @@ dlb1.Drive:='C'; dlb1.directory:='C:\';
      memo2.lines[50]:='16'; memo2.lines[51]:='17'; memo2.lines[52]:='18';
      memo2.lines[53]:='19'; memo2.lines[54]:='20';
 
-     // Namen für Schalter
+     // Namen fÃ¼r Schalter
      memo2.lines[55]:='None';
      memo2.lines[56]:='BS 1';
      memo2.lines[57]:='BS 2';
@@ -842,7 +844,7 @@ dlb1.Drive:='C'; dlb1.directory:='C:\';
      memo2.lines[62]:='BS 7';
      memo2.lines[63]:='BS 8';
 
-     //Wert für SB16 Gain
+     //Wert fÃ¼r SB16 Gain
      memo2.lines[21]:='80';sb16.position:=80;
 
 
@@ -856,7 +858,7 @@ dlb1.Drive:='C'; dlb1.directory:='C:\';
       Blank_invert;
 
 
-  // Für MIDI
+  // FÃ¼r MIDI
   PanelMidiInStatus.Caption := '';
   PanelMidiInChannel.Caption := '';
   PanelMidiInDB1.Caption := '';
@@ -879,7 +881,7 @@ dlb1.Drive:='C'; dlb1.directory:='C:\';
   //getdir(0,hauptverzeichnis);
   ini:=hauptverzeichnis+'\default.ldt';
   opendialog1.filterindex:=3;
-  if fileexists(ini) then
+  if FileExistsUTF8(ini) { *Converted from FileExists* } then
    begin
     memo3.lines.loadfromfile(ini);
     panel_update;
@@ -894,8 +896,8 @@ dlb1.Drive:='C'; dlb1.directory:='C:\';
      QueryPerformanceFrequency(iFreq);
      QueryPerformanceCounter(iCountStart);  QueryPerformanceCounter(iCountEnd);
 
-       // Aufwand für den Aufruf ermitteln, #
-       // um die Präzision zu erhöhen
+       // Aufwand fÃ¼r den Aufruf ermitteln, #
+       // um die PrÃ¤zision zu erhÃ¶hen
        iDelta := iCountEnd-iCountStart;
        QueryPerformanceCounter(iCountStart);
        while true do
@@ -938,7 +940,7 @@ begin
 opendialog1.filterindex:=1;
 button2.click;
 if opendialog1.execute then
-  if fileexists(opendialog1.filename) then
+  if FileExistsUTF8(opendialog1.filename) { *Converted from FileExists* } then
    begin
      lb1.items.loadfromfile(opendialog1.filename);
      punkte:=0; sb1.position:=1;
@@ -967,7 +969,7 @@ if cb3.checked=true then cb:=cb+'1' else cb:=cb+'0';  // Rot left
 if cb4.checked=true then cb:=cb+'1' else cb:=cb+'0';  // Hor Mirror
 if cb5.checked=true then cb:=cb+'1' else cb:=cb+'0';  // Vert Mirror
 if cb33.checked=true then cb:=cb+'1' else cb:=cb+'0'; // Rot right
-//  Platzhalter für weitere Checkboxen
+//  Platzhalter fÃ¼r weitere Checkboxen
 cb:=cb+'000000';
 lb1.items[4]:=cb; // Bitreihe der Checkboxen
 // Pumpen
@@ -993,14 +995,14 @@ lb1.items[15]:='1';
 lb1.items[16]:='1';
 lb1.items[17]:='1';
 lb1.items[18]:='1';
-lb1.items[19]:='1';     // Füller für WAS AUCH IMMER
+lb1.items[19]:='1';     // FÃ¼ller fÃ¼r WAS AUCH IMMER
 
 button2.click;
 
 savedialog1.filterindex:=1;
 savedialog1.filename:=filelistbox1.filename;
 if savedialog1.execute then
- if fileexists(savedialog1.filename) then
+ if FileExistsUTF8(savedialog1.filename) { *Converted from FileExists* } then
     begin
          if MessageDlg('File Exist' +#13#10
                                     +#13#10+
@@ -1016,19 +1018,19 @@ if savedialog1.execute then
 end;
 // ENDE Motfile Speichern
 
-// Löschen aus Fileliste
+// LÃ¶schen aus Fileliste
 procedure TForm1.menuClick(Sender: TObject);
 var filename:string;
 begin
 filename:=filelistbox1.filename;
-if FileExists(FileName) then
+if FileExistsUTF8(FileName) { *Converted from FileExists* } then
 
 if MessageDlg('Are you sure you want to delete this File ?',
     mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-    DeleteFile(FileName);filelistbox1.update;
+    DeleteFileUTF8(FileName); { *Converted from DeleteFile* }filelistbox1.update;
   end;
 
-// 3 x LPT Adresse wählen
+// 3 x LPT Adresse wÃ¤hlen
 procedure TForm1.Hex3781Click(Sender: TObject);
 begin lptport:=888;panel8.caption:='Port=888'; end;
 procedure TForm1.H2781Click(Sender: TObject);
@@ -1097,7 +1099,7 @@ begin
 panel9.caption:=inttostr(sb6.position);panel9.refresh;
 end;
 
-// Scrollbar M-Delay Multiplikator für P-Delay
+// Scrollbar M-Delay Multiplikator fÃ¼r P-Delay
 procedure TForm1.sb7Change(Sender: TObject);
 begin
 panel10.caption:=inttostr(sb7.position);
@@ -1306,7 +1308,7 @@ loadfile:=false;
 winkel:=180;winkhor:=180;winkver:=180; winkel1:=360;punkte:=0;
 application.ProcessMessages;
 // Mediaplayer MOT to MP3  ? ?
-// Läuft Player ?
+// LÃ¤uft Player ?
 if mediaplayer1.filename<>''  then
   begin
     // Aktuelle Position wirklich letzte Zeile ?
@@ -1340,7 +1342,7 @@ if status=1 then
  end;
 
 filename:=filelistbox1.filename;
-if fileexists(filelistbox1.filename) then
+if FileExistsUTF8(filelistbox1.filename) { *Converted from FileExists* } then
  begin
    winkel:=0;winkhor:=0;winkver:=0;
    Live_file:=filename;
@@ -1367,16 +1369,16 @@ if fileexists(filelistbox1.filename) then
   end else MessageDlg('File nicht vorhanden', mtInformation, [mbOK], 0);
 loadfile:=true;
 end;
-// Löschen von Listbox
+// LÃ¶schen von Listbox
 procedure TForm1.DeletefromFilelist1Click(Sender: TObject);
 var filename:string;
 begin
 filename:=filelistbox1.filename;
-if FileExists(FileName) then
+if FileExistsUTF8(FileName) { *Converted from FileExists* } then
 
 if MessageDlg('Are you sure you want to delete this File ?',
     mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-    DeleteFile(FileName);filelistbox1.update;
+    DeleteFileUTF8(FileName); { *Converted from DeleteFile* }filelistbox1.update;
   end;
 
 // UNDO Button
@@ -1471,7 +1473,7 @@ ini:=hauptverzeichnis+'\ini.dat';
 end;
 
 
-// Ereignis " Taste gedrückt "
+// Ereignis " Taste gedrÃ¼ckt "
 procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -1581,7 +1583,7 @@ begin if Rb7.checked=true then Raster:=4; end;
 // Ende Rasterwahl
 
 
-// Live Player Öffenen
+// Live Player Ã–ffenen
 procedure TForm1.Start1Click(Sender: TObject);
 begin
 cb12.checked:=false;
@@ -1602,7 +1604,7 @@ begin
  panel_update;
 end;
 
-// Live Settings löschen
+// Live Settings lÃ¶schen
 procedure TForm1.Button8Click(Sender: TObject);
 begin
 memo3.lines.clear;
@@ -1636,7 +1638,7 @@ if cb13.checked=true then
 
  end;
 end;
-// Timer für Zufallswiedergabe
+// Timer fÃ¼r Zufallswiedergabe
 procedure TForm1.Timer1Timer(Sender: TObject);
 var L,a:integer;
 var b:extended;
@@ -1848,7 +1850,7 @@ if mediaplayer1.position=mediaplayer1.TrackLength[1] then button18.click;
 end;
 
 
-// Play MP§ + MOT
+// Play MPÂ§ + MOT
 procedure TForm1.Button17Click(Sender: TObject);
 begin
 button12.click;
@@ -2133,7 +2135,7 @@ begin
     176..191 : begin s1 := 'Control Change: '; s2 := 'Contr.-Nr: '; s3 := 'Contr.-Stellung: '; end;
     192..207 : begin s1 := 'Program Change: '; s2 := 'Progr.-Nr: '; s3 := ''; end;
     208..223 : begin s1 := 'Mono Pressure: '; s2 := 'Druck-Wert: '; s3 := ''; end;
-    224..239 : begin s1 := 'Pitch Wheel: '; s2 := 'Tonhöhe LSB: '; s3 := 'Tonhöhe MSB: '; end;
+    224..239 : begin s1 := 'Pitch Wheel: '; s2 := 'TonhÃ¶he LSB: '; s3 := 'TonhÃ¶he MSB: '; end;
     240      : begin s1 := 'System Exclusive (Anfang): '; s2 := ''; s3 := ''; end;
     241      : begin s1 := 'MIDI-Timecode: '; s2 := 'Typ/Wert: '; s3 := ''; end;
     242      : begin s1 := 'Song Position: '; s2 := 'Song Pos. LSB: '; s3 := 'Song Pos. MSB: '; end;
@@ -2233,7 +2235,7 @@ begin
   end;
 
 end;
-// 10 sec zurückspulen
+// 10 sec zurÃ¼ckspulen
 procedure TForm1.Button28Click(Sender: TObject);
 begin
  if mediaplayer1.filename<>'' then
@@ -2375,4 +2377,4 @@ end;
 initialization
  MidiInOpened  := FALSE;
 
-end.
+end.

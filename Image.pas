@@ -1,9 +1,11 @@
 unit Image;
 
+{$MODE Delphi}
+
 interface
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, Menus, QCCom32,ausgabe;
+  LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, ExtCtrls, Menus, Ausgabe;
 
 procedure image_loeschen;
 procedure image_loeschen_2;
@@ -15,16 +17,16 @@ procedure Linie_interpolieren;
 procedure Kreis_malen;
 
 implementation
-uses lasersoftware;
+uses Lasersoftware;
 
-// Nur Zeichenfläche löschen
+// Nur ZeichenflÃ¤che lÃ¶schen
 procedure image_loeschen_2;
 begin
 form1.i1.canvas.Brush.color:=clbtnface;
 form1.i1.Canvas.FillRect(rect(0,0,258,258));
 end;
 
-// Zeichenfläche löschen und Gitter zeichnen
+// ZeichenflÃ¤che lÃ¶schen und Gitter zeichnen
 procedure Image_loeschen;
 begin
  form1.i1.canvas.Brush.color:=clbtnface;
@@ -259,10 +261,10 @@ if form1.rb14.checked=true then form1.i1.canvas.pen.color:=clwhite;
         // Wer hat den weitesten weg  difx oder divy wird weg.
         if difx>=dify then weg:=difx else weg:=dify;
 
-        // Diese Weglänge in Anzahl Schritte aufteilen
+        // Diese WeglÃ¤nge in Anzahl Schritte aufteilen
         schrittzaehler:=round(weg / (raster));  // War mal raster /2
 
-        // Stepgrösse pro Schritt festlegen und in positiven Wert wandeln
+        // StepgrÃ¶sse pro Schritt festlegen und in positiven Wert wandeln
         if weg >0 then
           begin
             schrittx:=difx / schrittzaehler;
@@ -387,4 +389,4 @@ begin
 end;
 
 
-end.
+end.

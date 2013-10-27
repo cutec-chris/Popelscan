@@ -1,8 +1,10 @@
 unit Live;
 
+{$MODE Delphi}
+
 interface
-uses Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-     StdCtrls, ExtCtrls, Menus, QCCom32;
+uses LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+     StdCtrls, ExtCtrls, Menus, FileUtil;
 
 procedure Live_update;
 procedure panel_update;
@@ -11,7 +13,7 @@ procedure Bankschalter;
 Procedure RNDADJ;
 
 implementation
-uses Lasersoftware,image,ausgabe,shortcuts;
+uses Lasersoftware,Image,Ausgabe,Shortcuts;
 
 procedure Live_update;
 var ini,hauptverzeichnis:string;
@@ -19,7 +21,7 @@ begin
   getdir(0,hauptverzeichnis);
   ini:=hauptverzeichnis+'\Live.ldt';
 
-  if fileexists(ini) then
+  if FileExistsUTF8(ini) { *Converted from FileExists* } then
     begin
       form1.memo3.lines.loadfromfile(ini);
       panel_update;
@@ -61,7 +63,7 @@ begin
 
 end;
 
-// Taste wurde gedrückt
+// Taste wurde gedrÃ¼ckt
 Procedure Live_Abruf;
 var filename:string;a,sk:integer;
 begin
@@ -119,7 +121,7 @@ if status=1 then
   if taste=77 then filename:=form1.memo3.lines[26];
 
   // File von Liveaufruf laden Wenn File da Namen da
-  if fileexists(filename) then
+  if FileExistsUTF8(filename) { *Converted from FileExists* } then
    begin
      winkel:=180;winkhor:=180;winkver:=180;
      winkel1:=180;winkhor1:=180;winkver1:=180;
@@ -148,7 +150,7 @@ begin
  if taste=48 then form1.bs9.checked:=true;
 end;
 
-// Random Adjust über Tastatur
+// Random Adjust Ã¼ber Tastatur
 Procedure RNDADJ;
 begin
 if Taste=114 then
@@ -164,4 +166,4 @@ end;
 
 
 
-end.
+end.

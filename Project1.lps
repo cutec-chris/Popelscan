@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="10">
+      <Unit0>
+        <Filename Value="Project1.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="Lasersoftware.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="Lasersoftware"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="18"/>
+        <CursorPos X="28" Y="35"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="Ausgabe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Ausgabe"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="30" Y="7"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="Image.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Image"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="30" Y="8"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="Live.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Live"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="41" Y="7"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="Shortcuts.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="Shortcuts"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="Ausgabeeffekte.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Ausgabeeffekte"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="28" Y="7"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="Easylase.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Easylase"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="31" Y="7"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="BAIOPORT.PAS"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="BAIOPORT"/>
+        <EditorIndex Value="8"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="68"/>
+        <CursorPos X="1" Y="101"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="COMABOUT.PAS"/>
+        <UnitName Value="Comabout"/>
+        <EditorIndex Value="9"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="22"/>
+        <CursorPos X="2" Y="47"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit9>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="17" HistoryIndex="16">
+      <Position1>
+        <Filename Value="Lasersoftware.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position1>
+      <Position2>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position2>
+      <Position3>
+        <Filename Value="Easylase.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position3>
+      <Position4>
+        <Filename Value="Easylase.pas"/>
+        <Caret Line="6" Column="7" TopLine="1"/>
+      </Position4>
+      <Position5>
+        <Filename Value="Image.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position5>
+      <Position6>
+        <Filename Value="Live.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position6>
+      <Position7>
+        <Filename Value="BAIOPORT.PAS"/>
+        <Caret Line="1" Column="1" TopLine="199"/>
+      </Position7>
+      <Position8>
+        <Filename Value="BAIOPORT.PAS"/>
+        <Caret Line="8" Column="23" TopLine="1"/>
+      </Position8>
+      <Position9>
+        <Filename Value="COMABOUT.PAS"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position9>
+      <Position10>
+        <Filename Value="COMABOUT.PAS"/>
+        <Caret Line="5" Column="9" TopLine="1"/>
+      </Position10>
+      <Position11>
+        <Filename Value="COMABOUT.PAS"/>
+        <Caret Line="6" Column="29" TopLine="29"/>
+      </Position11>
+      <Position12>
+        <Filename Value="BAIOPORT.PAS"/>
+        <Caret Line="8" Column="23" TopLine="1"/>
+      </Position12>
+      <Position13>
+        <Filename Value="BAIOPORT.PAS"/>
+        <Caret Line="9" Column="27" TopLine="1"/>
+      </Position13>
+      <Position14>
+        <Filename Value="BAIOPORT.PAS"/>
+        <Caret Line="39" Column="1" TopLine="22"/>
+      </Position14>
+      <Position15>
+        <Filename Value="Ausgabeeffekte.pas"/>
+        <Caret Line="9" Column="30" TopLine="58"/>
+      </Position15>
+      <Position16>
+        <Filename Value="Ausgabeeffekte.pas"/>
+        <Caret Line="6" Column="6" TopLine="1"/>
+      </Position16>
+      <Position17>
+        <Filename Value="Lasersoftware.pas"/>
+        <Caret Line="18" Column="1" TopLine="19"/>
+      </Position17>
+    </JumpHistory>
+  </ProjectSession>
+  <SkipCheckLCLInterfaces Value="True"/>
+  <EditorMacros Count="0"/>
+</CONFIG>

@@ -1,8 +1,10 @@
 unit Easylase;
 
+{$MODE Delphi}
+
 interface
-uses Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-     StdCtrls, ExtCtrls, Menus, QCCom32;
+uses LMessages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+     StdCtrls, ExtCtrls, Menus;
 
 
      Procedure Easylase_angeschlossen;
@@ -83,4 +85,4 @@ begin
 end;
 
 
-end.
+end.

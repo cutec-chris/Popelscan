@@ -1,15 +1,17 @@
 unit Ausgabe;
 
+{$MODE Delphi}
+
 interface
-uses Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, Menus, QCCom32,Easylase;
+uses LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, ExtCtrls, Menus, Easylase;
 procedure Ausgabe_lpt;
 procedure screenausgabe;
 procedure ausgabe_bsw;
 procedure Faderupdate;
 Function bin(innum:longint;places:byte):string;
 implementation
-uses Lasersoftware,image,ausgabeeffekte;
+uses Lasersoftware,Image,Ausgabeeffekte;
 
 
 Procedure Faderupdate;
@@ -50,7 +52,7 @@ a:=copy(form1.lb1.items[9],1,3);
      end else form1.bs9.checked:=true;
 
 
-// Wert für Pump
+// Wert fÃ¼r Pump
 form1.sb17.position:=strtoint(copy (form1.lb1.items[4],11,4));
 form1.panel33.caption:=inttostr(form1.sb17.position);
 
@@ -88,7 +90,7 @@ begin
 if Status=1 then
   Bc:=0;
   begin
-       // Bildpunkte pro Zeile ermitteln für Schleife
+       // Bildpunkte pro Zeile ermitteln fÃ¼r Schleife
        pprozeile:=length(form1.lb1.items[bildnr+20]) div 6;
        for z:=1 to pprozeile do
           begin
@@ -121,7 +123,7 @@ if Status=1 then
                 end;
                 pumpen;
                 rotieren;
-                spiegeln;  // Routine für H + V Mirror, Winkelberechnun oben
+                spiegeln;  // Routine fÃ¼r H + V Mirror, Winkelberechnun oben
 
                 //Screenausgabe  ??
                 //Jedes Bild ?
@@ -158,7 +160,7 @@ if Status=1 then
                 if ( (form1.cb38.checked=true) and (LPTPort<>999)  )then
                 ausgabe_LPT_SS;
 
-                // Für Blankrepeats diesen Punkt wiederholen
+                // FÃ¼r Blankrepeats diesen Punkt wiederholen
                 if Port=1 then begin
                 for i:=0 to Blankrepeats do
                 begin
@@ -184,7 +186,7 @@ if Status=1 then
                 if copy(strPort,4,1)='1' then USB_Daten[bc+7]:=255 else USB_Daten[bc+7]:=0;
                 bc:=bc+8;
 
-                 // Für Blankrepeats diesen Punkt wiederholen
+                 // FÃ¼r Blankrepeats diesen Punkt wiederholen
                 if Port=1 then begin
                 for i:=0 to Blankrepeats do
                 begin
@@ -202,7 +204,7 @@ if Status=1 then
                 end;end;
                 //---
 
-                //Nächster Punkt
+                //NÃ¤chster Punkt
                 punkte:=punkte+1;
                // Counter Outputspeed
                 outputcounter:=outputcounter+1;
@@ -210,7 +212,7 @@ if Status=1 then
                // if copy(form1.lb1.items[bildnr+20],(punkte*6+1),2)=''then punkte:=0;
 
             end ;// Schleife 1 Bild
-            // Bild fertig berechnet für Ausgabe an USB
+            // Bild fertig berechnet fÃ¼r Ausgabe an USB
               Easylase_Writeframe;
 
             // Ende Ausgabe an USB
@@ -234,7 +236,7 @@ if Status=1 then
                      end;
           Bildumschalten:=false;
          end;
-  end ; // Ende Status=1 ist erfüllt
+  end ; // Ende Status=1 ist erfÃ¼llt
 end;
 
 procedure ausgabe_bsw;
@@ -258,4 +260,4 @@ begin
 end;
 
 
-end.
+end.

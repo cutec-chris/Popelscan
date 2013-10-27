@@ -2,8 +2,8 @@ unit Comabout;
 
 interface
 
-uses WinTypes, WinProcs, Classes, Graphics, Forms, Controls, StdCtrls,
-  Buttons, ExtCtrls, Dialogs, ShellAPI;
+uses LCLType, Classes, Graphics, Forms, Controls, StdCtrls,
+  Buttons, ExtCtrls, Dialogs;
 
 type
   TAboutComponent = class(TForm)
@@ -36,6 +36,7 @@ implementation
 
 procedure TAboutComponent.WebBrowerClick(Sender: TObject);
 begin
+{
 if ShellExecute(Application.Handle,PChar('open'),PChar('HTTP://WWW.GEOCITIES.COM/CAPECANAVERAL/9646'),PChar(''),nil,SW_NORMAL)
  < 33 then
 if ShellExecute(Application.Handle,PChar('open'),PChar('netscape.exe'),PChar('HTTP://WWW.GEOCITIES.COM/CAPECANAVERAL/9646')
@@ -43,6 +44,7 @@ if ShellExecute(Application.Handle,PChar('open'),PChar('netscape.exe'),PChar('HT
 if ShellExecute(Application.Handle,PChar('open'),PChar('iexplore.exe'),PChar('HTTP://WWW.GEOCITIES.COM/CAPECANAVERAL/9646')
 ,nil,SW_NORMAL) < 32 then
    showmessage ('Sorry your web browser could not be found');
+}
 end;
 
 procedure TAboutComponent.FormPaint(Sender: TObject);
@@ -60,4 +62,4 @@ Close;
 end;
 
 end.
-
+

@@ -1,0 +1,2324 @@
+object Form1: TForm1
+  object Panel2: TPanel
+    Left = 0
+    Top = 72
+    Width = 273
+    Height = 345
+    TabOrder = 1
+    object i1: TPaintBox
+      Left = 7
+      Top = 7
+      Width = 257
+      Height = 257
+      OnMouseDown = i1MouseDown
+      OnMouseMove = i1MouseMove
+      OnPaint = i1Paint
+    end
+    object Panel55: TPanel
+      Left = 6
+      Top = 270
+      Width = 257
+      Height = 41
+      TabOrder = 0
+      object Label57: TLabel
+        Left = 6
+        Top = 22
+        Width = 218
+        Height = 13
+        Caption = 'Click Points with left Mouskey, Blank with right'
+      end
+      object rb9: TRadioButton
+        Left = 6
+        Top = 6
+        Width = 49
+        Height = 17
+        Caption = 'Lines'
+        Checked = True
+        TabOrder = 0
+        TabStop = True
+        OnClick = rb9Click
+      end
+      object rb10: TRadioButton
+        Left = 62
+        Top = 6
+        Width = 49
+        Height = 17
+        Caption = 'Circle'
+        TabOrder = 1
+        OnClick = rb10Click
+      end
+    end
+  end
+  object Panel7: TPanel
+    Left = 1
+    Top = 392
+    Width = 273
+    Height = 297
+    TabOrder = 3
+    object Button1: TButton
+      Left = 6
+      Top = 6
+      Width = 121
+      Height = 33
+      Caption = 'Start'
+      TabOrder = 1
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      Left = 142
+      Top = 6
+      Width = 123
+      Height = 33
+      Caption = 'Stop'
+      Enabled = False
+      TabOrder = 0
+      OnClick = Button2Click
+    end
+    object cb13: TCheckBox
+      Left = 6
+      Top = 214
+      Width = 113
+      Height = 15
+      Caption = 'Random '
+      TabOrder = 2
+      OnClick = cb13Click
+    end
+    object sb14: TTrackBar
+      Left = 6
+      Top = 230
+      Width = 169
+      Height = 29
+      Max = 60
+      Min = 1
+      Orientation = trHorizontal
+      Frequency = 10
+      Position = 1
+      SelEnd = 0
+      SelStart = 0
+      TabOrder = 3
+      TickMarks = tmBottomRight
+      TickStyle = tsAuto
+      OnChange = sb14Change
+    end
+    object Panel27: TPanel
+      Left = 178
+      Top = 232
+      Width = 49
+      Height = 17
+      Caption = '1 sec'
+      TabOrder = 4
+    end
+    object cb3: TCheckBox
+      Left = 6
+      Top = 46
+      Width = 97
+      Height = 17
+      Caption = 'Rotate left'
+      TabOrder = 5
+      OnClick = cb3Click
+    end
+    object cb4: TCheckBox
+      Left = 6
+      Top = 78
+      Width = 97
+      Height = 17
+      Caption = 'Hor. Mirror'
+      TabOrder = 6
+    end
+    object cb5: TCheckBox
+      Left = 6
+      Top = 94
+      Width = 97
+      Height = 17
+      Caption = 'Vert. Mirror'
+      TabOrder = 7
+    end
+    object cb9: TCheckBox
+      Left = 70
+      Top = 122
+      Width = 65
+      Height = 17
+      Caption = 'Invert X'
+      TabOrder = 8
+    end
+    object cb10: TCheckBox
+      Left = 6
+      Top = 122
+      Width = 65
+      Height = 17
+      Caption = 'Invert Y'
+      TabOrder = 9
+    end
+    object cb11: TCheckBox
+      Left = 6
+      Top = 138
+      Width = 97
+      Height = 17
+      Caption = 'Swap X / Y'
+      TabOrder = 10
+    end
+    object rb1: TRadioButton
+      Left = 142
+      Top = 46
+      Width = 65
+      Height = 17
+      Caption = 'Blank'
+      TabOrder = 11
+      OnClick = rb1Click
+    end
+    object rb2: TRadioButton
+      Left = 142
+      Top = 62
+      Width = 65
+      Height = 17
+      Caption = 'Red'
+      Checked = True
+      TabOrder = 12
+      TabStop = True
+      OnClick = rb2Click
+    end
+    object rb3: TRadioButton
+      Left = 206
+      Top = 46
+      Width = 57
+      Height = 17
+      Caption = 'Green'
+      TabOrder = 13
+      OnClick = rb3Click
+    end
+    object rb4: TRadioButton
+      Left = 206
+      Top = 62
+      Width = 65
+      Height = 17
+      Caption = 'Blue'
+      TabOrder = 14
+      OnClick = rb4Click
+    end
+    object Button4: TButton
+      Left = 142
+      Top = 166
+      Width = 97
+      Height = 17
+      Caption = 'Load Image'
+      TabOrder = 15
+      OnClick = Button4Click
+    end
+    object Button5: TButton
+      Left = 142
+      Top = 190
+      Width = 97
+      Height = 17
+      Caption = 'Clear Image'
+      TabOrder = 16
+      OnClick = Button5Click
+    end
+    object cb1: TCheckBox
+      Left = 6
+      Top = 158
+      Width = 97
+      Height = 17
+      Caption = 'Snap on Grid'
+      Checked = True
+      State = cbChecked
+      TabOrder = 17
+    end
+    object cb2: TCheckBox
+      Left = 6
+      Top = 174
+      Width = 105
+      Height = 17
+      Caption = 'Output to Screen'
+      Checked = True
+      State = cbChecked
+      TabOrder = 18
+    end
+    object cb6: TCheckBox
+      Left = 6
+      Top = 190
+      Width = 65
+      Height = 17
+      Caption = 'Every Pic'
+      Checked = True
+      State = cbChecked
+      TabOrder = 19
+    end
+    object GroupBox3: TGroupBox
+      Left = 142
+      Top = 109
+      Width = 113
+      Height = 50
+      Caption = 'Grid'
+      TabOrder = 20
+      object rb5: TRadioButton
+        Left = 14
+        Top = 15
+        Width = 41
+        Height = 17
+        Caption = '16'
+        Checked = True
+        TabOrder = 0
+        TabStop = True
+        OnClick = rb5Click
+      end
+      object rb6: TRadioButton
+        Left = 70
+        Top = 0
+        Width = 33
+        Height = 17
+        Caption = '8'
+        TabOrder = 1
+        OnClick = rb6Click
+      end
+      object rb7: TRadioButton
+        Left = 70
+        Top = 15
+        Width = 25
+        Height = 17
+        Caption = '4'
+        TabOrder = 2
+        OnClick = rb7Click
+      end
+      object rb8: TRadioButton
+        Left = 14
+        Top = 0
+        Width = 41
+        Height = 17
+        Caption = '32'
+        TabOrder = 3
+        OnClick = rb8Click
+      end
+    end
+    object UpDown2: TUpDown
+      Left = 47
+      Top = 262
+      Width = 15
+      Height = 25
+      Associate = Panel28
+      Min = 0
+      Max = 155
+      Position = 136
+      TabOrder = 21
+      Wrap = False
+      OnClick = UpDown2Click
+    end
+    object Panel28: TPanel
+      Left = 6
+      Top = 262
+      Width = 41
+      Height = 25
+      Caption = '136'
+      TabOrder = 22
+    end
+    object cb31: TCheckBox
+      Left = 78
+      Top = 266
+      Width = 185
+      Height = 17
+      Caption = 'Override Random with BPM'
+      TabOrder = 23
+      OnClick = cb31Click
+    end
+    object cb33: TCheckBox
+      Left = 6
+      Top = 62
+      Width = 97
+      Height = 17
+      Caption = 'Rotate right'
+      TabOrder = 24
+      OnClick = cb33Click
+    end
+    object cb37: TCheckBox
+      Left = 142
+      Top = 214
+      Width = 97
+      Height = 17
+      Caption = 'Invert Blank'
+      TabOrder = 25
+      OnClick = cb37Click
+    end
+    object rb11: TRadioButton
+      Left = 142
+      Top = 78
+      Width = 113
+      Height = 17
+      Caption = 'Yellow'
+      TabOrder = 26
+      OnClick = rb11Click
+    end
+    object rb12: TRadioButton
+      Left = 206
+      Top = 78
+      Width = 57
+      Height = 17
+      Caption = 'Purple'
+      TabOrder = 27
+      OnClick = rb12Click
+    end
+    object rb13: TRadioButton
+      Left = 142
+      Top = 94
+      Width = 57
+      Height = 17
+      Caption = 'Aqua'
+      TabOrder = 28
+      OnClick = rb13Click
+    end
+    object rb14: TRadioButton
+      Left = 206
+      Top = 94
+      Width = 49
+      Height = 17
+      Caption = 'White'
+      TabOrder = 29
+      OnClick = rb14Click
+    end
+  end
+  object GB2: TGroupBox
+    Left = 856
+    Top = 72
+    Width = 153
+    Height = 625
+    Caption = 'Files'
+    TabOrder = 4
+    object FileListBox1: TFileListBox
+      Left = 0
+      Top = 122
+      Width = 137
+      Height = 481
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -8
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 13
+      Mask = '*.mot'
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 0
+      OnClick = FileListBox1Click
+    end
+    object dlb1: TDirectoryListBox
+      Left = 6
+      Top = 26
+      Width = 137
+      Height = 89
+      Color = clBtnFace
+      FileList = FileListBox1
+      ItemHeight = 16
+      TabOrder = 1
+      OnChange = dlb1Change
+    end
+    object DriveComboBox1: TDriveComboBox
+      Left = 6
+      Top = 2
+      Width = 137
+      Height = 19
+      Color = clBtnFace
+      DirList = dlb1
+      TabOrder = 2
+    end
+    object Memo2: TMemo
+      Left = 6
+      Top = 210
+      Width = 169
+      Height = 57
+      Lines.Strings = (
+        'Memo2'
+      )
+      TabOrder = 3
+      Visible = False
+    end
+    object Memo3: TMemo
+      Left = 6
+      Top = 130
+      Width = 569
+      Height = 73
+      Lines.Strings = (
+        'Memo3'
+      )
+      TabOrder = 4
+      Visible = False
+    end
+  end
+  object Memo1: TMemo
+    Left = 864
+    Top = 360
+    Width = 169
+    Height = 153
+    Lines.Strings = (
+      'Memo1'
+    )
+    TabOrder = 2
+    Visible = False
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 8
+    Width = 1009
+    Height = 57
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 6
+      Top = 6
+      Width = 41
+      Height = 13
+      Caption = 'Pic Nr. 1'
+    end
+    object Label20: TLabel
+      Left = 6
+      Top = 30
+      Width = 29
+      Height = 13
+      Caption = 'Points'
+    end
+    object Label54: TLabel
+      Left = 646
+      Top = 6
+      Width = 66
+      Height = 13
+      Caption = 'Output Speed'
+    end
+    object sb1: TScrollBar
+      Left = 70
+      Top = 6
+      Width = 137
+      Height = 16
+      Min = 1
+      PageSize = 0
+      Position = 1
+      TabOrder = 0
+      OnChange = sb1Change
+    end
+    object Panel5: TPanel
+      Left = 214
+      Top = 6
+      Width = 57
+      Height = 17
+      Caption = '0/0'
+      TabOrder = 1
+    end
+    object Button3: TButton
+      Left = 198
+      Top = 30
+      Width = 73
+      Height = 17
+      Caption = 'Undo'
+      TabOrder = 2
+      OnClick = Button3Click
+    end
+    object Panel8: TPanel
+      Left = 910
+      Top = 15
+      Width = 89
+      Height = 24
+      Caption = 'Port= 956'
+      TabOrder = 3
+    end
+    object Panel32: TPanel
+      Left = 366
+      Top = 25
+      Width = 73
+      Height = 25
+      Caption = 'Fog 5 s.'
+      TabOrder = 4
+      OnClick = Panel32Click
+    end
+    object Panel29: TPanel
+      Left = 54
+      Top = 30
+      Width = 33
+      Height = 17
+      Caption = '0'
+      TabOrder = 5
+    end
+    object cb14: TCheckBox
+      Left = 366
+      Top = 6
+      Width = 97
+      Height = 17
+      Caption = 'Enable Output'
+      Checked = True
+      State = cbChecked
+      TabOrder = 6
+      OnClick = cb14Click
+    end
+    object UpDown1: TUpDown
+      Left = 439
+      Top = 25
+      Width = 16
+      Height = 25
+      Min = 1
+      Max = 25
+      Position = 5
+      TabOrder = 7
+      Wrap = False
+      OnClick = UpDown1Click
+    end
+    object cb34: TCheckBox
+      Left = 94
+      Top = 30
+      Width = 97
+      Height = 17
+      Caption = 'Show last Pic'
+      TabOrder = 8
+      OnClick = cb34Click
+    end
+    object Button26: TButton
+      Left = 278
+      Top = 30
+      Width = 75
+      Height = 17
+      Caption = 'Delete Pic'
+      TabOrder = 9
+      OnClick = Button26Click
+    end
+    object cb35: TCheckBox
+      Left = 462
+      Top = 6
+      Width = 97
+      Height = 17
+      Hint = 'Tastaturabfrage'
+      Caption = 'Key Preview'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 10
+      OnClick = cb35Click
+    end
+    object Button27: TButton
+      Left = 278
+      Top = 6
+      Width = 75
+      Height = 17
+      Caption = 'Insert Pic'
+      TabOrder = 11
+      OnClick = Button27Click
+    end
+    object Button29: TButton
+      Left = 462
+      Top = 25
+      Width = 81
+      Height = 25
+      Hint = 'Switch off Monitor'
+      Caption = 'Monitor OFF'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 12
+      OnClick = Button29Click
+    end
+    object Panel52: TPanel
+      Left = 638
+      Top = 25
+      Width = 81
+      Height = 25
+      Caption = '0'
+      TabOrder = 13
+    end
+    object Panel53: TPanel
+      Left = 550
+      Top = 25
+      Width = 81
+      Height = 25
+      Hint = 'Enable 16 BIT TTL Bord'
+      Caption = 'Disabled'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 14
+    end
+    object cb38: TCheckBox
+      Left = 550
+      Top = 6
+      Width = 97
+      Height = 17
+      Hint = 'Enable 16 BIT TTL Bord'
+      Caption = 'Switch-PCB'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 15
+      OnClick = cb38Click
+    end
+    object cb39: TCheckBox
+      Left = 742
+      Top = 6
+      Width = 97
+      Height = 17
+      Hint = 'Interpolate Points for Closed Loop'
+      Caption = 'Interpolate Lines'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 16
+    end
+  end
+  object GroupBox1: TGroupBox
+    Left = 280
+    Top = 72
+    Width = 569
+    Height = 625
+    Caption = 'Settings'
+    TabOrder = 5
+    object Label5: TLabel
+      Left = 248
+      Top = 10
+      Width = 25
+      Height = 13
+      Hint = 'Rotationsgeschwindigkeit'
+      Caption = 'V rot.'
+      ParentShowHint = False
+      ShowHint = True
+    end
+    object Label6: TLabel
+      Left = 208
+      Top = 10
+      Width = 28
+      Height = 13
+      Hint = 'Spiegelgeschweindigkeit Vertikal'
+      Caption = 'V vert'
+      ParentShowHint = False
+      ShowHint = True
+    end
+    object Label7: TLabel
+      Left = 168
+      Top = 10
+      Width = 25
+      Height = 13
+      Hint = 'Rotationsgeschwindigkeit'
+      Caption = 'V hor'
+      ParentShowHint = False
+      ShowHint = True
+    end
+    object Label2: TLabel
+      Left = 46
+      Top = 10
+      Width = 27
+      Height = 13
+      Hint = 'Delay zwischen 2 Punkten'
+      Caption = 'Delay'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+    end
+    object Label23: TLabel
+      Left = 11
+      Top = 0
+      Width = 15
+      Height = 13
+      Hint = 'Bildumschaltdelay'
+      Caption = 'Pic'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+    end
+    object Label24: TLabel
+      Left = 46
+      Top = 0
+      Width = 24
+      Height = 13
+      Hint = 'Delay zwischen 2 Punkten'
+      Caption = 'Point'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 8
+      Top = 10
+      Width = 27
+      Height = 13
+      Hint = 'Bildumschaltdelay'
+      Caption = 'Delay'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+    end
+    object Label8: TLabel
+      Left = 288
+      Top = 10
+      Width = 25
+      Height = 13
+      Caption = 'Gain '
+    end
+    object Label31: TLabel
+      Left = 363
+      Top = 10
+      Width = 33
+      Height = 13
+      Caption = 'W max'
+    end
+    object Label9: TLabel
+      Left = 328
+      Top = 10
+      Width = 27
+      Height = 13
+      Caption = 'Pump'
+    end
+    object Label55: TLabel
+      Left = 403
+      Top = 0
+      Width = 31
+      Height = 13
+      Caption = 'Corner'
+    end
+    object Label56: TLabel
+      Left = 403
+      Top = 10
+      Width = 29
+      Height = 13
+      Caption = 'Points'
+    end
+    object lab: TLabel
+      Left = 128
+      Top = 10
+      Width = 27
+      Height = 13
+      Hint = 'Multiplikator für Delayzeiten '
+      Caption = 'Delay'
+      ParentShowHint = False
+      ShowHint = True
+    end
+    object Label3: TLabel
+      Left = 87
+      Top = 10
+      Width = 27
+      Height = 13
+      Hint = 'Multiplikator für Delayzeiten '
+      Caption = 'Delay'
+      ParentShowHint = False
+      ShowHint = True
+    end
+    object Label25: TLabel
+      Left = 86
+      Top = 0
+      Width = 27
+      Height = 13
+      Hint = 'Delay zwischen 2 Punkten'
+      Caption = 'Blank'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label26: TLabel
+      Left = 126
+      Top = 0
+      Width = 19
+      Height = 13
+      Hint = 'Delay zwischen 2 Punkten'
+      Caption = 'Port'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
+    object sb4: TTrackBar
+      Left = 8
+      Top = 21
+      Width = 33
+      Height = 102
+      Hint = 'Delay between 2 Frames * 100ms'
+      Max = 100
+      Orientation = trVertical
+      ParentShowHint = False
+      Frequency = 10
+      Position = 10
+      SelEnd = 0
+      SelStart = 0
+      ShowHint = True
+      TabOrder = 8
+      TickMarks = tmBottomRight
+      TickStyle = tsAuto
+      OnChange = sb4Change
+    end
+    object sb2: TTrackBar
+      Left = 48
+      Top = 21
+      Width = 33
+      Height = 102
+      Hint = 'PPS, "1" means 10 PPs, "2" means 20 PPs'
+      Max = 2000
+      Min = 1
+      Orientation = trVertical
+      ParentShowHint = False
+      Frequency = 200
+      Position = 150
+      SelEnd = 0
+      SelStart = 0
+      ShowHint = True
+      TabOrder = 7
+      TickMarks = tmBottomRight
+      TickStyle = tsAuto
+      OnChange = sb2Change
+    end
+    object Panel3: TPanel
+      Left = 48
+      Top = 118
+      Width = 25
+      Height = 15
+      Caption = '100'
+      TabOrder = 0
+    end
+    object sb3: TTrackBar
+      Left = 88
+      Top = 21
+      Width = 33
+      Height = 102
+      Hint = 'Repeats Blankingpoints X Times'
+      Max = 20
+      Orientation = trVertical
+      ParentShowHint = False
+      Frequency = 2
+      Position = 7
+      SelEnd = 0
+      SelStart = 0
+      ShowHint = True
+      TabOrder = 9
+      TickMarks = tmBottomRight
+      TickStyle = tsAuto
+      OnChange = sb3Change
+    end
+    object sb7: TTrackBar
+      Left = 128
+      Top = 21
+      Width = 33
+      Height = 102
+      Hint = 'TTL Portdelay, if LPT Port is too slow increase them'
+      Max = 20
+      Orientation = trVertical
+      ParentShowHint = False
+      Frequency = 2
+      Position = 0
+      SelEnd = 0
+      SelStart = 0
+      ShowHint = True
+      TabOrder = 10
+      TickMarks = tmBottomRight
+      TickStyle = tsAuto
+      OnChange = sb7Change
+    end
+    object sb8: TTrackBar
+      Left = 168
+      Top = 21
+      Width = 33
+      Height = 102
+      Hint = 'Mirrorspeed'
+      Max = 30
+      Min = 1
+      Orientation = trVertical
+      ParentShowHint = False
+      Frequency = 2
+      Position = 1
+      SelEnd = 0
+      SelStart = 0
+      ShowHint = True
+      TabOrder = 11
+      TickMarks = tmBottomRight
+      TickStyle = tsAuto
+      OnChange = sb8Change
+    end
+    object sb9: TTrackBar
+      Left = 208
+      Top = 21
+      Width = 33
+      Height = 102
+      Hint = 'Mirrorspeed'
+      Max = 30
+      Min = 1
+      Orientation = trVertical
+      ParentShowHint = False
+      Frequency = 2
+      Position = 1
+      SelEnd = 0
+      SelStart = 0
+      ShowHint = True
+      TabOrder = 12
+      TickMarks = tmBottomRight
+      TickStyle = tsAuto
+      OnChange = sb9Change
+    end
+    object sb6: TTrackBar
+      Left = 248
+      Top = 21
+      Width = 33
+      Height = 102
+      Hint = 'Rotating Speed'
+      Max = 30
+      Min = 1
+      Orientation = trVertical
+      ParentShowHint = False
+      Frequency = 2
+      Position = 1
+      SelEnd = 0
+      SelStart = 0
+      ShowHint = True
+      TabOrder = 13
+      TickMarks = tmBottomRight
+      TickStyle = tsAuto
+      OnChange = sb6Change
+    end
+    object Panel6: TPanel
+      Left = 8
+      Top = 118
+      Width = 25
+      Height = 15
+      Caption = '10'
+      TabOrder = 2
+    end
+    object Panel4: TPanel
+      Left = 88
+      Top = 118
+      Width = 25
+      Height = 15
+      Caption = '7'
+      TabOrder = 1
+    end
+    object Panel10: TPanel
+      Left = 128
+      Top = 118
+      Width = 25
+      Height = 15
+      Caption = 'o'
+      TabOrder = 4
+    end
+    object Panel13: TPanel
+      Left = 168
+      Top = 118
+      Width = 25
+      Height = 15
+      Caption = '1'
+      TabOrder = 5
+    end
+    object Panel14: TPanel
+      Left = 208
+      Top = 118
+      Width = 25
+      Height = 15
+      Caption = '1'
+      TabOrder = 6
+    end
+    object Panel9: TPanel
+      Left = 248
+      Top = 118
+      Width = 25
+      Height = 15
+      Caption = '1'
+      TabOrder = 3
+      OnClick = Panel9Click
+    end
+    object pg2: TPageControl
+      Left = 6
+      Top = 146
+      Width = 553
+      Height = 457
+      ActivePage = banks
+      TabOrder = 14
+      OnChange = pg2Change
+      object banks: TTabSheet
+        Caption = 'Switches'
+        object GroupBox4: TGroupBox
+          Left = 0
+          Top = 8
+          Width = 137
+          Height = 201
+          Caption = 'Switches'
+          TabOrder = 0
+          object bs1: TRadioButton
+            Left = 6
+            Top = 26
+            Width = 121
+            Height = 17
+            Caption = '1'
+            TabOrder = 0
+            OnClick = bs1Click
+          end
+          object bs2: TRadioButton
+            Left = 6
+            Top = 42
+            Width = 121
+            Height = 17
+            Caption = '2'
+            TabOrder = 1
+            OnClick = bs2Click
+          end
+          object bs3: TRadioButton
+            Left = 6
+            Top = 58
+            Width = 121
+            Height = 17
+            Caption = '3'
+            TabOrder = 2
+            OnClick = bs3Click
+          end
+          object bs4: TRadioButton
+            Left = 6
+            Top = 74
+            Width = 121
+            Height = 17
+            Caption = '4'
+            TabOrder = 3
+            OnClick = bs4Click
+          end
+          object bs5: TRadioButton
+            Left = 6
+            Top = 91
+            Width = 121
+            Height = 17
+            Caption = '5'
+            TabOrder = 4
+            OnClick = bs5Click
+          end
+          object bs6: TRadioButton
+            Left = 6
+            Top = 107
+            Width = 121
+            Height = 17
+            Caption = '6'
+            TabOrder = 5
+            OnClick = bs6Click
+          end
+          object bs7: TRadioButton
+            Left = 6
+            Top = 123
+            Width = 121
+            Height = 17
+            Caption = '7'
+            TabOrder = 6
+            OnClick = bs7Click
+          end
+          object bs8: TRadioButton
+            Left = 6
+            Top = 139
+            Width = 121
+            Height = 17
+            Caption = '8'
+            TabOrder = 7
+            OnClick = bs8Click
+          end
+          object bs9: TRadioButton
+            Left = 6
+            Top = 10
+            Width = 121
+            Height = 17
+            Caption = 'None'
+            Checked = True
+            TabOrder = 8
+            TabStop = True
+            OnClick = bs9Click
+          end
+        end
+        object GroupBox2: TGroupBox
+          Left = 144
+          Top = 8
+          Width = 169
+          Height = 201
+          Caption = 'Lissajous'
+          TabOrder = 1
+          object Label30: TLabel
+            Left = 10
+            Top = 29
+            Width = 11
+            Height = 13
+            Hint = 'Delay zwischen 2 Punkten'
+            Caption = 'Fx'
+          end
+          object Label27: TLabel
+            Left = 53
+            Top = 29
+            Width = 11
+            Height = 13
+            Hint = 'Delay zwischen 2 Punkten'
+            Caption = 'Fy'
+          end
+          object Label28: TLabel
+            Left = 93
+            Top = 29
+            Width = 13
+            Height = 13
+            Hint = 'Delay zwischen 2 Punkten'
+            Caption = 'Ux'
+          end
+          object Label29: TLabel
+            Left = 133
+            Top = 29
+            Width = 13
+            Height = 13
+            Hint = 'Delay zwischen 2 Punkten'
+            Caption = 'Uy'
+          end
+          object cb12: TCheckBox
+            Left = 6
+            Top = 9
+            Width = 105
+            Height = 17
+            Caption = 'Enable '
+            TabOrder = 0
+            OnClick = cb12Click
+          end
+          object sb13: TTrackBar
+            Left = 126
+            Top = 42
+            Width = 33
+            Height = 97
+            Max = 100
+            Min = 1
+            Orientation = trVertical
+            Frequency = 10
+            Position = 100
+            SelEnd = 0
+            SelStart = 0
+            TabOrder = 1
+            TickMarks = tmBottomRight
+            TickStyle = tsAuto
+            OnChange = sb13Change
+          end
+          object sb12: TTrackBar
+            Left = 86
+            Top = 42
+            Width = 33
+            Height = 97
+            Max = 100
+            Min = 1
+            Orientation = trVertical
+            Frequency = 10
+            Position = 100
+            SelEnd = 0
+            SelStart = 0
+            TabOrder = 2
+            TickMarks = tmBottomRight
+            TickStyle = tsAuto
+            OnChange = sb12Change
+          end
+          object sb11: TTrackBar
+            Left = 46
+            Top = 42
+            Width = 33
+            Height = 97
+            Max = 1000
+            Min = 1
+            Orientation = trVertical
+            Frequency = 100
+            Position = 800
+            SelEnd = 0
+            SelStart = 0
+            TabOrder = 3
+            TickMarks = tmBottomRight
+            TickStyle = tsAuto
+            OnChange = sb11Change
+          end
+          object sb10: TTrackBar
+            Left = 6
+            Top = 42
+            Width = 33
+            Height = 97
+            Max = 1000
+            Min = 1
+            Orientation = trVertical
+            Frequency = 100
+            Position = 810
+            SelEnd = 0
+            SelStart = 0
+            TabOrder = 4
+            TickMarks = tmBottomRight
+            TickStyle = tsAuto
+            OnChange = sb10Change
+          end
+          object Panel11: TPanel
+            Left = 6
+            Top = 138
+            Width = 25
+            Height = 17
+            Caption = '810'
+            TabOrder = 5
+          end
+          object Panel12: TPanel
+            Left = 46
+            Top = 138
+            Width = 25
+            Height = 17
+            Caption = '800'
+            TabOrder = 6
+          end
+          object Panel15: TPanel
+            Left = 86
+            Top = 138
+            Width = 25
+            Height = 17
+            Caption = '100'
+            TabOrder = 7
+          end
+          object Panel16: TPanel
+            Left = 126
+            Top = 138
+            Width = 25
+            Height = 17
+            Caption = '100'
+            TabOrder = 8
+          end
+        end
+        object Button30: TButton
+          Left = 376
+          Top = 24
+          Width = 75
+          Height = 25
+          Caption = 'Button30'
+          TabOrder = 2
+          OnClick = Button30Click
+        end
+        object Button31: TButton
+          Left = 376
+          Top = 64
+          Width = 75
+          Height = 25
+          Caption = 'Button31'
+          TabOrder = 3
+          OnClick = Button31Click
+        end
+      end
+      object mp3: TTabSheet
+        Caption = 'MP3'
+        object Memo4: TMemo
+          Left = 8
+          Top = 48
+          Width = 257
+          Height = 305
+          Color = clBtnFace
+          ScrollBars = ssVertical
+          TabOrder = 0
+        end
+        object Button9: TButton
+          Left = 296
+          Top = 48
+          Width = 113
+          Height = 25
+          Caption = 'Load'
+          TabOrder = 1
+          OnClick = Button9Click
+        end
+        object Button10: TButton
+          Left = 296
+          Top = 80
+          Width = 113
+          Height = 25
+          Caption = 'Play'
+          TabOrder = 2
+          OnClick = Button10Click
+        end
+        object Button11: TButton
+          Left = 424
+          Top = 80
+          Width = 113
+          Height = 25
+          Caption = 'Pause'
+          TabOrder = 3
+          OnClick = Button11Click
+        end
+        object Button12: TButton
+          Left = 424
+          Top = 48
+          Width = 113
+          Height = 25
+          Caption = 'Stop'
+          TabOrder = 4
+          OnClick = Button12Click
+        end
+        object Button13: TButton
+          Left = 296
+          Top = 240
+          Width = 113
+          Height = 25
+          Caption = 'Set Cue'
+          TabOrder = 5
+          OnClick = Button13Click
+        end
+        object Button14: TButton
+          Left = 296
+          Top = 176
+          Width = 113
+          Height = 25
+          Caption = 'Cue +50'
+          TabOrder = 6
+          OnClick = Button14Click
+        end
+        object Button15: TButton
+          Left = 424
+          Top = 176
+          Width = 113
+          Height = 25
+          Caption = 'Cue -50'
+          TabOrder = 7
+          OnClick = Button15Click
+        end
+        object Button16: TButton
+          Left = 424
+          Top = 240
+          Width = 113
+          Height = 25
+          Caption = 'Jmp Cue'
+          TabOrder = 8
+          OnClick = Button16Click
+        end
+        object tb1: TTrackBar
+          Left = 8
+          Top = 390
+          Width = 449
+          Height = 33
+          Orientation = trHorizontal
+          Frequency = 1
+          Position = 0
+          SelEnd = 0
+          SelStart = 0
+          TabOrder = 9
+          TickMarks = tmBottomRight
+          TickStyle = tsAuto
+          OnChange = tb1Change
+        end
+        object Panel31: TPanel
+          Left = 8
+          Top = 360
+          Width = 529
+          Height = 25
+          TabOrder = 10
+        end
+        object Panel34: TPanel
+          Left = 464
+          Top = 392
+          Width = 73
+          Height = 25
+          TabOrder = 11
+        end
+        object Button17: TButton
+          Left = 8
+          Top = 8
+          Width = 89
+          Height = 25
+          Caption = 'Play MP3+MOT'
+          TabOrder = 12
+          OnClick = Button17Click
+        end
+        object Button18: TButton
+          Left = 104
+          Top = 8
+          Width = 89
+          Height = 25
+          Caption = 'Stop MP3+MOT'
+          TabOrder = 13
+          OnClick = Button18Click
+        end
+        object Button19: TButton
+          Left = 200
+          Top = 8
+          Width = 89
+          Height = 25
+          Caption = 'Load Motlist'
+          TabOrder = 14
+          OnClick = Button19Click
+        end
+        object Button20: TButton
+          Left = 296
+          Top = 8
+          Width = 89
+          Height = 25
+          Caption = 'Save Motlist'
+          TabOrder = 15
+          OnClick = Button20Click
+        end
+        object Button21: TButton
+          Left = 392
+          Top = 8
+          Width = 89
+          Height = 25
+          Caption = 'Clear Motlist'
+          TabOrder = 16
+          OnClick = Button21Click
+        end
+        object MediaPlayer1: TMediaPlayer
+          Left = 8
+          Top = 48
+          Width = 253
+          Height = 30
+          Visible = False
+          TabOrder = 17
+        end
+        object Button22: TButton
+          Left = 296
+          Top = 112
+          Width = 113
+          Height = 25
+          Caption = 'Delete'
+          TabOrder = 18
+          OnClick = Button22Click
+        end
+        object Button23: TButton
+          Left = 296
+          Top = 144
+          Width = 113
+          Height = 25
+          Caption = 'Cue +5'
+          TabOrder = 19
+          OnClick = Button23Click
+        end
+        object Button24: TButton
+          Left = 424
+          Top = 144
+          Width = 113
+          Height = 25
+          Caption = 'Cue -5'
+          TabOrder = 20
+          OnClick = Button24Click
+        end
+        object cb32: TCheckBox
+          Left = 304
+          Top = 333
+          Width = 89
+          Height = 17
+          Caption = 'Play after Cue'
+          Checked = True
+          State = cbChecked
+          TabOrder = 21
+        end
+        object lb1: TDBListBox
+          Left = 360
+          Top = 280
+          Width = 177
+          Height = 73
+          ItemHeight = 13
+          TabOrder = 22
+          Visible = False
+        end
+        object Button25: TButton
+          Left = 296
+          Top = 208
+          Width = 113
+          Height = 25
+          Caption = '10 sec -->'
+          TabOrder = 23
+          OnClick = Button25Click
+        end
+        object Button28: TButton
+          Left = 424
+          Top = 208
+          Width = 113
+          Height = 25
+          Caption = '<-- 10 sec'
+          TabOrder = 24
+          OnClick = Button28Click
+        end
+      end
+      object live: TTabSheet
+        Caption = 'Live'
+        object Label10: TLabel
+          Left = 74
+          Top = 3
+          Width = 24
+          Height = 13
+          Hint = 'Delay zwischen 2 Punkten'
+          Caption = '" Q "'
+        end
+        object Label11: TLabel
+          Left = 258
+          Top = 3
+          Width = 27
+          Height = 13
+          Hint = 'Delay zwischen 2 Punkten'
+          Caption = '" W "'
+        end
+        object Label12: TLabel
+          Left = 442
+          Top = 3
+          Width = 23
+          Height = 13
+          Hint = 'Delay zwischen 2 Punkten'
+          Caption = '" E "'
+        end
+        object Label13: TLabel
+          Left = 74
+          Top = 43
+          Width = 24
+          Height = 13
+          Hint = 'Delay zwischen 2 Punkten'
+          Caption = '" R "'
+        end
+        object Label14: TLabel
+          Left = 258
+          Top = 44
+          Width = 23
+          Height = 13
+          Hint = 'Delay zwischen 2 Punkten'
+          Caption = '" T "'
+        end
+        object Label42: TLabel
+          Left = 78
+          Top = 205
+          Width = 18
+          Height = 13
+          Caption = '"H"'
+        end
+        object Label21: TLabel
+          Left = 262
+          Top = 126
+          Width = 17
+          Height = 13
+          Caption = '"A"'
+        end
+        object Label15: TLabel
+          Left = 442
+          Top = 44
+          Width = 23
+          Height = 13
+          Hint = 'Delay zwischen 2 Punkten'
+          Caption = '" Z "'
+        end
+        object Label16: TLabel
+          Left = 74
+          Top = 84
+          Width = 24
+          Height = 13
+          Hint = 'Delay zwischen 2 Punkten'
+          Caption = '" U "'
+        end
+        object Label17: TLabel
+          Left = 258
+          Top = 84
+          Width = 19
+          Height = 13
+          Hint = 'Delay zwischen 2 Punkten'
+          Caption = '" I "'
+        end
+        object Label18: TLabel
+          Left = 441
+          Top = 84
+          Width = 24
+          Height = 13
+          Hint = 'Delay zwischen 2 Punkten'
+          Caption = '" O "'
+        end
+        object Label19: TLabel
+          Left = 74
+          Top = 124
+          Width = 23
+          Height = 13
+          Hint = 'Delay zwischen 2 Punkten'
+          Caption = '" P "'
+        end
+        object Label45: TLabel
+          Left = 82
+          Top = 166
+          Width = 18
+          Height = 13
+          Caption = '"D"'
+        end
+        object Label44: TLabel
+          Left = 261
+          Top = 166
+          Width = 16
+          Height = 13
+          Caption = '"F"'
+        end
+        object Label43: TLabel
+          Left = 446
+          Top = 166
+          Width = 18
+          Height = 13
+          Caption = '"G"'
+        end
+        object Label41: TLabel
+          Left = 264
+          Top = 205
+          Width = 15
+          Height = 13
+          Caption = '"J"'
+        end
+        object Label40: TLabel
+          Left = 445
+          Top = 205
+          Width = 17
+          Height = 13
+          Caption = '"K"'
+        end
+        object Label39: TLabel
+          Left = 80
+          Top = 245
+          Width = 16
+          Height = 13
+          Caption = '"L"'
+        end
+        object Label38: TLabel
+          Left = 264
+          Top = 245
+          Width = 17
+          Height = 13
+          Caption = '"Y"'
+        end
+        object Label37: TLabel
+          Left = 454
+          Top = 245
+          Width = 17
+          Height = 13
+          Caption = '"X"'
+        end
+        object Label36: TLabel
+          Left = 80
+          Top = 285
+          Width = 17
+          Height = 13
+          Caption = '"C"'
+        end
+        object Label35: TLabel
+          Left = 264
+          Top = 285
+          Width = 17
+          Height = 13
+          Caption = '"V"'
+        end
+        object Label34: TLabel
+          Left = 456
+          Top = 285
+          Width = 17
+          Height = 13
+          Caption = '"B"'
+        end
+        object Label33: TLabel
+          Left = 80
+          Top = 325
+          Width = 18
+          Height = 13
+          Caption = '"N"'
+        end
+        object Label32: TLabel
+          Left = 262
+          Top = 323
+          Width = 19
+          Height = 13
+          Caption = '"M"'
+        end
+        object Label22: TLabel
+          Left = 446
+          Top = 126
+          Width = 17
+          Height = 13
+          Caption = '"S"'
+        end
+        object Button6: TButton
+          Left = 40
+          Top = 380
+          Width = 105
+          Height = 21
+          Caption = 'Save Settings'
+          TabOrder = 0
+          TabStop = False
+          OnClick = Button6Click
+        end
+        object Button7: TButton
+          Left = 224
+          Top = 380
+          Width = 105
+          Height = 21
+          Caption = 'Load Settings'
+          TabOrder = 1
+          TabStop = False
+          OnClick = Button7Click
+        end
+        object Button8: TButton
+          Left = 408
+          Top = 380
+          Width = 105
+          Height = 21
+          Caption = 'Clear Settings'
+          TabOrder = 2
+          TabStop = False
+          OnClick = Button8Click
+        end
+        object Panel17: TPanel
+          Left = 8
+          Top = 16
+          Width = 161
+          Height = 19
+          TabOrder = 3
+        end
+        object Panel18: TPanel
+          Left = 192
+          Top = 16
+          Width = 161
+          Height = 19
+          TabOrder = 4
+        end
+        object Panel19: TPanel
+          Left = 376
+          Top = 16
+          Width = 161
+          Height = 19
+          TabOrder = 5
+        end
+        object Panel20: TPanel
+          Left = 8
+          Top = 56
+          Width = 161
+          Height = 19
+          TabOrder = 6
+        end
+        object Panel21: TPanel
+          Left = 192
+          Top = 58
+          Width = 161
+          Height = 19
+          TabOrder = 7
+        end
+        object Panel22: TPanel
+          Left = 376
+          Top = 58
+          Width = 161
+          Height = 19
+          TabOrder = 8
+        end
+        object Panel23: TPanel
+          Left = 8
+          Top = 98
+          Width = 161
+          Height = 19
+          TabOrder = 9
+        end
+        object Panel24: TPanel
+          Left = 192
+          Top = 98
+          Width = 161
+          Height = 19
+          TabOrder = 10
+        end
+        object Panel25: TPanel
+          Left = 376
+          Top = 98
+          Width = 161
+          Height = 19
+          TabOrder = 11
+        end
+        object Panel26: TPanel
+          Left = 8
+          Top = 138
+          Width = 161
+          Height = 19
+          TabOrder = 12
+        end
+        object Panel35: TPanel
+          Left = 192
+          Top = 140
+          Width = 161
+          Height = 19
+          TabOrder = 13
+        end
+        object Panel37: TPanel
+          Left = 8
+          Top = 180
+          Width = 161
+          Height = 19
+          TabOrder = 14
+        end
+        object Panel38: TPanel
+          Left = 192
+          Top = 180
+          Width = 161
+          Height = 19
+          TabOrder = 15
+        end
+        object Panel39: TPanel
+          Left = 376
+          Top = 180
+          Width = 161
+          Height = 19
+          TabOrder = 16
+        end
+        object Panel40: TPanel
+          Left = 8
+          Top = 219
+          Width = 161
+          Height = 19
+          TabOrder = 17
+        end
+        object Panel41: TPanel
+          Left = 192
+          Top = 219
+          Width = 161
+          Height = 19
+          TabOrder = 18
+        end
+        object Panel42: TPanel
+          Left = 376
+          Top = 219
+          Width = 161
+          Height = 19
+          TabOrder = 19
+        end
+        object Panel43: TPanel
+          Left = 8
+          Top = 259
+          Width = 161
+          Height = 19
+          TabOrder = 20
+        end
+        object Panel44: TPanel
+          Left = 192
+          Top = 259
+          Width = 161
+          Height = 19
+          TabOrder = 21
+        end
+        object Panel49: TPanel
+          Left = 8
+          Top = 338
+          Width = 161
+          Height = 19
+          TabOrder = 22
+        end
+        object Panel48: TPanel
+          Left = 376
+          Top = 298
+          Width = 161
+          Height = 19
+          TabOrder = 23
+        end
+        object Panel47: TPanel
+          Left = 192
+          Top = 298
+          Width = 161
+          Height = 19
+          TabOrder = 24
+        end
+        object Panel46: TPanel
+          Left = 8
+          Top = 298
+          Width = 161
+          Height = 19
+          TabOrder = 25
+        end
+        object Panel45: TPanel
+          Left = 376
+          Top = 258
+          Width = 161
+          Height = 19
+          TabOrder = 26
+        end
+        object Panel50: TPanel
+          Left = 192
+          Top = 336
+          Width = 161
+          Height = 19
+          TabOrder = 27
+        end
+        object Panel36: TPanel
+          Left = 376
+          Top = 140
+          Width = 161
+          Height = 19
+          TabOrder = 28
+        end
+      end
+      object midi: TTabSheet
+        Caption = 'MIDI'
+        OnShow = midiShow
+        object Label46: TLabel
+          Left = 8
+          Top = 48
+          Width = 141
+          Height = 13
+          Caption = 'MIDI Statusbyte / Datenbytes'
+        end
+        object Label47: TLabel
+          Left = 8
+          Top = 136
+          Width = 67
+          Height = 13
+          Caption = 'Oberes Nibble'
+        end
+        object Label48: TLabel
+          Left = 8
+          Top = 176
+          Width = 70
+          Height = 13
+          Caption = 'Unteres Nibble'
+        end
+        object Label49: TLabel
+          Left = 8
+          Top = 216
+          Width = 58
+          Height = 13
+          Caption = 'Datenbyte 1'
+        end
+        object Label50: TLabel
+          Left = 8
+          Top = 256
+          Width = 58
+          Height = 13
+          Caption = 'Datenbyte 2'
+        end
+        object Label51: TLabel
+          Left = 192
+          Top = 24
+          Width = 49
+          Height = 13
+          Caption = 'Key-Offset'
+        end
+        object ComboMidiIn: TComboBox
+          Left = 8
+          Top = 16
+          Width = 145
+          Height = 21
+          ItemHeight = 13
+          TabOrder = 0
+          Text = 'ComboMidiIn'
+          OnChange = ComboMidiInChange
+        end
+        object PanelMidiIn1: TPanel
+          Left = 8
+          Top = 64
+          Width = 153
+          Height = 17
+          Caption = ' '
+          TabOrder = 1
+        end
+        object PanelMidiIn2: TPanel
+          Left = 8
+          Top = 88
+          Width = 153
+          Height = 17
+          Caption = ' '
+          TabOrder = 2
+        end
+        object PanelMidiIn3: TPanel
+          Left = 8
+          Top = 112
+          Width = 153
+          Height = 17
+          TabOrder = 3
+        end
+        object PanelMidiInStatus: TPanel
+          Left = 8
+          Top = 152
+          Width = 153
+          Height = 17
+          TabOrder = 4
+        end
+        object PanelMidiInChannel: TPanel
+          Left = 8
+          Top = 192
+          Width = 153
+          Height = 17
+          TabOrder = 5
+        end
+        object PanelMidiInDB1: TPanel
+          Left = 8
+          Top = 232
+          Width = 153
+          Height = 17
+          TabOrder = 6
+        end
+        object PanelMidiInDB2: TPanel
+          Left = 8
+          Top = 272
+          Width = 153
+          Height = 17
+          TabOrder = 7
+        end
+        object midikeyoffset: TScrollBar
+          Left = 192
+          Top = 40
+          Width = 121
+          Height = 16
+          Min = -100
+          PageSize = 0
+          Position = 36
+          TabOrder = 8
+          OnChange = midikeyoffsetChange
+        end
+        object Panel56: TPanel
+          Left = 192
+          Top = 64
+          Width = 121
+          Height = 17
+          Caption = '36'
+          TabOrder = 9
+        end
+      end
+    end
+    object sb16: TTrackBar
+      Left = 288
+      Top = 21
+      Width = 30
+      Height = 102
+      Hint = 'Mastergain'
+      Max = 100
+      Min = 1
+      Orientation = trVertical
+      ParentShowHint = False
+      Frequency = 10
+      Position = 100
+      SelEnd = 0
+      SelStart = 0
+      ShowHint = True
+      TabOrder = 15
+      TickMarks = tmBottomRight
+      TickStyle = tsAuto
+      OnChange = sb16Change
+    end
+    object Panel30: TPanel
+      Left = 288
+      Top = 118
+      Width = 25
+      Height = 17
+      Caption = '100'
+      TabOrder = 16
+    end
+    object sb17: TTrackBar
+      Left = 328
+      Top = 21
+      Width = 35
+      Height = 102
+      Hint = 'Pumping Output'
+      Max = 30
+      Orientation = trVertical
+      ParentShowHint = False
+      Frequency = 2
+      Position = 0
+      SelEnd = 0
+      SelStart = 0
+      ShowHint = True
+      TabOrder = 17
+      TickMarks = tmBottomRight
+      TickStyle = tsAuto
+      OnChange = sb17Change
+    end
+    object Panel33: TPanel
+      Left = 328
+      Top = 118
+      Width = 25
+      Height = 17
+      Caption = '0'
+      TabOrder = 18
+    end
+    object tb2: TTrackBar
+      Left = 368
+      Top = 21
+      Width = 35
+      Height = 102
+      Hint = 'Max. Rotate - Arc'
+      Max = 360
+      Orientation = trVertical
+      ParentShowHint = False
+      Frequency = 36
+      Position = 360
+      SelEnd = 0
+      SelStart = 0
+      ShowHint = True
+      TabOrder = 20
+      TickMarks = tmBottomRight
+      TickStyle = tsAuto
+      OnChange = tb2Change
+    end
+    object Panel51: TPanel
+      Left = 368
+      Top = 118
+      Width = 25
+      Height = 17
+      Caption = '360'
+      TabOrder = 19
+    end
+    object tb3: TTrackBar
+      Left = 406
+      Top = 21
+      Width = 33
+      Height = 102
+      Hint = 'Autom. Set of Corner-Points for Closend Loop'
+      Min = 1
+      Orientation = trVertical
+      ParentShowHint = False
+      Frequency = 1
+      Position = 2
+      SelEnd = 0
+      SelStart = 0
+      ShowHint = True
+      TabOrder = 21
+      TickMarks = tmBottomRight
+      TickStyle = tsAuto
+      OnChange = tb3Change
+    end
+    object Panel54: TPanel
+      Left = 406
+      Top = 118
+      Width = 25
+      Height = 17
+      Caption = '2'
+      TabOrder = 22
+    end
+  end
+  object MainMenu1: TMainMenu
+    Left = 888
+    Top = 592
+    object datei: TMenuItem
+      Caption = 'File'
+      object Neu1: TMenuItem
+        Caption = 'New'
+        OnClick = Neu1Click
+      end
+      object Sequenzladen1: TMenuItem
+        Caption = 'Load Sequenz '
+        OnClick = Sequenzladen1Click
+      end
+      object Sequenzspeichern1: TMenuItem
+        Caption = 'Save Sequenz  '
+        OnClick = Sequenzspeichern1Click
+      end
+      object SaveSettings1: TMenuItem
+        Caption = 'Save Settings'
+        OnClick = SaveSettings1Click
+      end
+      object N1: TMenuItem
+        Caption = '-------------------------------'
+      end
+      object DeletefromFilelist1: TMenuItem
+        Caption = 'Delete from Filelist'
+        OnClick = DeletefromFilelist1Click
+      end
+      object N2: TMenuItem
+        Caption = '--------------------------------'
+      end
+      object Beenden1: TMenuItem
+        Caption = 'Exit'
+        OnClick = Beenden1Click
+      end
+    end
+    object Bankschalter: TMenuItem
+      Caption = 'Switches'
+      object Com11: TMenuItem
+        Caption = 'Com 1'
+        OnClick = Com11Click
+      end
+      object Com21: TMenuItem
+        Caption = 'Com 2'
+        OnClick = Com21Click
+      end
+    end
+    object LPTPort1: TMenuItem
+      Caption = 'LPT Port'
+      object H2781: TMenuItem
+        Caption = 'Hex 278'
+        OnClick = H2781Click
+      end
+      object Hex3781: TMenuItem
+        Caption = 'Hex 378'
+        OnClick = Hex3781Click
+      end
+      object Hex3BC1: TMenuItem
+        Caption = 'Hex 3BC'
+        OnClick = Hex3BC1Click
+      end
+      object Hex10001: TMenuItem
+        Caption = 'Hex 1000'
+        OnClick = Hex10001Click
+      end
+      object EasyLaseUSB1: TMenuItem
+        Caption = 'EasyLase USB'
+        OnClick = EasyLaseUSB1Click
+      end
+    end
+    object Hilfe1: TMenuItem
+      Caption = 'Help'
+      object Hilfe2: TMenuItem
+        Caption = 'Hilfe'
+        Enabled = False
+        OnClick = Hilfe2Click
+      end
+    end
+    object berPopelscan1: TMenuItem
+      Caption = 'About'
+      OnClick = berPopelscan1Click
+    end
+    object Shortcuts1: TMenuItem
+      Caption = 'Shortcuts'
+      OnClick = Shortcuts1Click
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    DefaultExt = '*.mot'
+    Filter = 'Mot Files ( *.mot )|*.mot|BMP|*.bmp|Live Settings|*.ldt|MP3|*.mp3|MTM Files|*.mtm'
+    Left = 888
+    Top = 624
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = '*.mot'
+    Filter = 'Mot Files ( *.mot )|*.mot|All Files |*.*|Live Settings|*.ldt|MP3|*.mp3|MTM Files|*.mtm'
+    Left = 920
+    Top = 624
+  end
+  object com: T_QCCom32
+    ResponseTime = 1000
+    Rts = False
+    Dtr = False
+    Baud = 9600
+    Parity = 'N'
+    Databits = 8
+    Stopbits = 2
+    Port = 1
+    ShowErrors = True
+    Left = 952
+    Top = 624
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 920
+    Top = 592
+    object menu: TMenuItem
+      Caption = 'Delete'
+      OnClick = menuClick
+    end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    Left = 952
+    Top = 592
+  end
+  object Timer2: TTimer
+    Enabled = False
+    Interval = 50
+    OnTimer = Timer2Timer
+    Left = 984
+    Top = 592
+  end
+  object Timer3: TTimer
+    Enabled = False
+    Interval = 5000
+    OnTimer = Timer3Timer
+    Left = 808
+    Top = 88
+  end
+  object Timer4: TTimer
+    Enabled = False
+    Interval = 3000
+    OnTimer = Timer4Timer
+    Left = 744
+    Top = 88
+  end
+  object Timer5: TTimer
+    Enabled = False
+    OnTimer = Timer5Timer
+    Left = 776
+    Top = 88
+  end
+end

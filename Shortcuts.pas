@@ -1,5 +1,7 @@
 unit Shortcuts;
 
+{$MODE Delphi}
+
 interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,

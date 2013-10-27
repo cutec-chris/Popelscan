@@ -1,8 +1,10 @@
 unit Ausgabeeffekte;
 
+{$MODE Delphi}
+
 interface
-uses Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, Menus, QCCom32;
+uses Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, ExtCtrls, Menus;
 procedure Rotationsrichtung;
 procedure Drehwinkelumschaltung;
 procedure Winkelberechnenhor;
@@ -150,7 +152,7 @@ begin
   if xneu < 0 then begin xneu:=0;     end;
   if yneu < 0 then begin yneu:=0;   end;
 end;
-// Bei interpolation  überschwinger blanken
+// Bei interpolation  Ã¼berschwinger blanken
 
 procedure Begrenzung2;
 begin
@@ -414,4 +416,4 @@ begin
   //portout(lptport+2,form1.scrollbar1.position);
 end;
 
-end.
+end.
