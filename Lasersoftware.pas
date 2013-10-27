@@ -5,12 +5,16 @@ unit Lasersoftware;
 interface
 
 uses
-  LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics,
+  Controls, Forms, Dialogs,
   StdCtrls, ExtCtrls, Menus, Ausgabe, Image, Live, FileCtrl, BAIOPORT,
   ComCtrls, {OleCtrls, isp3, MPlayer,} DBCtrls, FileUtil,
   Ausgabeeffekte, Easylase;
 
 type
+
+  { TForm1 }
+
   TForm1 = class(TForm)
     MainMenu1: TMainMenu;
     OpenDialog1: TOpenDialog;
@@ -28,8 +32,8 @@ type
     Memo1: TMemo;
     Panel5: TPanel;
     Panel7: TPanel;
-    Button1: TButton;
-    Button2: TButton;
+    bStart: TButton;
+    bStop: TButton;
     GB2: TGroupBox;
     FileListBox1: TFileListBox;
     dlb1: TListBox;
@@ -228,7 +232,7 @@ type
     cb35: TCheckBox;
     Button27: TButton;
     bs9: TRadioButton;
-    i1: TPaintBox;
+    iOutput: TPaintBox;
     cb37: TCheckBox;
     midi: TTabSheet;
     ComboMidiIn: TComboBox;
@@ -281,22 +285,21 @@ type
     procedure FormShow(Sender: TObject);
     procedure Beenden1Click(Sender: TObject);
     procedure sb1Change(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure bStartClick(Sender: TObject);
     procedure Neu1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure sb2Change(Sender: TObject);
     procedure sb3Change(Sender: TObject);
-    procedure i1MouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure i1MouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+    procedure iOutputMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
+    procedure iOutputMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: integer);
     procedure Sequenzladen1Click(Sender: TObject);
     procedure Sequenzspeichern1Click(Sender: TObject);
     procedure rb1Click(Sender: TObject);
     procedure rb3Click(Sender: TObject);
     procedure rb2Click(Sender: TObject);
     procedure rb4Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    procedure bStopClick(Sender: TObject);
     procedure sb4Change(Sender: TObject);
     procedure sb6Change(Sender: TObject);
     procedure FileListBox1Click(Sender: TObject);
@@ -310,8 +313,7 @@ type
     procedure sb8Change(Sender: TObject);
     procedure sb9Change(Sender: TObject);
     procedure SaveSettings1Click(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure Button4Click(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure Button5Click(Sender: TObject);
@@ -382,7 +384,7 @@ type
     procedure cb35Click(Sender: TObject);
     procedure Button27Click(Sender: TObject);
     procedure bs9Click(Sender: TObject);
-    procedure i1Paint(Sender: TObject);
+    procedure iOutputPaint(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ComboMidiInChange(Sender: TObject);
     procedure midiShow(Sender: TObject);
@@ -409,141 +411,147 @@ type
     procedure Button31Click(Sender: TObject);
 
 
-   
+
 
   private
-     procedure GetMidiInDevs;
+    procedure GetMidiInDevs;
   protected
     //procedure MMMIMDATA (var message : TMessage); message MM_MIM_DATA;
     //TODO: MIDI Support
   public
-   procedure UpdateMidiIn (statusm, db1, db2 : DWord);
+    procedure UpdateMidiIn(statusm, db1, db2: DWord);
   end;
-     // USB
+// USB
      {$IFDEF WINDOWS}
-     Function EasyLaseWriteTTL(var USB_CardNr:integer;USB_TTL: word):boolean;stdcall; external 'Easylase.dll';
-   
-     function EasyLaseGetCardNum():Integer;stdcall; external 'Easylase.dll';
-     function EasyLaseGetStatus(var CardNumber:integer) :integer;stdcall; external 'Easylase.dll';
-     function EasyLaseClose():boolean;stdcall; external 'easylase.dll';
-     function EasyLaseStop( var CardNumber:integer ):boolean ;stdcall; external 'easylase.dll';
-     function EasyLaseWriteFrame
-        ( var CardNumber:integer;
-              DataBuffer:pointer;
-             DataCounter:integer;
-                   Speed:word ):boolean ;stdcall;  external 'easylase.dll';
-     function EasyLaseWriteDMX(var CardNumber:integer;DMXBuffer:pointer ):
-              boolean;stdcall;external 'easylase.dll';
-     // Ende USB
+function EasyLaseWriteTTL(var USB_CardNr: integer; USB_TTL: word): boolean;
+  stdcall; external 'Easylase.dll';
+
+function EasyLaseGetCardNum(): integer; stdcall; external 'Easylase.dll';
+function EasyLaseGetStatus(var CardNumber: integer): integer;
+  stdcall; external 'Easylase.dll';
+function EasyLaseClose(): boolean; stdcall; external 'easylase.dll';
+function EasyLaseStop(var CardNumber: integer): boolean; stdcall;
+  external 'easylase.dll';
+function EasyLaseWriteFrame
+  (var CardNumber: integer; DataBuffer: pointer; DataCounter: integer;
+  Speed: word): boolean; stdcall;
+  external 'easylase.dll';
+function EasyLaseWriteDMX(var CardNumber: integer; DMXBuffer: pointer): boolean;
+  stdcall; external 'easylase.dll';
+// Ende USB
      {$ENDIF}
-    function IntToBin (z : integer):string;
-    function GetNibble (nr, z : integer) : integer;
-    procedure GetStrings (statusm : integer; var s1, s2, s3 : string);
+function IntToBin(z: integer): string;
+function GetNibble(nr, z: integer): integer;
+procedure GetStrings(statusm: integer; var s1, s2, s3: string);
+
 var
   Form1: TForm1;
-  var
-  punkte,bildpunkte:integer;
-  pprozeile:integer;
-  Speed,Blankrepeats,blank:integer;
-  xneu,yneu,xd,yd,linie:integer;
-  xalt,yalt:real;
-  port:integer;
-  Zwangsblank:boolean;
-  eckpunkte:byte;
-  status,bildnr:integer;
-  winkel1,winkhor1,winkver1, bende:integer;
-  winkel,winkhor,winkver:real;
-  wegx,wegy:real;
-  counter:integer ;
-  lastcolor:integer;
-  Erster_Punkt_des_Bildes:boolean;
-  dcolor:integer;
-  hauptverzeichnis:string;
-  lptport,lptporth:integer;
-  xkorp,xkorm,ykorp,ykorm:integer;
-  bild:tbitmap;
-  raster:integer;
-  Live_File:String;
-  Taste:integer;
-  zufall:integer;
-  psw:integer;
-  laseran:integer;
 
-  porto,pswo,smto:integer;
-  pump,pumpdir,pumpmax:integer;
-  Linienzahl,lastpos,alteposition:integer;
-  cuepos,plinie,pstatus,zindex,lastsetpos,endelied,selfchange:integer;
-  zindexlinie:integer;
-  pfile:String;
-  Bildda:integer;bildfile:string;
-  outputcounter:longint;
-  winkel1max,winkhormax,winkvermax:integer;
-  winkel1d,winkhord,winkverd,wfix:integer;
-  Durchlaeufe, DLZaehler:integer;
-  Bildumschalten:boolean;
+var
+  punkte, bildpunkte: integer;
+  pprozeile: integer;
+  Speed, Blankrepeats, blank: integer;
+  xneu, yneu, xd, yd, linie: integer;
+  xalt, yalt: real;
+  port: integer;
+  Zwangsblank: boolean;
+  eckpunkte: byte;
+  status, bildnr: integer;
+  winkel1, winkhor1, winkver1, bende: integer;
+  winkel, winkhor, winkver: real;
+  wegx, wegy: real;
+  counter: integer;
+  lastcolor: integer;
+  Erster_Punkt_des_Bildes: boolean;
+  dcolor: integer;
+  hauptverzeichnis: string;
+  lptport, lptporth: integer;
+  xkorp, xkorm, ykorp, ykorm: integer;
+  bild: tbitmap;
+  raster: integer;
+  Live_File: string;
+  Taste: integer;
+  zufall: integer;
+  psw: integer;
+  laseran: integer;
+
+  porto, pswo, smto: integer;
+  pump, pumpdir, pumpmax: integer;
+  Linienzahl, lastpos, alteposition: integer;
+  cuepos, plinie, pstatus, zindex, lastsetpos, endelied, selfchange: integer;
+  zindexlinie: integer;
+  pfile: string;
+  Bildda: integer;
+  bildfile: string;
+  outputcounter: longint;
+  winkel1max, winkhormax, winkvermax: integer;
+  winkel1d, winkhord, winkverd, wfix: integer;
+  Durchlaeufe, DLZaehler: integer;
+  Bildumschalten: boolean;
   // Für MIDI
-  Alterton,neuerton,Tastennr:word;
-  Loadfile:boolean;
-  keyoffset:integer;
+  Alterton, neuerton, Tastennr: word;
+  Loadfile: boolean;
+  keyoffset: integer;
   // Neu Drawmode
-  drawmode:string;
-  crstart:boolean;
-  centerx,centery:integer;
-  radx,rady:integer;
+  drawmode: string;
+  crstart: boolean;
+  centerx, centery: integer;
+  radx, rady: integer;
   // Pause
-  ASMNOPwert:integer;
+  ASMNOPwert: integer;
 
   // Für Timing per Performance Counter
-   // Pausenzeiten für DAC
-  Pause:integer;
-  Delay_pps:word;
-  Delay_Time:real;
-  Del_Time:int64;
+  // Pausenzeiten für DAC
+  Pause: integer;
+  Delay_pps: word;
+  Delay_Time: real;
+  Del_Time: int64;
 
   // Performancetiming
-  Freqpoint:^int64;
-  Zykpoint:^int64;
-  prozfreq:int64;
-  prozzyklus:int64;
-  prozzyklusalt:int64;
+  Freqpoint: ^int64;
+  Zykpoint: ^int64;
+  prozfreq: int64;
+  prozzyklus: int64;
+  prozzyklusalt: int64;
   iCounttime: int64;
-  iDelta       : int64;
+  iDelta: int64;
 
-  TT_Mir_h:int64;
-  TT_Mir_v:int64;
-  TT_rot  :int64;
-  TT_pump :int64;
+  TT_Mir_h: int64;
+  TT_Mir_v: int64;
+  TT_rot: int64;
+  TT_pump: int64;
 
   //USB
-  USB_Totalpoints:integer;
-  USB_Speed:Word;
-  USB_CardNR:integer;
-  USB_Daten:array[0..9999] of Byte;
-  USB_X,USB_Y:word;USB_port:Byte;
-  bc:word;
-  fc:integer;
-  Framesdraussen:word;
-  USB_TTL:word;
-  DMX_Buffer:array[0..511] of byte;
+  USB_Totalpoints: integer;
+  USB_Speed: word;
+  USB_CardNR: integer;
+  USB_Daten: array[0..9999] of byte;
+  USB_X, USB_Y: word;
+  USB_port: byte;
+  bc: word;
+  fc: integer;
+  Framesdraussen: word;
+  USB_TTL: word;
+  DMX_Buffer: array[0..511] of byte;
 
 
-  // MIDI
-  type
+// MIDI
+type
   TEvent = record
-    statusm, db1, db2 : DWord;
+    statusm, db1, db2: DWord;
   end;
 
   TFilter = record
-    channel, transpose, velocity : DWord;
+    channel, transpose, velocity: DWord;
   end;
 
-  var
-  MidiInOpened  : boolean;
-  MidiInHandle  : integer;
-  MidiEvent     : TEvent;
-  Filter        : TFilter;
+var
+  MidiInOpened: boolean;
+  MidiInHandle: integer;
+  MidiEvent: TEvent;
+  Filter: TFilter;
 
-  // MIDI END
+// MIDI END
 
 
 implementation
@@ -552,10 +560,10 @@ implementation
 
 
 {$R *.lfm}
-function IntToBin (z : integer) : string;
+function IntToBin(z: integer): string;
 var
-  I : integer;
-  s : string;
+  I: integer;
+  s: string;
 begin
   s := '';
   for I := 0 to 7 do
@@ -565,23 +573,23 @@ begin
     else
       s := '0' + s;
   end;
-  result := s;
+  Result := s;
 end;
 
-function GetNibble (nr, z : integer) : integer;
+function GetNibble(nr, z: integer): integer;
 begin
-  result := -1;
+  Result := -1;
   case nr of
-    0 : result := z and $F;
-    1 : result := z and $F0;
+    0: Result := z and $F;
+    1: Result := z and $F0;
   end;
 end;
 
 
 procedure TForm1.GetMidiInDevs;
 var
-  devs : integer;
-  I    : integer;
+  devs: integer;
+  I: integer;
   //Caps : TMidiInCaps;
 begin
   {
@@ -615,68 +623,79 @@ begin
   inherited;
 end;
 }
-procedure TForm1.UpdateMidiIn;
+procedure TForm1.UpdateMidiIn(statusm, db1, db2: DWord);
 var
-  s1, s2, s3 ,filenamen: string;
+  s1, s2, s3, filenamen: string;
 begin
-  PanelMidiIn1.Caption := IntToBin (statusm);
-  PanelMidiIn2.Caption := IntToBin (db1);
-  PanelMidiIn3.Caption := IntToBin (db2);
-  GetStrings (statusm, s1, s2, s3);
+  PanelMidiIn1.Caption := IntToBin(statusm);
+  PanelMidiIn2.Caption := IntToBin(db1);
+  PanelMidiIn3.Caption := IntToBin(db2);
+  GetStrings(statusm, s1, s2, s3);
   if statusm < 248 then
   begin
-    PanelMidiInStatus.Caption := s1 + IntToStr (GetNibble (1, statusm));
-    PanelMidiInChannel.Caption := 'Channel: ' + IntToStr (GetNibble (0, statusm));
+    PanelMidiInStatus.Caption := s1 + IntToStr(GetNibble(1, statusm));
+    PanelMidiInChannel.Caption := 'Channel: ' + IntToStr(GetNibble(0, statusm));
   end
   else
   begin
-    PanelMidiInStatus.Caption := s1 + IntToStr (statusm);
+    PanelMidiInStatus.Caption := s1 + IntToStr(statusm);
     PanelMidiInChannel.Caption := '---';
   end;
   if s2 <> '' then
+  begin
+    PanelMidiInDB1.Caption := s2 + IntToStr(db1);
+
+    //Hier Abfrage ob neuer Tom
+    if loadfile = False then
+      repeat
+        application.ProcessMessages
+      until loadfile = True;
+    loadfile := False;
+    neuerton := db1;
+    s2 := s2;
+    if ((neuerton <> alterton) and (s2 = 'Tonnummer: ')) then
     begin
-       PanelMidiInDB1.Caption := s2 + IntToStr (db1);
+      s2 := '';
+      tastennr := neuerton - keyoffset;
+      if (filelistbox1.items.Count > tastennr) then
+      begin
+        filenamen := filelistbox1.Items[tastennr];
+        //TODO:filenamen:=dlb1.Directory+'\'+filenamen;
+        alterton := neuerton;
 
-        //Hier Abfrage ob neuer Tom
-        if loadfile=false then
-        repeat application.ProcessMessages until loadfile=true;
-        loadfile:=false;
-        neuerton:=db1;
-        s2:=s2 ;
-           if ((neuerton<>alterton) and (s2 = 'Tonnummer: ')) then
-             begin
-               s2:='';
-               tastennr:=neuerton-keyoffset;
-               if (filelistbox1.items.count>tastennr)  then
-                 begin
-                   filenamen:=filelistbox1.Items[tastennr];
-                   //TODO:filenamen:=dlb1.Directory+'\'+filenamen;
-                   alterton:=neuerton;
-
-                     if FileExistsUTF8(filenamen) { *Converted from FileExists* } then
-                       begin
-                         //TODO:midiInStop (MidiInHandle);
-                         //midiInReset (MidiInHandle);
-                         button2.click;
-                         FileListBox1.enabled:=false;
-                         alterton:=neuerton;
-                         winkel:=180;winkhor:=180;winkver:=180;
-                         winkel1:=180;winkhor1:=180;winkver1:=180;
-                         form1.lb1.items.loadfromfile(filenamen);
-                         form1.sb1.position:=1;punkte:=0;neuzeichnen; image_loeschen; redraw;
-                         faderupdate;form1.sb4.position:=strtoint(form1.lb1.items[5]);
-                         //TODO:midiInReset (MidiInHandle);
-                         //midiInStart (MidiInHandle);
-                         FileListBox1.enabled:=true;
-                         button1.click;
-                       end;
-                 end;
-             end;
-    end
+        if FileExistsUTF8(filenamen) { *Converted from FileExists* } then
+        begin
+          //TODO:midiInStop (MidiInHandle);
+          //midiInReset (MidiInHandle);
+          bStop.click;
+          FileListBox1.Enabled := False;
+          alterton := neuerton;
+          winkel := 180;
+          winkhor := 180;
+          winkver := 180;
+          winkel1 := 180;
+          winkhor1 := 180;
+          winkver1 := 180;
+          form1.lb1.items.loadfromfile(filenamen);
+          form1.sb1.position := 1;
+          punkte := 0;
+          neuzeichnen;
+          image_loeschen;
+          redraw;
+          faderupdate;
+          form1.sb4.position := StrToInt(form1.lb1.items[5]);
+          //TODO:midiInReset (MidiInHandle);
+          //midiInStart (MidiInHandle);
+          FileListBox1.Enabled := True;
+          bStart.click;
+        end;
+      end;
+    end;
+  end
   else
     PanelMidiInDB1.Caption := '---';
   if s3 <> '' then
-    PanelMidiInDB2.Caption := s3 + IntToStr (db2)
+    PanelMidiInDB2.Caption := s3 + IntToStr(db2)
   else
     PanelMidiInDB2.Caption := '---';
 
@@ -687,106 +706,153 @@ end;
 
 // Programmstart
 procedure TForm1.FormCreate(Sender: TObject);
-var a:integer;ini,b:string;d:char;
-  var
-  I : integer;
-  s : string;
+var
+  a: integer;
+  ini, b: string;
+  d: char;
+var
+  I: integer;
+  s: string;
   // Perf. Counter
-  iFreq        : int64;
-  iCountStart  : int64;
-  iCountEnd    : int64;
-  iCountPerSec : int64;
+  iFreq: int64;
+  iCountStart: int64;
+  iCountEnd: int64;
+  iCountPerSec: int64;
 begin
-// Variablen
-eckpunkte:=2;
-lptport:=956;lptporth:=958;
-loadfile:=true;
-keyoffset:=36;
-speed:=1; ASMNOPwert:=0;Blankrepeats:=0;Blank:=0;Punkte:=0;bildpunkte:=0;
-linie:=20; winkel:=10; winkhor:=1;winkver:=1;rb2.checked:=true;
-lastcolor:=2; dcolor:=2; port:=2;
-xkorm:=100;xkorp:=100;raster:=16;
-zufall:=0; pump:=0;pumpdir:=0; Linienzahl:=0;
-sb16.position:=0;bildda:=0;bildfile:='';
-winkel1max:=360;winkel1d:=0;
-winkhormax:=360;winkhord:=0;
-winkvermax:=360;winkverd:=0;
-Bildumschalten:=false;
-drawmode:='lines';
-wfix:=0;
-bildnr:=0;
-alterton:=0;
+  // Variablen
+  eckpunkte := 2;
+  lptport := 956;
+  lptporth := 958;
+  loadfile := True;
+  keyoffset := 36;
+  speed := 1;
+  ASMNOPwert := 0;
+  Blankrepeats := 0;
+  Blank := 0;
+  Punkte := 0;
+  bildpunkte := 0;
+  linie := 20;
+  winkel := 10;
+  winkhor := 1;
+  winkver := 1;
+  rb2.Checked := True;
+  lastcolor := 2;
+  dcolor := 2;
+  port := 2;
+  xkorm := 100;
+  xkorp := 100;
+  raster := 16;
+  zufall := 0;
+  pump := 0;
+  pumpdir := 0;
+  Linienzahl := 0;
+  sb16.position := 0;
+  bildda := 0;
+  bildfile := '';
+  winkel1max := 360;
+  winkel1d := 0;
+  winkhormax := 360;
+  winkhord := 0;
+  winkvermax := 360;
+  winkverd := 0;
+  Bildumschalten := False;
+  drawmode := 'lines';
+  wfix := 0;
+  bildnr := 0;
+  alterton := 0;
 
-// Memos initalisieren
+  // Memos initalisieren
 
-// LB
-for a:= 1 to 5000 do lb1.items.add('');
-memo2.lines.clear; for a:=1 to 70 do memo2.lines.add(' ');
-memo3.lines.clear; memo3.lines.add('Live Settings');
-memo4.lines.clear; for a:=1 to 2000 do memo4.lines.add(' ');
-// Image initalisieren
-bild:=tbitmap.create; image_loeschen;
+  // LB
+  for a := 1 to 5000 do
+    lb1.items.add('');
+  memo2.Lines.Clear;
+  for a := 1 to 70 do
+    memo2.Lines.add(' ');
+  memo3.Lines.Clear;
+  memo3.Lines.add('Live Settings');
+  memo4.Lines.Clear;
+  for a := 1 to 2000 do
+    memo4.Lines.add(' ');
+  // Image initalisieren
+  bild := tbitmap.Create;
+  image_loeschen;
 
-//
 
-getdir(0,hauptverzeichnis);
-ini:=hauptverzeichnis+'\ini.dat';
-//TODO:dlb1.Drive:='C'; dlb1.directory:='C:\';
 
-// Settings laden
+  getdir(0, hauptverzeichnis);
+  ini := hauptverzeichnis + '\ini.dat';
+  //TODO:dlb1.Drive:='C'; dlb1.directory:='C:\';
+
+  // Settings laden
   if FileExistsUTF8(ini) { *Converted from FileExists* } then
-    begin
+  begin
     // Start INI
 
-     memo2.lines.loadfromfile(ini);
-     lptport:=strtoint(memo2.lines[1]);
-     lptporth:=lptport+2;
-     panel8.caption:='Port:='+memo2.lines[1];
-     if lptport=999 then
-     begin
-      panel8.caption:='USB EasyLase';
+    memo2.Lines.loadfromfile(ini);
+    lptport := StrToInt(memo2.Lines[1]);
+    lptporth := lptport + 2;
+    panel8.Caption := 'Port:=' + memo2.Lines[1];
+    if lptport = 999 then
+    begin
+      panel8.Caption := 'USB EasyLase';
       Easylase_angeschlossen;
-      USB_CardNR:=0;
-     end;
-     sb7.position:=strtoint(memo2.lines[3]);
-     panel10.caption:=inttostr(sb7.position);
-     d:='c';
-     if copy(memo2.lines[5],1,1)='c' then d:='c';
-     if copy(memo2.lines[5],1,1)='d' then d:='d';
-     if copy(memo2.lines[5],1,1)='e' then d:='e';
-     //TODO:drivecombobox1.drive:=d;
-     //TODO:dlb1.directory:=memo2.lines[7];
-     sb2.position:=strtoint(memo2.lines[9]);
-     panel3.caption:=inttostr(sb2.position);
-     sb3.position:=strtoint(memo2.lines[11]);
-     panel4.caption:=inttostr(sb3.position);
-     sb8.position:=strtoint(memo2.lines[13]);
-     panel13.caption:=inttostr(sb8.position);
-     sb9.position:=strtoint(memo2.lines[15]);
-     panel14.caption:=inttostr(sb9.position);
-     sb6.position:=strtoint(memo2.lines[17]);
-     panel9.caption:=inttostr(sb6.position);
-     sb7.position:=strtoint(memo2.lines[19]);
-     panel10.caption:=inttostr(sb7.position);
-     sb16.position:=strtoint(memo2.lines[21]);
-     panel30.Caption:=inttostr(sb16.position);
-     pumpmax:=sb16.position;
-     if copy(memo2.lines[23],1,1)='1' then cb9.checked:=true;
-     if copy(memo2.lines[25],1,1)='1' then cb10.checked:=true;
-     if copy(memo2.lines[27],1,1)='1' then cb11.checked:=true;
-     if copy(memo2.lines[31],1,1)='1' then cb37.checked:=true;
-     if copy(memo2.lines[33],1,1)='1' then cb38.checked:=true;
-     if copy(memo2.lines[35],1,1)='1' then cb35.checked:=true;
+      USB_CardNR := 0;
+    end;
+    sb7.position := StrToInt(memo2.Lines[3]);
+    panel10.Caption := IntToStr(sb7.position);
+    d := 'c';
+    if copy(memo2.Lines[5], 1, 1) = 'c' then
+      d := 'c';
+    if copy(memo2.Lines[5], 1, 1) = 'd' then
+      d := 'd';
+    if copy(memo2.Lines[5], 1, 1) = 'e' then
+      d := 'e';
+    //TODO:drivecombobox1.drive:=d;
+    //TODO:dlb1.directory:=memo2.lines[7];
+    sb2.position := StrToInt(memo2.Lines[9]);
+    panel3.Caption := IntToStr(sb2.position);
+    sb3.position := StrToInt(memo2.Lines[11]);
+    panel4.Caption := IntToStr(sb3.position);
+    sb8.position := StrToInt(memo2.Lines[13]);
+    panel13.Caption := IntToStr(sb8.position);
+    sb9.position := StrToInt(memo2.Lines[15]);
+    panel14.Caption := IntToStr(sb9.position);
+    sb6.position := StrToInt(memo2.Lines[17]);
+    panel9.Caption := IntToStr(sb6.position);
+    sb7.position := StrToInt(memo2.Lines[19]);
+    panel10.Caption := IntToStr(sb7.position);
+    sb16.position := StrToInt(memo2.Lines[21]);
+    panel30.Caption := IntToStr(sb16.position);
+    pumpmax := sb16.position;
+    if copy(memo2.Lines[23], 1, 1) = '1' then
+      cb9.Checked := True;
+    if copy(memo2.Lines[25], 1, 1) = '1' then
+      cb10.Checked := True;
+    if copy(memo2.Lines[27], 1, 1) = '1' then
+      cb11.Checked := True;
+    if copy(memo2.Lines[31], 1, 1) = '1' then
+      cb37.Checked := True;
+    if copy(memo2.Lines[33], 1, 1) = '1' then
+      cb38.Checked := True;
+    if copy(memo2.Lines[35], 1, 1) = '1' then
+      cb35.Checked := True;
 
-     // Actibe page
-     if copy(memo2.lines[37],1,1)='1' then pg2.activepage:=banks;
-     if copy(memo2.lines[37],1,1)='2' then pg2.ActivePage:=mp3;
-     if copy(memo2.lines[37],1,1)='3' then pg2.ActivePage:=live;
-     if copy(memo2.lines[37],1,1)='4' then pg2.ActivePage:=midi;
-     if copy(memo2.lines[37],1,1)=''  then pg2.ActivePage:=mp3;
+    // Actibe page
+    if copy(memo2.Lines[37], 1, 1) = '1' then
+      pg2.ActivePage := banks;
+    if copy(memo2.Lines[37], 1, 1) = '2' then
+      pg2.ActivePage := mp3;
+    if copy(memo2.Lines[37], 1, 1) = '3' then
+      pg2.ActivePage := live;
+    if copy(memo2.Lines[37], 1, 1) = '4' then
+      pg2.ActivePage := midi;
+    if copy(memo2.Lines[37], 1, 1) = '' then
+      pg2.ActivePage := mp3;
 
-     // Interpolate Lines
-     if copy(memo2.lines[39],1,1)='1'  then cb39.checked:=true;
+    // Interpolate Lines
+    if copy(memo2.Lines[39], 1, 1) = '1' then
+      cb39.Checked := True;
      {TODO:
      if memo2.lines[29] <> '' then
      begin
@@ -806,62 +872,76 @@ ini:=hauptverzeichnis+'\ini.dat';
      com.responsetime:=300;
      }
 
-     // - - - Ende seriell - - - -
+    // - - - Ende seriell - - - -
 
-     // Hilfedatei vorhanden ?
-     b:=hauptverzeichnis+'\hilfe.html';
-     if FileExistsUTF8(b) { *Converted from FileExists* } then hilfe2.enabled:=true;
+    // Hilfedatei vorhanden ?
+    b := hauptverzeichnis + '\hilfe.html';
+    if FileExistsUTF8(b) { *Converted from FileExists* } then
+      hilfe2.Enabled := True;
 
-     // Namen der Bankschalter laden
-     bs9.caption:=memo2.lines[55];
-     bs1.caption:=memo2.lines[56];
-     bs2.caption:=memo2.lines[57];
-     bs3.caption:=memo2.lines[58];
-     bs4.caption:=memo2.lines[59];
-     bs5.caption:=memo2.lines[60];
-     bs6.caption:=memo2.lines[61];
-     bs7.caption:=memo2.lines[62];
-     bs8.caption:=memo2.lines[63];
-
-
-
-     // Ende Werte aus Ini Ziehen
-    end
-    // Falls keine ini da, SMT Positionen erstellen
-    else
-     begin
-     // Werte erstellen
-     memo2.lines[35]:='SMT werte Z1';memo2.lines[36]:='2';memo2.lines[37]:='3';
-     memo2.lines[38]:='4';memo2.lines[39]:='5';memo2.lines[40]:='6';
-     memo2.lines[41]:='7';memo2.lines[42]:='8';memo2.lines[43]:='9';
-     memo2.lines[44]:='10';memo2.lines[45]:='11';memo2.lines[46]:='12';
-     memo2.lines[47]:='13';memo2.lines[48]:='14';memo2.lines[49]:='15';
-     memo2.lines[50]:='16'; memo2.lines[51]:='17'; memo2.lines[52]:='18';
-     memo2.lines[53]:='19'; memo2.lines[54]:='20';
-
-     // Namen für Schalter
-     memo2.lines[55]:='None';
-     memo2.lines[56]:='BS 1';
-     memo2.lines[57]:='BS 2';
-     memo2.lines[58]:='BS 3';
-     memo2.lines[59]:='BS 4';
-     memo2.lines[60]:='BS 5';
-     memo2.lines[61]:='BS 6';
-     memo2.lines[62]:='BS 7';
-     memo2.lines[63]:='BS 8';
-
-     //Wert für SB16 Gain
-     memo2.lines[21]:='80';sb16.position:=80;
+    // Namen der Bankschalter laden
+    bs9.Caption := memo2.Lines[55];
+    bs1.Caption := memo2.Lines[56];
+    bs2.Caption := memo2.Lines[57];
+    bs3.Caption := memo2.Lines[58];
+    bs4.Caption := memo2.Lines[59];
+    bs5.Caption := memo2.Lines[60];
+    bs6.Caption := memo2.Lines[61];
+    bs7.Caption := memo2.Lines[62];
+    bs8.Caption := memo2.Lines[63];
 
 
-     end;
-     image_loeschen;
-     application.ProcessMessages;
-     image_loeschen;
-      application.ProcessMessages;
 
-      // Blanking beim Programmstart
-      Blank_invert;
+    // Ende Werte aus Ini Ziehen
+  end
+  // Falls keine ini da, SMT Positionen erstellen
+  else
+  begin
+    // Werte erstellen
+    memo2.Lines[35] := 'SMT werte Z1';
+    memo2.Lines[36] := '2';
+    memo2.Lines[37] := '3';
+    memo2.Lines[38] := '4';
+    memo2.Lines[39] := '5';
+    memo2.Lines[40] := '6';
+    memo2.Lines[41] := '7';
+    memo2.Lines[42] := '8';
+    memo2.Lines[43] := '9';
+    memo2.Lines[44] := '10';
+    memo2.Lines[45] := '11';
+    memo2.Lines[46] := '12';
+    memo2.Lines[47] := '13';
+    memo2.Lines[48] := '14';
+    memo2.Lines[49] := '15';
+    memo2.Lines[50] := '16';
+    memo2.Lines[51] := '17';
+    memo2.Lines[52] := '18';
+    memo2.Lines[53] := '19';
+    memo2.Lines[54] := '20';
+
+    // Namen für Schalter
+    memo2.Lines[55] := 'None';
+    memo2.Lines[56] := 'BS 1';
+    memo2.Lines[57] := 'BS 2';
+    memo2.Lines[58] := 'BS 3';
+    memo2.Lines[59] := 'BS 4';
+    memo2.Lines[60] := 'BS 5';
+    memo2.Lines[61] := 'BS 6';
+    memo2.Lines[62] := 'BS 7';
+    memo2.Lines[63] := 'BS 8';
+
+    //Wert für SB16 Gain
+    memo2.Lines[21] := '80';
+    sb16.position := 80;
+
+  end;
+  image_loeschen;
+  application.ProcessMessages;
+  image_loeschen;
+  application.ProcessMessages;
+
+  // Blanking beim Programmstart
+  Blank_invert;
 
 
   // Für MIDI
@@ -870,33 +950,38 @@ ini:=hauptverzeichnis+'\ini.dat';
   PanelMidiInDB1.Caption := '';
   PanelMidiInDB2.Caption := '';
 
-  fillchar (MidiEvent, sizeof (MidiEvent), 0);
+  fillchar(MidiEvent, sizeof(MidiEvent), 0);
   for I := 0 to 16 do
   begin
-    if I = 0 then s := 'kein' else s := IntToStr (I - 1);
+    if I = 0 then
+      s := 'kein'
+    else
+      s := IntToStr(I - 1);
   end;
   for I := -24 to 24 do
   begin
-    s := IntToStr (I);
+    s := IntToStr(I);
   end;
 
   //  16 Bit Hardware auf 0 setzen
-  if cb38.checked=true then PCB_reset;
+  if cb38.Checked = True then
+    PCB_reset;
 
   // Default Tastaturbelegung laden
   //getdir(0,hauptverzeichnis);
-  ini:=hauptverzeichnis+'\default.ldt';
-  opendialog1.filterindex:=3;
+  ini := hauptverzeichnis + '\default.ldt';
+  opendialog1.filterindex := 3;
   if FileExistsUTF8(ini) { *Converted from FileExists* } then
-   begin
-    memo3.lines.loadfromfile(ini);
+  begin
+    memo3.Lines.loadfromfile(ini);
     panel_update;
-   end;
-  button2.click;
+  end;
+  bStop.click;
 
-  //
+
   // Query Performance Counter ini
-     Freqpoint:=@prozfreq;Zykpoint:=@prozzyklus;
+  Freqpoint := @prozfreq;
+  Zykpoint := @prozzyklus;
      {TODO:
      QueryPerformancefrequency(Freqpoint^); QueryPerformancecounter(Zykpoint^);
      QueryPerformanceFrequency(iFreq);
@@ -928,395 +1013,509 @@ end;
 
 // Menue "Neue Datei"
 procedure TForm1.Neu1Click(Sender: TObject);
-var a:integer;
+var
+  a: integer;
 begin
- image_loeschen;
- punkte:=0;
- linie:=20; port:=2;rb2.checked:=true;psw:=1;bs9.checked:=true;
- lb1.clear; for a:= 1 to 150 do lb1.items.add('');
- panel29.caption:='0';bildda:=0;bildfile:='';
- tb2.position:=360;panel51.caption:='360';
- sb3.position:=0;panel4.caption:='0';
- cb34.checked:=false;
- sb1.position:=0;
+  image_loeschen;
+  punkte := 0;
+  linie := 20;
+  port := 2;
+  rb2.Checked := True;
+  psw := 1;
+  bs9.Checked := True;
+  lb1.Clear;
+  for a := 1 to 150 do
+    lb1.items.add('');
+  panel29.Caption := '0';
+  bildda := 0;
+  bildfile := '';
+  tb2.position := 360;
+  panel51.Caption := '360';
+  sb3.position := 0;
+  panel4.Caption := '0';
+  cb34.Checked := False;
+  sb1.position := 0;
 end;
 
 // Laden
 procedure TForm1.Sequenzladen1Click(Sender: TObject);
 begin
-opendialog1.filterindex:=1;
-button2.click;
-if opendialog1.execute then
-  if FileExistsUTF8(opendialog1.filename) { *Converted from FileExists* } then
-   begin
-     lb1.items.loadfromfile(opendialog1.filename);
-     punkte:=0; sb1.position:=1;
-     linie:=20; neuzeichnen; image_loeschen;
-     redraw; sb4.position:=strtoint(lb1.items[5]);
-     Faderupdate;
-   end
-   else MessageDlg('File nicht vorhanden', mtInformation, [mbOK], 0)
-
+  opendialog1.filterindex := 1;
+  bStop.click;
+  if opendialog1.Execute then
+    if FileExistsUTF8(opendialog1.filename) { *Converted from FileExists* } then
+    begin
+      lb1.items.loadfromfile(opendialog1.filename);
+      punkte := 0;
+      sb1.position := 1;
+      linie := 20;
+      neuzeichnen;
+      image_loeschen;
+      redraw;
+      sb4.position := StrToInt(lb1.items[5]);
+      Faderupdate;
+    end
+    else
+      MessageDlg('File nicht vorhanden', mtInformation, [mbOK], 0);
 end;
 
 // Speichern
 procedure TForm1.Sequenzspeichern1Click(Sender: TObject);
-var cb,Z,ZZ:string;
+var
+  cb, Z, ZZ: string;
 begin
-savedialog1.filterindex:=1;
-cb:='';
-// Speed und Blankdelay
-lb1.items[0]:=inttostr(sb2.position); // Point Delay  ja
-lb1.items[1]:=inttostr(sb3.position); // Blank Delay  nein
-// Anzahl der Punkte,  Bilderfadermax;
-lb1.items[2]:=inttostr(punkte);    // Anzahl der Punkte Bild1  ??
-lb1.items[3]:=inttostr(sb1.max);   // Bildfader
-//Checkboxen
-if cb3.checked=true then cb:=cb+'1' else cb:=cb+'0';  // Rot left
-if cb4.checked=true then cb:=cb+'1' else cb:=cb+'0';  // Hor Mirror
-if cb5.checked=true then cb:=cb+'1' else cb:=cb+'0';  // Vert Mirror
-if cb33.checked=true then cb:=cb+'1' else cb:=cb+'0'; // Rot right
-//  Platzhalter für weitere Checkboxen
-cb:=cb+'000000';
-lb1.items[4]:=cb; // Bitreihe der Checkboxen
-// Pumpen
-z:=inttostr(sb17.position);
-zz:=lb1.items[4];
-lb1.items[4]:=zz+' '+z;  // Punpwert hinter den Checkboxen
-// Bild Delay
-lb1.items[5]:=inttostr(sb4.position);  // Fader Pic-Delay
-// Faderwerte rot / H / V
-lb1.items[6]:=inttostr(sb8.position);   // Hor
-lb1.items[7]:=inttostr(sb9.position);   // Vert
-lb1.items[8]:=inttostr(sb6.position);   // Rot
-//Bankschalter
-lb1.Items[9]:=inttostr(psw); // Bankschalter
-// Max. Drehwinkel
-lb1.items[10]:=inttostr(tb2.position);  // Drehwinkelbegrenzung
+  savedialog1.filterindex := 1;
+  cb := '';
+  // Speed und Blankdelay
+  lb1.items[0] := IntToStr(sb2.position); // Point Delay  ja
+  lb1.items[1] := IntToStr(sb3.position); // Blank Delay  nein
+  // Anzahl der Punkte,  Bilderfadermax;
+  lb1.items[2] := IntToStr(punkte);    // Anzahl der Punkte Bild1  ??
+  lb1.items[3] := IntToStr(sb1.max);   // Bildfader
+  //Checkboxen
+  if cb3.Checked = True then
+    cb := cb + '1'
+  else
+    cb := cb + '0';  // Rot left
+  if cb4.Checked = True then
+    cb := cb + '1'
+  else
+    cb := cb + '0';  // Hor Mirror
+  if cb5.Checked = True then
+    cb := cb + '1'
+  else
+    cb := cb + '0';  // Vert Mirror
+  if cb33.Checked = True then
+    cb := cb + '1'
+  else
+    cb := cb + '0'; // Rot right
+  //  Platzhalter für weitere Checkboxen
+  cb := cb + '000000';
+  lb1.items[4] := cb; // Bitreihe der Checkboxen
+  // Pumpen
+  z := IntToStr(sb17.position);
+  zz := lb1.items[4];
+  lb1.items[4] := zz + ' ' + z;  // Punpwert hinter den Checkboxen
+  // Bild Delay
+  lb1.items[5] := IntToStr(sb4.position);  // Fader Pic-Delay
+  // Faderwerte rot / H / V
+  lb1.items[6] := IntToStr(sb8.position);   // Hor
+  lb1.items[7] := IntToStr(sb9.position);   // Vert
+  lb1.items[8] := IntToStr(sb6.position);   // Rot
+  //Bankschalter
+  lb1.Items[9] := IntToStr(psw); // Bankschalter
+  // Max. Drehwinkel
+  lb1.items[10] := IntToStr(tb2.position);  // Drehwinkelbegrenzung
 
-lb1.items[11]:='1';
-lb1.items[12]:='1';
-lb1.items[13]:='1';
-lb1.items[14]:='1';
-lb1.items[15]:='1';
-lb1.items[16]:='1';
-lb1.items[17]:='1';
-lb1.items[18]:='1';
-lb1.items[19]:='1';     // Füller für WAS AUCH IMMER
+  lb1.items[11] := '1';
+  lb1.items[12] := '1';
+  lb1.items[13] := '1';
+  lb1.items[14] := '1';
+  lb1.items[15] := '1';
+  lb1.items[16] := '1';
+  lb1.items[17] := '1';
+  lb1.items[18] := '1';
+  lb1.items[19] := '1';     // Füller für WAS AUCH IMMER
 
-button2.click;
+  bStop.click;
 
-savedialog1.filterindex:=1;
-savedialog1.filename:=filelistbox1.filename;
-if savedialog1.execute then
- if FileExistsUTF8(savedialog1.filename) { *Converted from FileExists* } then
+  savedialog1.filterindex := 1;
+  savedialog1.filename := filelistbox1.filename;
+  if savedialog1.Execute then
+    if FileExistsUTF8(savedialog1.filename) { *Converted from FileExists* } then
     begin
-         if MessageDlg('File Exist' +#13#10
-                                    +#13#10+
-                       'Overwrite ?',
-                       mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-                       begin
-                         lb1.items.savetofile(savedialog1.filename);
-                         filelistbox1.update;
-                       end else exit;
+      if MessageDlg('File Exist' + #13#10 + #13#10 + 'Overwrite ?',
+        mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+      begin
+        lb1.items.savetofile(savedialog1.filename);
+        filelistbox1.update;
+      end
+      else
+        exit;
     end;
 
-   lb1.items.savetofile(savedialog1.filename); filelistbox1.update;
+  lb1.items.savetofile(savedialog1.filename);
+  filelistbox1.update;
 end;
 // ENDE Motfile Speichern
 
 // Löschen aus Fileliste
 procedure TForm1.menuClick(Sender: TObject);
-var filename:string;
+var
+  filename: string;
 begin
-filename:=filelistbox1.filename;
-if FileExistsUTF8(FileName) { *Converted from FileExists* } then
+  filename := filelistbox1.filename;
+  if FileExistsUTF8(FileName) { *Converted from FileExists* } then
 
-if MessageDlg('Are you sure you want to delete this File ?',
-    mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-    DeleteFileUTF8(FileName); { *Converted from DeleteFile* }filelistbox1.update;
-  end;
+    if MessageDlg('Are you sure you want to delete this File ?',
+      mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+      DeleteFileUTF8(FileName);
+  { *Converted from DeleteFile* }filelistbox1.update;
+end;
 
 // 3 x LPT Adresse wählen
 procedure TForm1.Hex3781Click(Sender: TObject);
-begin lptport:=888;panel8.caption:='Port=888'; end;
+begin
+  lptport := 888;
+  panel8.Caption := 'Port=888';
+end;
+
 procedure TForm1.H2781Click(Sender: TObject);
-begin lptport:=632;panel8.caption:='Port=632';end;
+begin
+  lptport := 632;
+  panel8.Caption := 'Port=632';
+end;
+
 procedure TForm1.Hex3BC1Click(Sender: TObject);
-begin lptport:=956;panel8.caption:='Port=956';end;
+begin
+  lptport := 956;
+  panel8.Caption := 'Port=956';
+end;
+
 procedure TForm1.EasyLaseUSB1Click(Sender: TObject);
 begin
-lptport:=999;panel8.caption:='USB EasyLase';
+  lptport := 999;
+  panel8.Caption := 'USB EasyLase';
 end;
 
 // Beenden
 procedure TForm1.Beenden1Click(Sender: TObject);
 begin
-cb12.checked:=false;
-status:=0;
-button2.click;
-//TODO:com.close;
-form1.close;
+  cb12.Checked := False;
+  status := 0;
+  bStop.click;
+  //TODO:com.close;
+  form1.Close;
 end;
 
 // Bildumschaltung
 procedure TForm1.sb1Change(Sender: TObject);
-var a:integer;
+var
+  a: integer;
 begin
-    label1.caption:='Bild Nr. ' +inttostr(sb1.position);
-    if status=0 then image_loeschen else image_loeschen_2;
-    a:=length(lb1.items[form1.sb1.position+20]);
-    panel29.caption:=inttostr(round(a/6));
-    punkte:=0;
-    rb2.checked:=true;
-    if status=0 then redraw;
-    punkte:=round(length(lb1.items[form1.sb1.position+20])/6);
+  label1.Caption := 'Bild Nr. ' + IntToStr(sb1.position);
+  if status = 0 then
+    image_loeschen
+  else
+    image_loeschen_2;
+  a := length(lb1.items[form1.sb1.position + 20]);
+  panel29.Caption := IntToStr(round(a / 6));
+  punkte := 0;
+  rb2.Checked := True;
+  if status = 0 then
+    redraw;
+  punkte := round(length(lb1.items[form1.sb1.position + 20]) / 6);
 end;
 
 //  Scrollbar P-Delay
 procedure TForm1.sb2Change(Sender: TObject);
 begin
- application.ProcessMessages;
- speed:=sb2.position;
- panel3.caption:=inttostr(sb2.position);
- // Performance timing
- Delay_pps:=sb2.position*10;
- USB_Speed:=sb2.position*10;
- Delay_Time:=Icounttime / Delay_PPS;
- Del_Time:=Round(Delay_Time);
+  application.ProcessMessages;
+  speed := sb2.position;
+  panel3.Caption := IntToStr(sb2.position);
+  // Performance timing
+  Delay_pps := sb2.position * 10;
+  USB_Speed := sb2.position * 10;
+  Delay_Time := Icounttime / Delay_PPS;
+  Del_Time := Round(Delay_Time);
 
 end;
 
 // Scrollbar B-Delay
 procedure TForm1.sb3Change(Sender: TObject);
 begin
- blankrepeats:=sb3.position; panel4.caption:=inttostr(sb3.position);
+  blankrepeats := sb3.position;
+  panel4.Caption := IntToStr(sb3.position);
 end;
 
 // Scrollbar Bild - Delay
 procedure TForm1.sb4Change(Sender: TObject);
 begin
-panel6.caption:=inttostr(sb4.position);
-timer5.interval:=100*sb4.position;
-punkte:=0;
+  panel6.Caption := IntToStr(sb4.position);
+  timer5.interval := 100 * sb4.position;
+  punkte := 0;
 end;
 
 // Scrollbar Rotationsgeschwindigkeit Z-Achse
 procedure TForm1.sb6Change(Sender: TObject);
 begin
-panel9.caption:=inttostr(sb6.position);panel9.refresh;
+  panel9.Caption := IntToStr(sb6.position);
+  panel9.refresh;
 end;
 
 // Scrollbar M-Delay Multiplikator für P-Delay
 procedure TForm1.sb7Change(Sender: TObject);
 begin
-panel10.caption:=inttostr(sb7.position);
-ASMNOPwert:=sb7.position*100;
+  panel10.Caption := IntToStr(sb7.position);
+  ASMNOPwert := sb7.position * 100;
 end;
 
 // Scrollbar Vertikale Rotationsgeschwindigkeit
 procedure TForm1.sb8Change(Sender: TObject);
 begin
-panel13.caption:=inttostr(sb8.position);
+  panel13.Caption := IntToStr(sb8.position);
 end;
 
 // Scrollbar Horizontale Rotationsgeschwindigkeit
 procedure TForm1.sb9Change(Sender: TObject);
 begin
-panel14.caption:=inttostr(sb9.position);
+  panel14.Caption := IntToStr(sb9.position);
 end;
 
 
 // Button "Start Ausgabe"
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TForm1.bStartClick(Sender: TObject);
 begin
-// Outputspeed
-USB_Speed:=sb2.position*10;
-Framesdraussen:=0;
-loadfile:=true;
-cb34.checked:=false;
-prozzyklusalt:=0;
-outputcounter:=0;
-Erster_Punkt_des_Bildes:=true;
-if lptport<>999 then timer4.enabled:=true; // pps Anzeit
-if sb3.position=0 then timer5.enabled:=false;
-button1.enabled:=false; button2.enabled:=true;
-porto:=0; winkel1:=0;DLZaehler:=0;
-sb1.position:=1;punkte:=0;pumpmax:=100;
-bildnr:=1;counter:=1;
-bildumschalten:=false;
-cb34.checked:=false;
-datei.enabled:=false;berpopelscan1.enabled:=false;shortcuts1.enabled:=false;
-sb1.enabled:=false;
-// Bildumschaltung
-timer5.enabled:=true; // Framenr
-if copy(form1.lb1.items[2+20],(punkte*6),1)='' then timer5.enabled:=false;
-if lb1.items[20+1]<>'' then
- begin
-  status:=1;
+  // Outputspeed
+  USB_Speed := sb2.position * 10;
+  Framesdraussen := 0;
+  loadfile := True;
+  cb34.Checked := False;
+  prozzyklusalt := 0;
+  outputcounter := 0;
+  Erster_Punkt_des_Bildes := True;
+  if lptport <> 999 then
+    timer4.Enabled := True; // pps Anzeit
+  if sb3.position = 0 then
+    timer5.Enabled := False;
+  bStart.Enabled := False;
+  bStop.Enabled := True;
+  porto := 0;
+  winkel1 := 0;
+  DLZaehler := 0;
+  sb1.position := 1;
+  punkte := 0;
+  pumpmax := 100;
+  bildnr := 1;
+  counter := 1;
+  bildumschalten := False;
+  cb34.Checked := False;
+  datei.Enabled := False;
+  berpopelscan1.Enabled := False;
+  shortcuts1.Enabled := False;
+  sb1.Enabled := False;
+  // Bildumschaltung
+  timer5.Enabled := True; // Framenr
+  if copy(form1.lb1.items[2 + 20], (punkte * 6), 1) = '' then
+    timer5.Enabled := False;
+  if lb1.items[20 + 1] <> '' then
+  begin
+    status := 1;
     repeat
-       ausgabe_lpt ;
-    until status=0;
+      ausgabe_lpt;
+    until status = 0;
   end;
- if ((status=0) and (form1.cb38.checked=false)) then blank_invert;
-
+  if ((status = 0) and (form1.cb38.Checked = False)) then
+    blank_invert;
 
 end;
 // Button "Widergabe Stopp"
-procedure TForm1.Button2Click(Sender: TObject);
+procedure TForm1.bStopClick(Sender: TObject);
 begin
-Status:=0;
-EasyLase_Stop;
-button1.enabled:=true;
-sb1.enabled:=true;
-timer1.enabled:=false;winkel1:=0;
-// outputcounter / Timer
-timer4.enabled:=false;
+  Status := 0;
+  EasyLase_Stop;
+  bStart.Enabled := True;
+  sb1.Enabled := True;
+  timer1.Enabled := False;
+  winkel1 := 0;
+  // outputcounter / Timer
+  timer4.Enabled := False;
 
-Application.ProcessMessages;
-datei.enabled:=true;berpopelscan1.enabled:=true;shortcuts1.enabled:=true;
-cb13.checked:=false;
-Application.ProcessMessages;
-
-panel52.caption:='0';
-Application.ProcessMessages;
-
-if (lb1.items[20]<>' ') and (Status=0) then
- begin
-  image_loeschen;
   Application.ProcessMessages;
-  punkte:=0;
-  sb1.position:=1;bildnr:=1;
-  punkte:=0;
-  redraw;
+  datei.Enabled := True;
+  berpopelscan1.Enabled := True;
+  shortcuts1.Enabled := True;
+  cb13.Checked := False;
   Application.ProcessMessages;
- end;
-if ((Status=0) and (cb38.checked=false )) then
- begin
-    Blank_invert;
-    timer4.enabled:=false;
-    timer5.enabled:=false;
- end;
 
-punkte:=0;
+  panel52.Caption := '0';
+  Application.ProcessMessages;
 
-
-//Blanken und auf " 0 Output setzen "
-if status=0 then
+  if (lb1.items[20] <> ' ') and (Status = 0) then
   begin
-    if cb38.checked=false then
-      begin
-        Ausgabe_128;
-        Blank_invert;
-        exit;
-      end else
-      begin
-        Ausgabe_128_TTL;
-        exit;
-      end;
- end;
+    image_loeschen;
+    Application.ProcessMessages;
+    punkte := 0;
+    sb1.position := 1;
+    bildnr := 1;
+    punkte := 0;
+    redraw;
+    Application.ProcessMessages;
+  end;
+  if ((Status = 0) and (cb38.Checked = False)) then
+  begin
+    Blank_invert;
+    timer4.Enabled := False;
+    timer5.Enabled := False;
+  end;
+
+  punkte := 0;
+
+
+  //Blanken und auf " 0 Output setzen "
+  if status = 0 then
+  begin
+    if cb38.Checked = False then
+    begin
+      Ausgabe_128;
+      Blank_invert;
+      exit;
+    end
+    else
+    begin
+      Ausgabe_128_TTL;
+      exit;
+    end;
+  end;
 
 end;
 
 
 // Ausgabe Koordinaten auf Panel
-procedure TForm1.i1MouseMove(Sender: TObject; Shift: TShiftState; X,
-  Y: Integer);
+procedure TForm1.iOutputMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
 begin
-panel5.caption:=inttostr(x)+' / '+inttostr(y);
+  panel5.Caption := IntToStr(x) + ' / ' + IntToStr(y);
 end;
 
 // Neuer Punkt  - - - Zeichnen - - -
-procedure TForm1.i1MouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
+procedure TForm1.iOutputMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: integer);
 begin
-if status= 0 then
- begin
-
- if ssleft in shift then
+  if status = 0 then
   begin
-   if lastcolor=2 then rb2.checked:=true;
-   if lastcolor=4 then rb3.checked:=true;
-   if lastcolor=8 then rb4.checked:=true;
-   if lastcolor=6 then rb11.checked:=true;
-   if lastcolor=10 then rb12.checked:=true;
-   if lastcolor=12 then rb13.checked:=true;
-   if lastcolor=14 then rb14.checked:=true;
-   dcolor:=lastcolor;
-  end ;
 
-if ssright in shift then
-  begin
-   if rb2.checked=true then lastcolor:=2;
-   if rb3.checked=true then lastcolor:=4;
-   if rb4.checked=true then lastcolor:=8;
-   if rb11.checked=true then lastcolor:=6;
-   if rb12.checked=true then lastcolor:=10;
-   if rb13.checked=true then lastcolor:=12;
-   if rb14.checked=true then lastcolor:=14;
-   port:=1; rb1.checked:=true;
+    if ssleft in shift then
+    begin
+      if lastcolor = 2 then
+        rb2.Checked := True;
+      if lastcolor = 4 then
+        rb3.Checked := True;
+      if lastcolor = 8 then
+        rb4.Checked := True;
+      if lastcolor = 6 then
+        rb11.Checked := True;
+      if lastcolor = 10 then
+        rb12.Checked := True;
+      if lastcolor = 12 then
+        rb13.Checked := True;
+      if lastcolor = 14 then
+        rb14.Checked := True;
+      dcolor := lastcolor;
+    end;
+
+    if ssright in shift then
+    begin
+      if rb2.Checked = True then
+        lastcolor := 2;
+      if rb3.Checked = True then
+        lastcolor := 4;
+      if rb4.Checked = True then
+        lastcolor := 8;
+      if rb11.Checked = True then
+        lastcolor := 6;
+      if rb12.Checked = True then
+        lastcolor := 10;
+      if rb13.Checked = True then
+        lastcolor := 12;
+      if rb14.Checked = True then
+        lastcolor := 14;
+      port := 1;
+      rb1.Checked := True;
+    end;
+    xneu := x;
+    yneu := y;
+    // Runden  ? ? ?
+    if cb1.Checked = True then
+    begin
+      xneu := round(xneu / raster) * raster;
+      yneu := round(yneu / raster) * raster;
+    end
+    else
+    begin
+      xneu := x;
+      yneu := y;
+    end;
+    // Drawmode
+    if drawmode = 'lines' then
+    begin
+      if cb39.Checked = True then
+        Linie_interpolieren
+      else
+        zeichnen;
+    end;
+
+    if drawmode = 'circle' then
+    begin
+      Kreis_malen;
+    end;
+    punkte := round(length(lb1.items[form1.sb1.position + 20]) / 6);
+    lb1.items[2] := IntToStr(punkte);
   end;
-xneu:=x;yneu:=y;
-// Runden  ? ? ?
-if cb1.checked=true then
-  begin
-    xneu:=round(xneu/raster)*raster;
-    yneu:=round(yneu/raster)*raster;
-  end else
-  begin
-  xneu:=x;yneu:=y;
-  end;
-  // Drawmode
-    if drawmode='lines' then
-     begin
-      if cb39.checked=true then Linie_interpolieren else zeichnen;
-     end;
-
-     if drawmode='circle' then
-     begin
-       Kreis_malen;
-     end;
-    punkte:=round(length(lb1.items[form1.sb1.position+20])/6);
-    lb1.items[2]:=inttostr(punkte);
- end;
- // Thorstens Bildpunkte
- panel29.caption:=inttostr(round(punkte));
+  // Thorstens Bildpunkte
+  panel29.Caption := IntToStr(round(punkte));
 end;
 
 
 // RB 1 Blank
 procedure TForm1.rb1Click(Sender: TObject);
 begin
- if rb1.checked=true then begin Port:=1; Dcolor:=1; end;
+  if rb1.Checked = True then
+  begin
+    Port := 1;
+    Dcolor := 1;
+  end;
 end;
 // RB 2 Red
 procedure TForm1.rb2Click(Sender: TObject);
 begin
-if rb2.checked=true then begin Port:=2;Dcolor:=2;lastcolor:=2; end;
+  if rb2.Checked = True then
+  begin
+    Port := 2;
+    Dcolor := 2;
+    lastcolor := 2;
+  end;
 end;
 // RB 3 Green
 procedure TForm1.rb3Click(Sender: TObject);
 begin
-if rb3.checked=true then begin Port:=4; Dcolor:=4; lastcolor:=4; end;
+  if rb3.Checked = True then
+  begin
+    Port := 4;
+    Dcolor := 4;
+    lastcolor := 4;
+  end;
 end;
 //RB 4 Blue
 procedure TForm1.rb4Click(Sender: TObject);
 begin
-if rb4.checked=true then begin Port:=8;Dcolor:=8;lastcolor:=8;  end;
+  if rb4.Checked = True then
+  begin
+    Port := 8;
+    Dcolor := 8;
+    lastcolor := 8;
+  end;
 end;
 
 // Laden von Listbos per Mausklick
 procedure TForm1.FileListBox1Click(Sender: TObject);
-var filename,name:string;a:integer;
+var
+  filename, Name: string;
+  a: integer;
 begin
 
-if loadfile=false then
-repeat application.ProcessMessages until loadfile=true;
-loadfile:=false;
-winkel:=180;winkhor:=180;winkver:=180; winkel1:=360;punkte:=0;
-application.ProcessMessages;
-// Mediaplayer MOT to MP3  ? ?
-// Läuft Player ?
+  if loadfile = False then
+    repeat
+      application.ProcessMessages
+    until loadfile = True;
+  loadfile := False;
+  winkel := 180;
+  winkhor := 180;
+  winkver := 180;
+  winkel1 := 360;
+  punkte := 0;
+  application.ProcessMessages;
+  // Mediaplayer MOT to MP3  ? ?
+  // Läuft Player ?
 {TODO:
 if mediaplayer1.filename<>''  then
   begin
@@ -1337,186 +1536,240 @@ if mediaplayer1.filename<>''  then
   end;
 }
 
-if status=1 then
- begin
-  if form1.cb38.checked=false then blank_invert;
-  image_loeschen;
-   if lb1.items[20]<>' ' then
-     begin
-      linie:=20;
+  if status = 1 then
+  begin
+    if form1.cb38.Checked = False then
+      blank_invert;
+    image_loeschen;
+    if lb1.items[20] <> ' ' then
+    begin
+      linie := 20;
       redraw;
-     end;
+    end;
 
-  a:=1; Application.ProcessMessages;
- end;
+    a := 1;
+    Application.ProcessMessages;
+  end;
 
-filename:=filelistbox1.filename;
-if FileExistsUTF8(filelistbox1.filename) { *Converted from FileExists* } then
- begin
-   winkel:=0;winkhor:=0;winkver:=0;
-   Live_file:=filename;
-   if memo3.lines.count< 27 then
-     begin
-       memo3.lines.add(filename);
-       panel_update;
-     end;
-   lb1.items.loadfromfile(filename);
-   lb1.refresh;
-   SB1.position:=0;
-   punkte:=0;linie:=20;
-   neuzeichnen; image_loeschen; redraw;
-   sb4.position:=strtoint(lb1.items[5]);
-   panel6.caption:=inttostr(sb4.position);
- 
-   // Ende Punkte ermitteln  }
-   Faderupdate;
-     if a=1 then
-      begin
-        button1.click; Application.ProcessMessages;
-        a:=0; Application.ProcessMessages;
-      end;
-  end else MessageDlg('File nicht vorhanden', mtInformation, [mbOK], 0);
-loadfile:=true;
+  filename := filelistbox1.filename;
+  if FileExistsUTF8(filelistbox1.filename) { *Converted from FileExists* } then
+  begin
+    winkel := 0;
+    winkhor := 0;
+    winkver := 0;
+    Live_file := filename;
+    if memo3.Lines.Count < 27 then
+    begin
+      memo3.Lines.add(filename);
+      panel_update;
+    end;
+    lb1.items.loadfromfile(filename);
+    lb1.refresh;
+    SB1.position := 0;
+    punkte := 0;
+    linie := 20;
+    neuzeichnen;
+    image_loeschen;
+    redraw;
+    sb4.position := StrToInt(lb1.items[5]);
+    panel6.Caption := IntToStr(sb4.position);
+
+    // Ende Punkte ermitteln  }
+    Faderupdate;
+    if a = 1 then
+    begin
+      bStart.click;
+      Application.ProcessMessages;
+      a := 0;
+      Application.ProcessMessages;
+    end;
+  end
+  else
+    MessageDlg('File nicht vorhanden', mtInformation, [mbOK], 0);
+  loadfile := True;
 end;
 // Löschen von Listbox
 procedure TForm1.DeletefromFilelist1Click(Sender: TObject);
-var filename:string;
+var
+  filename: string;
 begin
-filename:=filelistbox1.filename;
-if FileExistsUTF8(FileName) { *Converted from FileExists* } then
+  filename := filelistbox1.filename;
+  if FileExistsUTF8(FileName) { *Converted from FileExists* } then
 
-if MessageDlg('Are you sure you want to delete this File ?',
-    mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-    DeleteFileUTF8(FileName); { *Converted from DeleteFile* }filelistbox1.update;
-  end;
+    if MessageDlg('Are you sure you want to delete this File ?',
+      mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+      DeleteFileUTF8(FileName);
+  { *Converted from DeleteFile* }filelistbox1.update;
+end;
 
 // UNDO Button
 procedure TForm1.Button3Click(Sender: TObject);
-var a:integer;b:string;
+var
+  a: integer;
+  b: string;
 begin
-// steht  was drin ? ?
-if  copy(form1.lb1.items[form1.sb1.position+20],1,1)<>''then
- begin
-    b:=form1.lb1.items[form1.sb1.position+20];
-    a:=length(b);
-    form1.lb1.items[form1.sb1.position+20]:=
-    copy(form1.lb1.items[form1.sb1.position+20],1,(a-6));
+  // steht  was drin ? ?
+  if copy(form1.lb1.items[form1.sb1.position + 20], 1, 1) <> '' then
+  begin
+    b := form1.lb1.items[form1.sb1.position + 20];
+    a := length(b);
+    form1.lb1.items[form1.sb1.position + 20] :=
+      copy(form1.lb1.items[form1.sb1.position + 20], 1, (a - 6));
     lb1.refresh;
     image_loeschen;
-    if bildda=1 then
+    if bildda = 1 then
     begin
-    punkte:=0;
-      i1.canvas.stretchdraw(rect(0,0,256,256),bild);
+      punkte := 0;
+      iOutput.canvas.stretchdraw(rect(0, 0, 256, 256), bild);
       redraw;
-    end else
+    end
+    else
     begin
-     punkte:=0;
-     redraw;
+      punkte := 0;
+      redraw;
     end;
 
-    punkte:=round(length(lb1.items[form1.sb1.position+20])/6);
-    
- end;
+    punkte := round(length(lb1.items[form1.sb1.position + 20]) / 6);
+
+  end;
 end;
 
 procedure TForm1.SaveSettings1Click(Sender: TObject);
-var INI:string;
+var
+  INI: string;
 begin
-// Sichern LPT Adresse
-memo2.lines[0]:='LPT Adress';memo2.lines[1]:=inttostr(lptport);
-// Sichern SB7  M-Delay
-memo2.lines[2]:='M-Delay';memo2.lines[3]:=inttostr(sb7.position);
-// Sichern Drive
-//TODO:memo2.lines[4]:='Drive';memo2.lines[5]:=drivecombobox1.Drive;
-// Sichern aktuelles Verzeichnis
-//TODO:memo2.lines[6]:='Directory';memo2.lines[7]:=Dlb1.Directory;;
-// Sichern SB2  P-Delay
-memo2.lines[8]:='P-Delay';memo2.lines[9]:=inttostr(sb2.position);
-// Sichern SB 3 Blank-Delay
-memo2.lines[10]:='Blank-Delay';memo2.lines[11]:=inttostr(sb3.position);
-// Sichern SB 8 V Hor
-memo2.lines[12]:='V Hor';memo2.lines[13]:=inttostr(sb8.position);
-// Sichern SB 9 V Ver
-memo2.lines[14]:='V Vert';memo2.lines[15]:=inttostr(sb9.position);
-// Sichern SB 6 V Rot
-memo2.lines[16]:='V Rot';memo2.lines[17]:=inttostr(sb6.position);
-// Sichen SB 7  Multiplikator
-memo2.lines[18]:='Multiplikator';memo2.lines[19]:=inttostr(sb7.position);
-// Sichen SB 16  Gain
-memo2.lines[20]:='Gain';memo2.lines[21]:=inttostr(sb16.position);
-// Sichern CB 9  Invert X
-memo2.lines[22]:='Invert X';
-if cb9.checked=true then memo2.lines[23]:='1' else memo2.lines[23]:='0';
-// Sichern CB 10  Invert y
-memo2.lines[24]:='Invert Y';
-if cb10.checked=true then memo2.lines[25]:='1' else memo2.lines[25]:='0';
-// Sichern CB 9  Swap x/y
-memo2.lines[26]:='Invert X';
-if cb11.checked=true then memo2.lines[27]:='1' else memo2.lines[27]:='0';
-// Sichern Comport
-//TODO:memo2.lines[28]:='Comport'; memo2.lines[29]:=inttostr(com.port);
-// Sichern CB 37 Invert Blank
-memo2.lines[30]:='Invert blank';
-if cb37.checked=true then memo2.lines[31]:='1' else memo2.lines[31]:='0';
-// Sichern CB38 Switch PCB
-memo2.lines[32]:='Switch PCB';
-if cb38.checked=true then memo2.lines[33]:='1' else memo2.lines[33]:='0';
-// Sichern CB25 Key Previev
-memo2.lines[34]:='Key Previev';
-if cb35.checked=true then memo2.lines[35]:='1' else memo2.lines[35]:='0';
-// Sichern Aktive Page
-memo2.lines[36]:='Active3 Page';
-if pg2.ActivePage=banks then memo2.lines[37]:='1';
-if pg2.ActivePage=mp3   then memo2.lines[37]:='2';
-if pg2.ActivePage=live  then memo2.lines[37]:='3';
-if pg2.ActivePage=midi  then memo2.lines[37]:='4';
-//Sichern Interpolate Lines
-memo2.lines[38]:='Key Previev';
-if cb39.checked=true then memo2.lines[39]:='1' else memo2.lines[39]:='0';
+  // Sichern LPT Adresse
+  memo2.Lines[0] := 'LPT Adress';
+  memo2.Lines[1] := IntToStr(lptport);
+  // Sichern SB7  M-Delay
+  memo2.Lines[2] := 'M-Delay';
+  memo2.Lines[3] := IntToStr(sb7.position);
+  // Sichern Drive
+  //TODO:memo2.lines[4]:='Drive';memo2.lines[5]:=drivecombobox1.Drive;
+  // Sichern aktuelles Verzeichnis
+  //TODO:memo2.lines[6]:='Directory';memo2.lines[7]:=Dlb1.Directory;;
+  // Sichern SB2  P-Delay
+  memo2.Lines[8] := 'P-Delay';
+  memo2.Lines[9] := IntToStr(sb2.position);
+  // Sichern SB 3 Blank-Delay
+  memo2.Lines[10] := 'Blank-Delay';
+  memo2.Lines[11] := IntToStr(sb3.position);
+  // Sichern SB 8 V Hor
+  memo2.Lines[12] := 'V Hor';
+  memo2.Lines[13] := IntToStr(sb8.position);
+  // Sichern SB 9 V Ver
+  memo2.Lines[14] := 'V Vert';
+  memo2.Lines[15] := IntToStr(sb9.position);
+  // Sichern SB 6 V Rot
+  memo2.Lines[16] := 'V Rot';
+  memo2.Lines[17] := IntToStr(sb6.position);
+  // Sichen SB 7  Multiplikator
+  memo2.Lines[18] := 'Multiplikator';
+  memo2.Lines[19] := IntToStr(sb7.position);
+  // Sichen SB 16  Gain
+  memo2.Lines[20] := 'Gain';
+  memo2.Lines[21] := IntToStr(sb16.position);
+  // Sichern CB 9  Invert X
+  memo2.Lines[22] := 'Invert X';
+  if cb9.Checked = True then
+    memo2.Lines[23] := '1'
+  else
+    memo2.Lines[23] := '0';
+  // Sichern CB 10  Invert y
+  memo2.Lines[24] := 'Invert Y';
+  if cb10.Checked = True then
+    memo2.Lines[25] := '1'
+  else
+    memo2.Lines[25] := '0';
+  // Sichern CB 9  Swap x/y
+  memo2.Lines[26] := 'Invert X';
+  if cb11.Checked = True then
+    memo2.Lines[27] := '1'
+  else
+    memo2.Lines[27] := '0';
+  // Sichern Comport
+  //TODO:memo2.lines[28]:='Comport'; memo2.lines[29]:=inttostr(com.port);
+  // Sichern CB 37 Invert Blank
+  memo2.Lines[30] := 'Invert blank';
+  if cb37.Checked = True then
+    memo2.Lines[31] := '1'
+  else
+    memo2.Lines[31] := '0';
+  // Sichern CB38 Switch PCB
+  memo2.Lines[32] := 'Switch PCB';
+  if cb38.Checked = True then
+    memo2.Lines[33] := '1'
+  else
+    memo2.Lines[33] := '0';
+  // Sichern CB25 Key Previev
+  memo2.Lines[34] := 'Key Previev';
+  if cb35.Checked = True then
+    memo2.Lines[35] := '1'
+  else
+    memo2.Lines[35] := '0';
+  // Sichern Aktive Page
+  memo2.Lines[36] := 'Active3 Page';
+  if pg2.ActivePage = banks then
+    memo2.Lines[37] := '1';
+  if pg2.ActivePage = mp3 then
+    memo2.Lines[37] := '2';
+  if pg2.ActivePage = live then
+    memo2.Lines[37] := '3';
+  if pg2.ActivePage = midi then
+    memo2.Lines[37] := '4';
+  //Sichern Interpolate Lines
+  memo2.Lines[38] := 'Key Previev';
+  if cb39.Checked = True then
+    memo2.Lines[39] := '1'
+  else
+    memo2.Lines[39] := '0';
 
-// getdir(0,hauptverzeichnis);
-ini:=hauptverzeichnis+'\ini.dat';
-    if MessageDlg('Save Settings to' +#13#10+#13#10+ini+#13#10,
-    mtConfirmation, [mbYes,mbNo], 0) = mryes then
-    memo2.lines.savetofile(ini) else exit;
+  // getdir(0,hauptverzeichnis);
+  ini := hauptverzeichnis + '\ini.dat';
+  if MessageDlg('Save Settings to' + #13#10 + #13#10 + ini + #13#10,
+    mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    memo2.Lines.savetofile(ini)
+  else
+    exit;
 end;
 
 
 // Ereignis " Taste gedrückt "
-procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TForm1.FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
-taborder:=7;
-//if pg2.activepage=live then
-// begin
-  form1.pg2.setfocus;
-  taste:=key;
+  taborder := 7;
+  //if pg2.activepage=live then
+  // begin
+  form1.pg2.SetFocus;
+  taste := key;
   Live_Abruf;
- 
-// end;
+
+  // end;
 end;
 
 
 // BMP zum abmalen laden
 procedure TForm1.Button4Click(Sender: TObject);
 begin
- punkte:=0;
- port:=2;rb2.checked:=true;
- // Bild laden
-opendialog1.filterindex:=2;
-if opendialog1.execute then
-bild.loadfromfile(opendialog1.filename);
-bildfile:=opendialog1.filename;
-opendialog1.filterindex:=1;bildda:=1;
-i1.canvas.stretchdraw(rect(0,0,256,256),bild);
-application.ProcessMessages;
-redraw;
-punkte:=round(length(lb1.items[form1.sb1.position+20])/6);
+  punkte := 0;
+  port := 2;
+  rb2.Checked := True;
+  // Bild laden
+  opendialog1.filterindex := 2;
+  if opendialog1.Execute then
+    bild.loadfromfile(opendialog1.filename);
+  bildfile := opendialog1.filename;
+  opendialog1.filterindex := 1;
+  bildda := 1;
+  iOutput.canvas.stretchdraw(rect(0, 0, 256, 256), bild);
+  application.ProcessMessages;
+  redraw;
+  punkte := round(length(lb1.items[form1.sb1.position + 20]) / 6);
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
-  bild.free;
+  bild.Free;
   {$IFDEF WINDOWS}
   easylaseclose;
   {$ENDIF}
@@ -1525,176 +1778,272 @@ end;
 // Bild ausblenden
 procedure TForm1.Button5Click(Sender: TObject);
 begin
-   if bildda=1 then
-    begin
-     image_loeschen;
-     bildda:=0;
-     bildfile:='';
-     punkte:=0;
-     redraw;
-     punkte:=round(length(lb1.items[form1.sb1.position+20])/6);
-    end;
+  if bildda = 1 then
+  begin
+    image_loeschen;
+    bildda := 0;
+    bildfile := '';
+    punkte := 0;
+    redraw;
+    punkte := round(length(lb1.items[form1.sb1.position + 20]) / 6);
+  end;
 end;
 
 //Beginn Lissajours
 procedure TForm1.cb12Click(Sender: TObject);
-var a1,a2,w1,w2:extended;p,pp,bild:integer;
+var
+  a1, a2, w1, w2: extended;
+  p, pp, bild: integer;
 
 begin
-if cb12.enabled=true then
+  if cb12.Enabled = True then
   begin
 
-     button2.click;image_loeschen;
-     status:=1; a1:=0;a2:=0; bild:=0;
-      repeat
-         w1:=sb10.position; w1:=w1/50;w2:=sb11.position; w2:=w2/50;
-         xneu:=round(sin(a1/57.3)*sb12.position)+125;
-         yneu:=round(cos(a2/57.3)*sb13.position)+125;
+    bStop.click;
+    image_loeschen;
+    status := 1;
+    a1 := 0;
+    a2 := 0;
+    bild := 0;
+    repeat
+      w1 := sb10.position;
+      w1 := w1 / 50;
+      w2 := sb11.position;
+      w2 := w2 / 50;
+      xneu := round(sin(a1 / 57.3) * sb12.position) + 125;
+      yneu := round(cos(a2 / 57.3) * sb13.position) + 125;
 
-         if bild=0 then  form1.i1.Canvas.MoveTo(xneu,yneu) else i1.Canvas.lineTo(xneu,yneu);
-         //Ausgabe  ..geht nicht bei inv. blanking
-         Ausgabe_lis;
-         if cb37.checked=true then laseran:=1 else laseran:=0;
-         bild:=1;
-         //Pause
-         for p:=1 to (form1.sb2.position*form1.sb7.position) do
-         begin application.ProcessMessages;pp:=pp+1;end;
+      if bild = 0 then
+        form1.iOutput.Canvas.MoveTo(xneu, yneu)
+      else
+        iOutput.Canvas.lineTo(xneu, yneu);
+      //Ausgabe  ..geht nicht bei inv. blanking
+      Ausgabe_lis;
+      if cb37.Checked = True then
+        laseran := 1
+      else
+        laseran := 0;
+      bild := 1;
+      //Pause
+      for p := 1 to (form1.sb2.position * form1.sb7.position) do
+      begin
+        application.ProcessMessages;
+        pp := pp + 1;
+      end;
 
-         a1:=a1+w1;a2:=a2+w2; if a1>=360 then
-            begin
-              a1:=0;bild:=0;form1.i1.canvas.Brush.color:=clbtnface;
-              form1.i1.Canvas.FillRect(rect(0,0,258,258));
-            end;
-        if a2>=360 then a2:=0;
-       until cb12.checked=false;
-       // Bei Liss-Ende
-       image_loeschen;
-       blank_invert;
+      a1 := a1 + w1;
+      a2 := a2 + w2;
+      if a1 >= 360 then
+      begin
+        a1 := 0;
+        bild := 0;
+        form1.iOutput.canvas.Brush.color := clbtnface;
+        form1.iOutput.Canvas.FillRect(rect(0, 0, 258, 258));
+      end;
+      if a2 >= 360 then
+        a2 := 0;
+    until cb12.Checked = False;
+    // Bei Liss-Ende
+    image_loeschen;
+    blank_invert;
   end;
 end;
 // Lissajour Frequenz/ Spannung
 procedure TForm1.sb11Change(Sender: TObject);
-begin panel12.caption:=inttostr(sb11.position);end;
+begin
+  panel12.Caption := IntToStr(sb11.position);
+end;
+
 procedure TForm1.sb10Change(Sender: TObject);
-begin panel11.caption:=inttostr(sb10.position);end;
+begin
+  panel11.Caption := IntToStr(sb10.position);
+end;
+
 procedure TForm1.sb12Change(Sender: TObject);
-begin panel15.caption:=inttostr(sb12.position);end;
+begin
+  panel15.Caption := IntToStr(sb12.position);
+end;
+
 procedure TForm1.sb13Change(Sender: TObject);
-begin panel16.caption:=inttostr(sb13.position);end;
+begin
+  panel16.Caption := IntToStr(sb13.position);
+end;
 // Ende Lissajours
 
 // Begin Rasterwahl
 procedure TForm1.rb5Click(Sender: TObject);
-begin if Rb5.checked=true then Raster:=16;end;
+begin
+  if Rb5.Checked = True then
+    Raster := 16;
+end;
 
 procedure TForm1.rb6Click(Sender: TObject);
-begin if Rb6.checked=true then Raster:=8; end;
+begin
+  if Rb6.Checked = True then
+    Raster := 8;
+end;
 
 procedure TForm1.rb7Click(Sender: TObject);
-begin if Rb7.checked=true then Raster:=4; end;
+begin
+  if Rb7.Checked = True then
+    Raster := 4;
+end;
 // Ende Rasterwahl
 
 
 // Live Player Öffenen
 procedure TForm1.Start1Click(Sender: TObject);
 begin
-cb12.checked:=false;
-cb35.checked:=true;
+  cb12.Checked := False;
+  cb35.Checked := True;
 
 end;
 //Live Settings speichern
 procedure TForm1.Button6Click(Sender: TObject);
 begin
-  savedialog1.filterindex:=3;if savedialog1.execute then
-  memo3.lines.savetofile(savedialog1.filename);
+  savedialog1.filterindex := 3;
+  if savedialog1.Execute then
+    memo3.Lines.savetofile(savedialog1.filename);
 end;
 //Live Settings laden
 procedure TForm1.Button7Click(Sender: TObject);
 begin
- opendialog1.filterindex:=3; if opendialog1.execute then
- memo3.lines.loadfromfile(opendialog1.filename);
- panel_update;
+  opendialog1.filterindex := 3;
+  if opendialog1.Execute then
+    memo3.Lines.loadfromfile(opendialog1.filename);
+  panel_update;
 end;
 
 // Live Settings löschen
 procedure TForm1.Button8Click(Sender: TObject);
 begin
-memo3.lines.clear;
-memo3.lines.add('Live Settings');
-panel_update;
+  memo3.Lines.Clear;
+  memo3.Lines.add('Live Settings');
+  panel_update;
 end;
 
 procedure TForm1.Hilfe2Click(Sender: TObject);
-var a:string;
+var
+  a: string;
 begin
-a:=hauptverzeichnis+'\hilfe.html';
-//executefile(a,'','',1);
+  a := hauptverzeichnis + '\hilfe.html';
+  //executefile(a,'','',1);
 end;
 
 
 
 procedure TForm1.cb13Click(Sender: TObject);
 begin
-if cb13.checked=true then
- begin
-    if filelistbox1.Items.Count>1 then
-     begin
-       Timer1.enabled:=true;
-       zufall:=1;
-        
-     end;
- end else
- begin
-  timer1.enabled:=false;
-  zufall:=0;
+  if cb13.Checked = True then
+  begin
+    if filelistbox1.Items.Count > 1 then
+    begin
+      Timer1.Enabled := True;
+      zufall := 1;
 
- end;
+    end;
+  end
+  else
+  begin
+    timer1.Enabled := False;
+    zufall := 0;
+
+  end;
 end;
 // Timer für Zufallswiedergabe
 procedure TForm1.Timer1Timer(Sender: TObject);
-var L,a:integer;
-var b:extended;
+var
+  L, a: integer;
+var
+  b: extended;
 begin
-if cb31.checked=true then
+  if cb31.Checked = True then
   begin
-     b:=60/(strtoint(panel28.caption));
-     b:=b*1000;
-     a:=round(b);
-     timer1.interval:=a;
-     end else  timer1.interval:=sb14.position*1000;
-   
-panel28.color:=clred;
-L:=Random(filelistbox1.Items.Count);
-if L=0 then L:=1;
- filelistbox1.Itemindex:=L;
- panel28.color:=clbtnface;
- FileListBox1Click(sender);
+    b := 60 / (StrToInt(panel28.Caption));
+    b := b * 1000;
+    a := round(b);
+    timer1.interval := a;
+  end
+  else
+    timer1.interval := sb14.position * 1000;
+
+  panel28.color := clred;
+  L := Random(filelistbox1.Items.Count);
+  if L = 0 then
+    L := 1;
+  filelistbox1.ItemIndex := L;
+  panel28.color := clbtnface;
+  FileListBox1Click(Sender);
 end;
 
 procedure TForm1.sb14Change(Sender: TObject);
 begin
-timer1.interval:=sb14.position*1000;
-panel27.caption:=inttostr(sb14.position)+' sec';
+  timer1.interval := sb14.position * 1000;
+  panel27.Caption := IntToStr(sb14.position) + ' sec';
 end;
 // Bankschalter Radiobuttons
 procedure TForm1.bs1Click(Sender: TObject);
-begin psw:=1;if status=0 then ausgabe_bsw;end;
+begin
+  psw := 1;
+  if status = 0 then
+    ausgabe_bsw;
+end;
+
 procedure TForm1.bs2Click(Sender: TObject);
-begin psw:=2;if status=0 then ausgabe_bsw;end;
+begin
+  psw := 2;
+  if status = 0 then
+    ausgabe_bsw;
+end;
+
 procedure TForm1.bs3Click(Sender: TObject);
-begin psw:=4;if status=0 then ausgabe_bsw;end;
+begin
+  psw := 4;
+  if status = 0 then
+    ausgabe_bsw;
+end;
+
 procedure TForm1.bs4Click(Sender: TObject);
-begin psw:=8;if status=0 then ausgabe_bsw;end;
+begin
+  psw := 8;
+  if status = 0 then
+    ausgabe_bsw;
+end;
+
 procedure TForm1.bs5Click(Sender: TObject);
-begin psw:=16;if status=0 then ausgabe_bsw;end;
+begin
+  psw := 16;
+  if status = 0 then
+    ausgabe_bsw;
+end;
+
 procedure TForm1.bs6Click(Sender: TObject);
-begin psw:=32;if status=0 then ausgabe_bsw;end;
+begin
+  psw := 32;
+  if status = 0 then
+    ausgabe_bsw;
+end;
+
 procedure TForm1.bs7Click(Sender: TObject);
-begin psw:=64;if status=0 then ausgabe_bsw;end;
+begin
+  psw := 64;
+  if status = 0 then
+    ausgabe_bsw;
+end;
+
 procedure TForm1.bs8Click(Sender: TObject);
-begin psw:=128;if status=0 then ausgabe_bsw;end;
+begin
+  psw := 128;
+  if status = 0 then
+    ausgabe_bsw;
+end;
+
 procedure TForm1.bs9Click(Sender: TObject);
-begin psw:=0;if status=0 then ausgabe_bsw;end;
+begin
+  psw := 0;
+  if status = 0 then
+    ausgabe_bsw;
+end;
 
 procedure TForm1.Com11Click(Sender: TObject);
 begin
@@ -1715,20 +2064,24 @@ end;
 
 procedure TForm1.pg2Change(Sender: TObject);
 begin
-if pg2.activepage=live then form1.pg2.setfocus;
+  if pg2.ActivePage = live then
+    form1.pg2.SetFocus;
 end;
 
 
 procedure TForm1.Panel9Click(Sender: TObject);
 begin
-if panel9.color=clbtnface then panel9.color:=clred else
-panel9.color:=clbtnface;
+  if panel9.color = clbtnface then
+    panel9.color := clred
+  else
+    panel9.color := clbtnface;
 end;
 
 procedure TForm1.sb17Change(Sender: TObject);
 begin
-panel33.caption:=inttostr(sb17.position);
-if sb17.position=0 then pumpmax:=100;
+  panel33.Caption := IntToStr(sb17.position);
+  if sb17.position = 0 then
+    pumpmax := 100;
 end;
 
 procedure TForm1.dlb1Change(Sender: TObject);
@@ -1737,10 +2090,11 @@ begin
 end;
 // MP3 laden
 procedure TForm1.Button9Click(Sender: TObject);
-var liedname,aktpfad:string;
+var
+  liedname, aktpfad: string;
 begin
-button12.click;
-opendialog1.FilterIndex:=4;
+  button12.click;
+  opendialog1.FilterIndex := 4;
 {
 if opendialog1.execute then liedname:=opendialog1.filename;
  if liedname<>'' then
@@ -1775,7 +2129,7 @@ begin
 if mediaplayer1.filename<>'' then
   begin
    mediaplayer1.Pause;
-   cuepos:=mediaplayer1.position; 
+   cuepos:=mediaplayer1.position;
    panel34.caption:=inttostr( mediaplayer1.position);
    cuepos:=mediaplayer1.position;
   end;
@@ -1791,7 +2145,7 @@ if mediaplayer1.filename<>'' then
   timer2.enabled:=false;
   mediaplayer1.position:=0;tb1.position:=0;
   panel34.caption:='0';panel34.refresh;lastpos:=0;cuepos:=0;
-  button2.click;
+  bStop.click;
  end;
 }
 end;
@@ -1819,7 +2173,7 @@ begin
     panel34.caption:=inttostr( mediaplayer1.position);panel34.refresh;
     if cb32.checked=true then mediaplayer1.play else mediaplayer1.stop;
   end;
-}  
+}
 end;
 // Cue -50
 procedure TForm1.Button15Click(Sender: TObject);
@@ -1827,7 +2181,7 @@ begin
 {TODO:
  if mediaplayer1.filename<>'' then
  begin
-   mediaplayer1.pause; 
+   mediaplayer1.pause;
    cuepos:=cuepos-50; mediaplayer1.position:=cuepos;
    if timer2.enabled=false then timer2.enabled:=true;
    panel34.caption:=inttostr(mediaplayer1.position);panel34.refresh;
@@ -1849,7 +2203,8 @@ begin
 end;
 
 procedure TForm1.Timer2Timer(Sender: TObject);
-var Pfad:string;
+var
+  Pfad: string;
 begin
 {TODO:
 opendialog1.filterindex:=1;
@@ -1877,7 +2232,7 @@ if pstatus=1 then
                zindexlinie:=plinie;
                pfile:=memo4.lines[plinie+1];
                timer2.enabled:=true;
-               button1.click;
+               bStart.click;
 end;end; end;
 if mediaplayer1.position=mediaplayer1.TrackLength[1] then button18.click;
 }
@@ -1886,7 +2241,7 @@ end;
 // Play MP§ + MOT
 procedure TForm1.Button17Click(Sender: TObject);
 begin
-button12.click;
+  button12.click;
 {TODO:
 if (mediaplayer1.filename<>'') and
 ( memo4.lines[0]<>' ') then
@@ -1916,60 +2271,68 @@ end;
 // Load MOTLIST
 procedure TForm1.Button19Click(Sender: TObject);
 begin
- button12.click;
- opendialog1.FilterIndex:=5;
- if opendialog1.execute=true then
- memo4.lines.loadfromfile(opendialog1.filename);
+  button12.click;
+  opendialog1.FilterIndex := 5;
+  if opendialog1.Execute = True then
+    memo4.Lines.loadfromfile(opendialog1.filename);
 end;
 
 // Save MOTLIST
 procedure TForm1.Button20Click(Sender: TObject);
 begin
-button12.click;
-savedialog1.FilterIndex:=5;
-if savedialog1.execute=true then
- memo4.lines.savetofile(savedialog1.Filename);
+  button12.click;
+  savedialog1.FilterIndex := 5;
+  if savedialog1.Execute = True then
+    memo4.Lines.savetofile(savedialog1.Filename);
 end;
 
 procedure TForm1.Button21Click(Sender: TObject);
-var a:integer;
+var
+  a: integer;
 begin
-button12.click;
-memo4.clear;
-lastsetpos:=0;lastpos:=0;
-for a:=1 to 2000 do memo4.lines.add(' ');
-Linienzahl:=0;
+  button12.click;
+  memo4.Clear;
+  lastsetpos := 0;
+  lastpos := 0;
+  for a := 1 to 2000 do
+    memo4.Lines.add(' ');
+  Linienzahl := 0;
 end;
 
 procedure TForm1.Button22Click(Sender: TObject);
 begin
-if linienzahl>2 then
- begin
-   //TODO:if mediaplayer1.mode=mpplaying then mediaplayer1.pause;
-   memo4.lines[linienzahl-1]:='';memo4.lines[linienzahl-2]:='';
-   linienzahl:=linienzahl-2;memo4.refresh;
-   lastsetpos:=strtoint(memo4.lines[linienzahl-2]);
-   cuepos:=lastsetpos+1;
-   //TODO:mediaplayer1.position:=cuepos;
-   //TODO:panel34.caption:=inttostr( mediaplayer1.position);panel34.refresh;
+  if linienzahl > 2 then
+  begin
+    //TODO:if mediaplayer1.mode=mpplaying then mediaplayer1.pause;
+    memo4.Lines[linienzahl - 1] := '';
+    memo4.Lines[linienzahl - 2] := '';
+    linienzahl := linienzahl - 2;
+    memo4.refresh;
+    lastsetpos := StrToInt(memo4.Lines[linienzahl - 2]);
+    cuepos := lastsetpos + 1;
+    //TODO:mediaplayer1.position:=cuepos;
+    //TODO:panel34.caption:=inttostr( mediaplayer1.position);panel34.refresh;
 
- end else // wenn >2 Bzw. 0
+  end
+  else // wenn >2 Bzw. 0
 
   begin
-   //TODO:if mediaplayer1.mode=mpplaying then mediaplayer1.pause;
-   memo4.lines[linienzahl-1]:='';memo4.lines[linienzahl-2]:='';
-   linienzahl:=0 ;memo4.refresh;
-   lastsetpos:=0;
-   //TODO:cuepos:=lastsetpos+1;mediaplayer1.position:=0;
-   tb1.position:=0;
+    //TODO:if mediaplayer1.mode=mpplaying then mediaplayer1.pause;
+    memo4.Lines[linienzahl - 1] := '';
+    memo4.Lines[linienzahl - 2] := '';
+    linienzahl := 0;
+    memo4.refresh;
+    lastsetpos := 0;
+    //TODO:cuepos:=lastsetpos+1;mediaplayer1.position:=0;
+    tb1.position := 0;
   end;
 
 
-if linienzahl>2 then
- begin
-  //TODO:mediaplayer1.position:=strtoint(memo4.lines[linienzahl-2]);
-  //TODO:mediaplayer1.play;
- end;
+  if linienzahl > 2 then
+  begin
+    //TODO:mediaplayer1.position:=strtoint(memo4.lines[linienzahl-2]);
+    //TODO:mediaplayer1.play;
+  end;
 end;
 
 procedure TForm1.tb1Change(Sender: TObject);
@@ -1984,54 +2347,51 @@ end;
 
 procedure TForm1.Play(Sender: TObject);
 begin
-//TODO:mediaplayer1.play;
+  //TODO:mediaplayer1.play;
 end;
 
 procedure TForm1.cb14Click(Sender: TObject);
 begin
- // Blanken und auf " 0 Output setzen "
- ausgabe_128;
+  // Blanken und auf " 0 Output setzen "
+  ausgabe_128;
 end;
 
 procedure TForm1.UpDown1Click(Sender: TObject; Button: TUDBtnType);
 begin
-panel32.caption:='Fog '+inttostr(updown1.position)+' s.';
-timer3.interval:=1000*updown1.position;
+  panel32.Caption := 'Fog ' + IntToStr(updown1.position) + ' s.';
+  timer3.interval := 1000 * updown1.position;
 end;
 
 procedure TForm1.Panel32Click(Sender: TObject);
 begin
- if panel32.color=clbtnface then
-   begin
-     panel32.color:=clred;panel32.refresh;
-     //TODO:com.rts:=true;
-     timer3.enabled:=true;
-   end else
-   begin
-     panel32.color:=clbtnface;panel32.refresh;
-     //TODO:com.rts:=false;
-     timer3.enabled:=false;
-   end
-
+  if panel32.color = clbtnface then
+  begin
+    panel32.color := clred;
+    panel32.refresh;
+    //TODO:com.rts:=true;
+    timer3.Enabled := True;
+  end
+  else
+  begin
+    panel32.color := clbtnface;
+    panel32.refresh;
+    //TODO:com.rts:=false;
+    timer3.Enabled := False;
+  end;
 
 end;
 
 procedure TForm1.Timer3Timer(Sender: TObject);
 begin
-panel32.color:=clbtnface;panel32.refresh;
-//TODO:com.rts:=false;
-timer3.enabled:=false;
+  panel32.color := clbtnface;
+  panel32.refresh;
+  //TODO:com.rts:=false;
+  timer3.Enabled := False;
 end;
 
 procedure TForm1.berPopelscan1Click(Sender: TObject);
 begin
- if MessageDlg('Popelscan Freeware by G. Jaeger'+#13#10+
-               'Spenden werden jederzeit angenommen..'+#13#10+
-               'Bei Fragen oder Anregungen zur  '+#13+#10+
-               'Erweiterung Mail an        '+#13+#10+
-               'calibra301@aol.com  '+#13#10+ #10+
-               'www.mylaserpage.de  ',
-    mtConfirmation, [mbok], 0) = mrYes then
+  if MessageDlg('Popelscan Freeware by G. Jaeger' + #13#10 + 'Spenden werden jederzeit angenommen..' + #13#10 + 'Bei Fragen oder Anregungen zur  ' + #13 + #10 + 'Erweiterung Mail an        ' + #13 + #10 + 'calibra301@aol.com  ' + #13#10 + #10 + 'www.mylaserpage.de  ', mtConfirmation, [mbOK], 0) = mrYes then;
 
 end;
 
@@ -2039,42 +2399,32 @@ end;
 // BPM Eingabe
 procedure TForm1.UpDown2Click(Sender: TObject; Button: TUDBtnType);
 begin
-panel28.caption:=inttostr(updown2.position);panel28.refresh;
+  panel28.Caption := IntToStr(updown2.position);
+  panel28.refresh;
 end;
 
 procedure TForm1.cb31Click(Sender: TObject);
-Var a:integer;
-var b: double;
+var
+  a: integer;
+var
+  b: double;
 begin
-  if cb31.checked=true then
-     begin
-       b:=60/(strtoint(panel28.caption));
-       b:=b*1000;
-       a:=round(b);
-       timer1.interval:=a;
-     end else  timer1.interval:=sb14.position*1000;
+  if cb31.Checked = True then
+  begin
+    b := 60 / (StrToInt(panel28.Caption));
+    b := b * 1000;
+    a := round(b);
+    timer1.interval := a;
+  end
+  else
+    timer1.interval := sb14.position * 1000;
 end;
 
 
 // Shortcuts einblenden
 procedure TForm1.Shortcuts1Click(Sender: TObject);
 begin
-if MessageDlg ('      Shortcuts         '+#13#10+
-               '                        '+#13#10+
-               'ENTER Startet Ausgabe  '+#13#10+
-               'ESC   Stoppt Ausgabe    '+#13#10+
-               '                        '+#13#10+
-               'F3   Random ein/aus     '+#13+#10+
-               'Bild auf Randomtimer +  '+#13+#10+
-               'Bild ab  Randomtimer -  '+#13+#10+
-                '                        '+#13#10+
-               'F2   Motfile Speichern  '+#13+#10+
-                '                        '+#13#10+
-               'F5   MP3 Play           '+#13+#10+
-               'F6   Cue -50            '+#13#10+
-               'F7   Cue +50            '+#13#10+
-               'F7   MP3 Stop           ',
-    mtConfirmation, [mbok], 0) = mrYes then
+  if MessageDlg('      Shortcuts         ' + #13#10 + '                        ' + #13#10 + 'ENTER Startet Ausgabe  ' + #13#10 + 'ESC   Stoppt Ausgabe    ' + #13#10 + '                        ' + #13#10 + 'F3   Random ein/aus     ' + #13 + #10 + 'Bild auf Randomtimer +  ' + #13 + #10 + 'Bild ab  Randomtimer -  ' + #13 + #10 + '                        ' + #13#10 + 'F2   Motfile Speichern  ' + #13 + #10 + '                        ' + #13#10 + 'F5   MP3 Play           ' + #13 + #10 + 'F6   Cue -50            ' + #13#10 + 'F7   Cue +50            ' + #13#10 + 'F7   MP3 Stop           ', mtConfirmation, [mbOK], 0) = mrYes then;
 end;
 
 procedure TForm1.Button23Click(Sender: TObject);
@@ -2096,7 +2446,7 @@ begin
 {TODO:
 if mediaplayer1.filename<>'' then
   begin
-    mediaplayer1.pause; 
+    mediaplayer1.pause;
     cuepos:=cuepos-5; mediaplayer1.position:=cuepos;
     if timer2.enabled=false then timer2.enabled:=true;
     panel34.caption:=inttostr( mediaplayer1.position);panel34.refresh;
@@ -2108,91 +2458,210 @@ end;
 
 procedure TForm1.tb2Change(Sender: TObject);
 begin
-tb2.position:=round((tb2.position/5))*5;
-winkel1max:=tb2.position div 4;
-panel51.caption:=inttostr(tb2.position);
+  tb2.position := round((tb2.position / 5)) * 5;
+  winkel1max := tb2.position div 4;
+  panel51.Caption := IntToStr(tb2.position);
 end;
 
 procedure TForm1.cb3Click(Sender: TObject);
 begin
-if cb3.checked=true then cb33.checked:=false;
-winkel1:=0;
+  if cb3.Checked = True then
+    cb33.Checked := False;
+  winkel1 := 0;
 end;
 
 procedure TForm1.cb33Click(Sender: TObject);
 begin
-if cb33.checked=true then cb3.checked:=false;
-winkel1:=0;
+  if cb33.Checked = True then
+    cb3.Checked := False;
+  winkel1 := 0;
 end;
 
 procedure TForm1.cb34Click(Sender: TObject);
 begin
-image_loeschen;
-punkte:=0;
-redraw;
-punkte:=round(length(lb1.items[form1.sb1.position+20])/6);
-panel29.caption:=inttostr(round(punkte));
+  image_loeschen;
+  punkte := 0;
+  redraw;
+  punkte := round(length(lb1.items[form1.sb1.position + 20]) / 6);
+  panel29.Caption := IntToStr(round(punkte));
 end;
 
 procedure TForm1.Button26Click(Sender: TObject);
 begin
-lb1.items.delete(sb1.position+20);
-image_loeschen;
-punkte:=0;
-redraw;
+  lb1.items.Delete(sb1.position + 20);
+  image_loeschen;
+  punkte := 0;
+  redraw;
 
 end;
 
 procedure TForm1.cb35Click(Sender: TObject);
 begin
-if cb35.checked=true then form1.keypreview:=true else
-form1.keypreview:=false;
+  if cb35.Checked = True then
+    form1.keypreview := True
+  else
+    form1.keypreview := False;
 end;
 
 procedure TForm1.Button27Click(Sender: TObject);
 begin
- lb1.items.Insert(sb1.position+20,''); 
+  lb1.items.Insert(sb1.position + 20, '');
 
-image_loeschen;
-punkte:=0;
-redraw;
+  image_loeschen;
+  punkte := 0;
+  redraw;
 end;
 
 
 
-procedure TForm1.i1Paint(Sender: TObject);
+procedure TForm1.iOutputPaint(Sender: TObject);
 begin
-image_loeschen ;
+  image_loeschen;
 end;
 
 
 // MIDI Funtions
-procedure GetStrings (statusm : integer; var s1, s2, s3 : string);
+procedure GetStrings(statusm: integer; var s1, s2, s3: string);
 begin
   case statusm of
-    128..143 : begin s1 := 'Note Off: '; s2 := 'Tonnummer: '; s3 := 'Velocity-Wert: '; end;
-    144..159 : begin s1 := 'Note On: '; s2 := 'Tonnummer: '; s3 := 'Velocity-Wert: '; end;
-    160..175 : begin s1 := 'Poly Pressure: '; s2 := 'Tonnummer: '; s3 := 'Druck-Wert: '; end;
-    176..191 : begin s1 := 'Control Change: '; s2 := 'Contr.-Nr: '; s3 := 'Contr.-Stellung: '; end;
-    192..207 : begin s1 := 'Program Change: '; s2 := 'Progr.-Nr: '; s3 := ''; end;
-    208..223 : begin s1 := 'Mono Pressure: '; s2 := 'Druck-Wert: '; s3 := ''; end;
-    224..239 : begin s1 := 'Pitch Wheel: '; s2 := 'Tonhöhe LSB: '; s3 := 'Tonhöhe MSB: '; end;
-    240      : begin s1 := 'System Exclusive (Anfang): '; s2 := ''; s3 := ''; end;
-    241      : begin s1 := 'MIDI-Timecode: '; s2 := 'Typ/Wert: '; s3 := ''; end;
-    242      : begin s1 := 'Song Position: '; s2 := 'Song Pos. LSB: '; s3 := 'Song Pos. MSB: '; end;
-    243      : begin s1 := 'Song Select: '; s2 := 'Song Nr: '; s3 := ''; end;
-    244      : begin s1 := 'N.D.: '; s2 := ''; s3 := ''; end;
-    245      : begin s1 := 'N.D.: '; s2 := ''; s3 := ''; end;
-    246      : begin s1 := 'Tune Request: '; s2 := ''; s3 := ''; end;
-    247      : begin s1 := 'System Exclusive (Ende): '; s2 := ''; s3 := ''; end;
-    248      : begin s1 := 'MIDI-Clock: '; s2 := ''; s3 := ''; end;
-    249      : begin s1 := 'N.D.: '; s2 := ''; s3 := ''; end;
-    250      : begin s1 := 'Start: '; s2 := ''; s3 := ''; end;
-    251      : begin s1 := 'Continue: '; s2 := ''; s3 := ''; end;
-    252      : begin s1 := 'Stop: '; s2 := ''; s3 := ''; end;
-    253      : begin s1 := 'N.D.: '; s2 := ''; s3 := ''; end;
-    254      : begin s1 := 'Active Sensing: '; s2 := ''; s3 := ''; end;
-    255      : begin s1 := 'Reset: '; s2 := ''; s3 := ''; end;
+    128..143:
+    begin
+      s1 := 'Note Off: ';
+      s2 := 'Tonnummer: ';
+      s3 := 'Velocity-Wert: ';
+    end;
+    144..159:
+    begin
+      s1 := 'Note On: ';
+      s2 := 'Tonnummer: ';
+      s3 := 'Velocity-Wert: ';
+    end;
+    160..175:
+    begin
+      s1 := 'Poly Pressure: ';
+      s2 := 'Tonnummer: ';
+      s3 := 'Druck-Wert: ';
+    end;
+    176..191:
+    begin
+      s1 := 'Control Change: ';
+      s2 := 'Contr.-Nr: ';
+      s3 := 'Contr.-Stellung: ';
+    end;
+    192..207:
+    begin
+      s1 := 'Program Change: ';
+      s2 := 'Progr.-Nr: ';
+      s3 := '';
+    end;
+    208..223:
+    begin
+      s1 := 'Mono Pressure: ';
+      s2 := 'Druck-Wert: ';
+      s3 := '';
+    end;
+    224..239:
+    begin
+      s1 := 'Pitch Wheel: ';
+      s2 := 'Tonhöhe LSB: ';
+      s3 := 'Tonhöhe MSB: ';
+    end;
+    240:
+    begin
+      s1 := 'System Exclusive (Anfang): ';
+      s2 := '';
+      s3 := '';
+    end;
+    241:
+    begin
+      s1 := 'MIDI-Timecode: ';
+      s2 := 'Typ/Wert: ';
+      s3 := '';
+    end;
+    242:
+    begin
+      s1 := 'Song Position: ';
+      s2 := 'Song Pos. LSB: ';
+      s3 := 'Song Pos. MSB: ';
+    end;
+    243:
+    begin
+      s1 := 'Song Select: ';
+      s2 := 'Song Nr: ';
+      s3 := '';
+    end;
+    244:
+    begin
+      s1 := 'N.D.: ';
+      s2 := '';
+      s3 := '';
+    end;
+    245:
+    begin
+      s1 := 'N.D.: ';
+      s2 := '';
+      s3 := '';
+    end;
+    246:
+    begin
+      s1 := 'Tune Request: ';
+      s2 := '';
+      s3 := '';
+    end;
+    247:
+    begin
+      s1 := 'System Exclusive (Ende): ';
+      s2 := '';
+      s3 := '';
+    end;
+    248:
+    begin
+      s1 := 'MIDI-Clock: ';
+      s2 := '';
+      s3 := '';
+    end;
+    249:
+    begin
+      s1 := 'N.D.: ';
+      s2 := '';
+      s3 := '';
+    end;
+    250:
+    begin
+      s1 := 'Start: ';
+      s2 := '';
+      s3 := '';
+    end;
+    251:
+    begin
+      s1 := 'Continue: ';
+      s2 := '';
+      s3 := '';
+    end;
+    252:
+    begin
+      s1 := 'Stop: ';
+      s2 := '';
+      s3 := '';
+    end;
+    253:
+    begin
+      s1 := 'N.D.: ';
+      s2 := '';
+      s3 := '';
+    end;
+    254:
+    begin
+      s1 := 'Active Sensing: ';
+      s2 := '';
+      s3 := '';
+    end;
+    255:
+    begin
+      s1 := 'Reset: ';
+      s2 := '';
+      s3 := '';
+    end;
   end;
 end;
 
@@ -2209,7 +2678,7 @@ begin
 }
 end;
 
-procedure OpenMidiIn (DeviceID : integer);
+procedure OpenMidiIn(DeviceID: integer);
 begin
 {TODO:
   CloseMidiIn;
@@ -2219,24 +2688,24 @@ end;
 
 procedure StartMidiIn;
 begin
-//  if MidiInOpened then midiInStart (MidiInHandle);
+  //  if MidiInOpened then midiInStart (MidiInHandle);
 end;
 
 procedure StopMidiIn;
 begin
-//  if MidiInOpened then midiInStop (MidiInHandle);
+  //  if MidiInOpened then midiInStop (MidiInHandle);
 end;
 
 procedure ResetMidiIn;
 begin
-//  if MidiInOpened then midiInReset (MidiInHandle);
+  //  if MidiInOpened then midiInReset (MidiInHandle);
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
-//TODO:OpenMidiIn (0);
-//TODO:GetMidiInDevs;
-//TODO:StartMidiIn;
+  //TODO:OpenMidiIn (0);
+  //TODO:GetMidiInDevs;
+  //TODO:StartMidiIn;
 end;
 
 
@@ -2246,17 +2715,17 @@ end;
 
 procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-   StopMidiIn;
+  StopMidiIn;
   ResetMidiIn;
   CloseMidiIn;
- 
+
 end;
 
 
 
 procedure TForm1.ComboMidiInChange(Sender: TObject);
 begin
- OpenMidiIn (ComboMidiIn.ItemIndex);
+  OpenMidiIn(ComboMidiIn.ItemIndex);
   StartMidiIn;
 end;
 
@@ -2301,128 +2770,156 @@ end;
 // Monitor Ausschalten
 procedure TForm1.Button29Click(Sender: TObject);
 begin
- //SendMessage(Application.Handle, WM_SYSCOMMAND, SC_MONITORPOWER, 1); 
+  //SendMessage(Application.Handle, WM_SYSCOMMAND, SC_MONITORPOWER, 1);
 end;
 
 // Ausgabetimer pps
 procedure TForm1.Timer4Timer(Sender: TObject);
 begin
-panel52.caption:=inttostr(outputcounter div 3)+' pps';
-outputcounter:=0;
+  panel52.Caption := IntToStr(outputcounter div 3) + ' pps';
+  outputcounter := 0;
 end;
 
 procedure TForm1.Timer5Timer(Sender: TObject);
 begin
-  Bildumschalten:=true;
+  Bildumschalten := True;
 end;
 
 procedure TForm1.sb16Change(Sender: TObject);
 begin
-panel30.caption:=inttostr(sb16.position);
+  panel30.Caption := IntToStr(sb16.position);
 end;
 // Aktivieren der 16 Bit Ausgabe
 procedure TForm1.cb38Click(Sender: TObject);
 begin
- if cb38.checked=true then
+  if cb38.Checked = True then
   begin
-    panel53.caption:='Enabled';
-   
-  end else
+    panel53.Caption := 'Enabled';
+
+  end
+  else
   begin
-    panel53.caption:='Disabled';
+    panel53.Caption := 'Disabled';
   end;
 
 end;
 
 procedure TForm1.Hex10001Click(Sender: TObject);
 begin
-begin lptport:=57344;panel8.caption:='Port=57344';end;
+  begin
+    lptport := 57344;
+    panel8.Caption := 'Port=57344';
+  end;
 
 end;
 
 procedure TForm1.tb3Change(Sender: TObject);
 begin
-panel54.caption:=inttostr(tb3.position);
+  panel54.Caption := IntToStr(tb3.position);
 end;
 
 procedure TForm1.rb8Click(Sender: TObject);
-begin if Rb8.checked=true then Raster:=32;end;
-
-
+begin
+  if Rb8.Checked = True then
+    Raster := 32;
+end;
 
 
 
 
 procedure TForm1.rb9Click(Sender: TObject);
 begin
-if rb9.checked=true then
- begin
-  Drawmode:='lines';
-  label57.caption:='Click Points with left Mouskey, Blank with right'
- end;
+  if rb9.Checked = True then
+  begin
+    Drawmode := 'lines';
+    label57.Caption := 'Click Points with left Mouskey, Blank with right';
+  end;
 end;
 
 procedure TForm1.rb10Click(Sender: TObject);
 begin
-if rb10.checked=true then
- begin
-  Drawmode:='circle';
-  crstart:=true;
-  label57.caption:='Click Circle-Center';
- end;
+  if rb10.Checked = True then
+  begin
+    Drawmode := 'circle';
+    crstart := True;
+    label57.Caption := 'Click Circle-Center';
+  end;
 end;
 
 procedure TForm1.rb11Click(Sender: TObject);
 begin
-if rb11.checked=true then begin Port:=6;Dcolor:=6;lastcolor:=6; end;
+  if rb11.Checked = True then
+  begin
+    Port := 6;
+    Dcolor := 6;
+    lastcolor := 6;
+  end;
 end;
 
 procedure TForm1.rb12Click(Sender: TObject);
 begin
-if rb12.checked=true then begin Port:=10;Dcolor:=10;lastcolor:=10; end;
+  if rb12.Checked = True then
+  begin
+    Port := 10;
+    Dcolor := 10;
+    lastcolor := 10;
+  end;
 end;
 
 procedure TForm1.rb13Click(Sender: TObject);
 begin
-if rb13.checked=true then begin Port:=12;Dcolor:=12;lastcolor:=12; end;
+  if rb13.Checked = True then
+  begin
+    Port := 12;
+    Dcolor := 12;
+    lastcolor := 12;
+  end;
 end;
 
 procedure TForm1.rb14Click(Sender: TObject);
 begin
-if rb14.checked=true then begin Port:=14;Dcolor:=14;lastcolor:=14; end;
+  if rb14.Checked = True then
+  begin
+    Port := 14;
+    Dcolor := 14;
+    lastcolor := 14;
+  end;
 end;
 
 procedure TForm1.cb37Click(Sender: TObject);
 begin
- //if cb38.checked=true then cb37.checked:=false;
- // Zwangsabschaltung vonb Inv. Blank bei Switch PCB
+  //if cb38.checked=true then cb37.checked:=false;
+  // Zwangsabschaltung vonb Inv. Blank bei Switch PCB
 end;
 
 procedure TForm1.midikeyoffsetChange(Sender: TObject);
 begin
- panel56.caption:=inttostr(midikeyoffset.position);
- keyoffset:=midikeyoffset.position;
+  panel56.Caption := IntToStr(midikeyoffset.position);
+  keyoffset := midikeyoffset.position;
 end;
-
 
 
 
 
 procedure TForm1.Button31Click(Sender: TObject);
-var i:integer;
+var
+  i: integer;
 begin
- for i:=0 to 511 do DMX_Buffer[i]:=255;
- DMX_Out;
+  for i := 0 to 511 do
+    DMX_Buffer[i] := 255;
+  DMX_Out;
 end;
 
 procedure TForm1.Button30Click(Sender: TObject);
-var i:integer;
+var
+  i: integer;
 begin
- for i:=0 to 511 do DMX_Buffer[i]:=0;
- DMX_Out;
+  for i := 0 to 511 do
+    DMX_Buffer[i] := 0;
+  DMX_Out;
 end;
 
 initialization
- MidiInOpened  := FALSE;
+  MidiInOpened := False;
 
 end.

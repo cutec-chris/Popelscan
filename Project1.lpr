@@ -3,7 +3,8 @@ program Project1;
 {$MODE Delphi}
 
 uses
-  Forms, Interfaces,
+  Forms,
+  Interfaces,
   Lasersoftware in 'Lasersoftware.pas' {Form1},
   Ausgabe in 'Ausgabe.pas',
   Image in 'Image.pas',
