@@ -36,7 +36,7 @@ implementation
 
 uses Lasersoftware, image,Ausgabe;
 
-{$IFDEF WINDOWS}
+{$IFDEF UWINDOWS}
 procedure PortOut(Port: word; Data: byte); stdcall; external 'io.dll';
 {$ELSE}
 procedure PortOut(Port: word; Data: byte);
@@ -587,4 +587,4 @@ begin
   //portout(lptport+2,form1.scrollbar1.position);
 end;
 
-end.
+end.

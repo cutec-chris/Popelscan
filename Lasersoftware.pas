@@ -419,25 +419,6 @@ type
     procedure UpdateMidiIn(statusm, db1, db2: DWord);
     property StopWatch : TStopWatch read FStopWatch;
   end;
-// USB
-     {$IFDEF WINDOWS}
-function EasyLaseWriteTTL(var USB_CardNr: integer; USB_TTL: word): boolean;
-  stdcall; external 'Easylase.dll';
-
-function EasyLaseGetCardNum(): integer; stdcall; external 'Easylase.dll';
-function EasyLaseGetStatus(var CardNumber: integer): integer;
-  stdcall; external 'Easylase.dll';
-function EasyLaseClose(): boolean; stdcall; external 'easylase.dll';
-function EasyLaseStop(var CardNumber: integer): boolean; stdcall;
-  external 'easylase.dll';
-function EasyLaseWriteFrame
-  (var CardNumber: integer; DataBuffer: pointer; DataCounter: integer;
-  Speed: word): boolean; stdcall;
-  external 'easylase.dll';
-function EasyLaseWriteDMX(var CardNumber: integer; DMXBuffer: pointer): boolean;
-  stdcall; external 'easylase.dll';
-// Ende USB
-     {$ENDIF}
 function IntToBin(z: integer): string;
 function GetNibble(nr, z: integer): integer;
 procedure GetStrings(statusm: integer; var s1, s2, s3: string);
@@ -1760,9 +1741,7 @@ end;
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
   bild.Free;
-  {$IFDEF WINDOWS}
-  easylaseclose;
-  {$ENDIF}
+  easylasedoclose;
 end;
 
 // Bild ausblenden
@@ -2912,4 +2891,4 @@ end;
 initialization
   MidiInOpened := False;
 
-end.
+end.

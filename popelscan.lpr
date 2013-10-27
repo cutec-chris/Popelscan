@@ -3,8 +3,8 @@ program popelscan;
 {$MODE Delphi}
 
 uses
-  Forms,
   Interfaces,
+  Forms,
   Lasersoftware in 'Lasersoftware.pas' {Form1},
   Ausgabe in 'Ausgabe.pas',
   Image in 'Image.pas',
@@ -13,7 +13,7 @@ uses
   Ausgabeeffekte in 'Ausgabeeffekte.pas',
   Easylase in 'Easylase.pas';
 
-{$R *.res}
+{.$R *.res}
 
 begin
   Application.Initialize;

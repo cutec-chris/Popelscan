@@ -6,14 +6,18 @@ interface
 
 uses LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics,
   Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, Menus, Easylase;
+  StdCtrls, ExtCtrls, Menus, Easylase
+  {$IFDEF WINDOWS}
+   ,Windows
+  {$ENDIF}
+   ;
 
 procedure Ausgabe_lpt;
 procedure screenausgabe;
 procedure ausgabe_bsw;
 procedure Faderupdate;
 function bin(innum: longint; places: byte): string;
-function QueryPerformanceCount(aCount : Int64) : Boolean;
+function QueryPerformanceCount(var aCount : Int64) : Boolean;
 
 implementation
 uses Lasersoftware, Image, Ausgabeeffekte
@@ -348,7 +352,7 @@ begin
   Bin := Hstr;
 end;
 
-function QueryPerformanceCount(aCount: Int64): Boolean;
+function QueryPerformanceCount(var aCount: Int64): Boolean;
 {$IFDEF LINUX}
 var
   aLoc : timespec;
@@ -364,7 +368,7 @@ begin
   {$ENDIF WINDOWS}
   {$IFDEF LINUX}
   clock_gettime(CLOCK_MONOTONIC,@aLoc);
-  aCount := (aloc.tv_sec * C_BILLION) + aloc.tv_nsec;
+  aCount := ((aloc.tv_sec * C_BILLION) + aloc.tv_nsec) div C_THOUSAND;
   {$ENDIF LINUX}
 end;
 
