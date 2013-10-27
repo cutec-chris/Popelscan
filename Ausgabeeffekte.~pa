@@ -1,0 +1,375 @@
+unit Ausgabeeffekte;
+
+interface
+uses Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, ExtCtrls, Menus, QCCom32;
+procedure Rotationsrichtung;
+procedure Drehwinkelumschaltung;
+procedure Winkelberechnen;
+procedure Datenauslbholen;
+procedure rotieren;
+procedure Spiegeln;
+procedure Pumpen;
+procedure Begrenzung;
+procedure invertoderswap;
+procedure gain;
+procedure Ausgabeseriell;
+procedure Ausgabeparallel;
+procedure Ausgabeparallelasm;
+procedure bpause;
+
+implementation
+uses Lasersoftware,image;
+
+
+procedure Rotationsrichtung;
+begin
+  if form1.cb33.checked=true then
+      begin
+        if winkel1d=0 then winkel1:=winkel1+form1.sb6.position;
+        if winkel1d=1 then winkel1:=winkel1-form1.sb6.position;
+      end;
+
+   if form1.cb3.checked=true then
+      begin
+        if winkel1d=0 then winkel1:=winkel1+form1.sb6.position;
+        if winkel1d=1 then winkel1:=winkel1-form1.sb6.position;
+      end;
+   
+end;
+
+procedure Drehwinkelumschaltung;
+begin
+   if winkel1>=winkel1max then winkel1d:=1;
+   if winkel1<=(0-winkel1max) then winkel1d:=0;
+   // Wenn Pos. 360 wirklich rotieren
+   if form1.tb2.Position=360 then
+   begin
+      if form1.cb3.checked=true then winkel1d:=1;
+      if form1.cb33.checked=true then winkel1d:=0;
+   end;
+
+end;
+procedure Winkelberechnen;
+begin
+  winkhor1:=winkhor1+form1.sb8.position;
+  winkhor:=(winkhor1*3.141592)/180;
+  if winkhor1>winkhormax then winkhor1:=0;
+
+  winkver1:=winkver1+form1.sb9.position;
+  winkver:=(winkver1*3.141592)/180;
+  if winkver1>winkvermax then winkver1:=0;
+
+end;
+
+procedure Datenauslbholen;
+begin
+ if copy(form1.lb1.items[bildnr+20],(punkte*6),1)<>'' then
+      begin
+         port:=strtoint
+         ('$'+copy(form1.lb1.items[bildnr+20],(punkte*6+1),2));
+         xneu:=strtoint
+         ('$'+copy(form1.lb1.items[bildnr+20],(punkte*6+3),2));
+         yneu:=strtoint
+         ('$'+copy(form1.lb1.items[bildnr+20],(punkte*6+5),2));
+     end else
+     begin
+       port:=0;xneu:=0;yneu:=0;
+     end;
+
+end;
+
+procedure rotieren;
+begin
+ if (form1.cb3.checked) or (form1.cb33.checked)= true then
+     begin
+        xneu:=128-xneu;yneu:=128-yneu;
+        xd:=xneu;yd:=yneu;
+        xneu:=255-round( (xd*cos(winkel) -( yd*sin(winkel)) )+128 );
+        yneu:=255-round( (xd*sin(winkel) + (yd*cos(winkel)) )+128 );
+     end;
+
+end;
+
+procedure Spiegeln;
+begin
+  //Horizontal Spiegeln ?
+  if form1.cb4.checked= true then
+     begin
+       yneu:=128-yneu;xd:=xneu;Yd:=yneu;
+       yneu:=round( (yd*cos(winkhor) + (yd*sin(winkhor)) )+128 );
+     end;
+  //vertikal Spiegeln ?
+  if form1.cb5.checked= true then
+     begin
+        xneu:=128-xneu;xd:=xneu;Yd:=yneu;
+        xneu:=round( (xd*cos(winkver) + (xd*sin(winkver)) )+128 );
+     end;
+
+end;
+procedure Pumpen;
+begin
+ if form1.sb17.position>0 then
+   begin
+   if dlzaehler=0 then
+   begin
+     if pumpdir=0 then
+       begin
+         pump:=pump+form1.sb17.position;
+         if pump>=25-form1.sb17.position then
+           begin
+             pumpmax:=pumpmax+1;pump:=0;
+           end;
+       end;
+     if pumpdir=1 then
+       begin
+         pump:=pump+form1.sb17.position;
+         if pump>=25-form1.sb17.position then
+           begin
+             pumpmax:=pumpmax-1;pump:=0;
+           end;
+   end;
+   end;
+
+     if pumpmax<=15 then Pumpdir:=0;
+     if pumpmax>=100 then Pumpdir:=1;
+
+     if xneu<128 then
+       begin
+         xneu:=round(xneu+((128-xneu)*((100-pumpmax)/100)))
+       end else
+       begin
+         xneu:=round(xneu-((xneu-128)*((100-pumpmax)/100)))
+       end;
+
+     if yneu<128 then
+       begin
+         yneu:=round(yneu+((128-yneu)*((100-pumpmax)/100)))
+       end else
+       begin
+         yneu:=round(yneu-((yneu-128)*((100-pumpmax)/100)))
+       end;
+  end;
+
+end;
+procedure Begrenzung;
+begin
+  if xneu>255 then xneu:=255;
+  if yneu>255 then yneu:=255;
+  if xneu < 0 then xneu:=0;
+  if yneu < 0 then yneu:=0;
+
+end;
+
+procedure Invertoderswap;
+begin
+  wegx:=xneu;wegy:=yneu;
+  if form1.cb9.checked=true then xneu:=255-xneu;  // 1.9c
+  if form1.cb10.checked=true then yneu:=255-yneu; // 1.9c
+  if form1.cb11.checked=true then
+    begin
+      wegx:=xneu;wegy:=yneu;
+      xneu:=round(wegy);
+      yneu:=round(wegx);
+    end;
+
+end;
+
+procedure Gain;
+begin
+  if xneu<128 then
+  begin xneu:=round(xneu+((128-xneu)*((100-form1.sb16.position)/100)))end else
+  begin xneu:=round(xneu-((xneu-128)*((100-form1.sb16.position)/100)))end;
+
+  if yneu<128 then
+  begin yneu:=round(yneu+((128-yneu)*((100-form1.sb16.position)/100)))end else
+  begin yneu:=round(yneu-((yneu-128)*((100-form1.sb16.position)/100)))end;
+
+end;
+
+procedure Ausgabeseriell;
+begin
+  // Ausgabe an Bankschalter   SERIELL
+if (status=1) and (form1.cb15.checked=true) then
+ begin
+   if ((port<>porto) and (port<>1)) or (psw<>pswo) or (smt<>smto ) then
+           begin
+             form1.com.write(inttohex(port,2)+
+                            (inttohex(psw,2))+
+                            (inttohex(SMT,2)));
+             form1.com.write(#13);
+             form1.com.flush;
+             porto:=port;pswo:=psw;smto:=smt;
+           end;
+  end;
+
+end;
+procedure Ausgabeparallel;
+var p,pp,apw,bl:integer;
+begin
+pp:=0;
+bl:=port;
+if (form1.cb37.checked=true) then
+    begin
+     if port=1 then port:=2 else port:=1;
+    end;
+
+if form1.cb14.checked=true then
+   if port=1 then
+    begin
+       // Mit Blanking
+       form1.lpt.writeport(lptport+2,5);  //Alles sperren
+       if form1.cb37.checked=false then bpause;
+       form1.lpt.writeport(lptport,xneu); //Daten X
+       form1.lpt.writeport(lptport+2,7);  //Oben Daten rein
+       form1.lpt.writeport(lptport+2,5);  //Alles Sperren
+       form1.lpt.writeport(lptport,yneu); //Daten Y
+       form1.lpt.writeport(lptport+2,1);  //Alles raus
+    end else
+    begin
+      // ohne Blanking
+      if status= 0 then begin exit;form1.button2.click; end;
+      form1.lpt.writeport(lptport+2,4);  //Alles sperren
+      if form1.cb37.checked=true then bpause;
+      form1.lpt.writeport(lptport,xneu); //Daten X
+      form1.lpt.writeport(lptport+2,6);  //Oben Daten rein
+      form1.lpt.writeport(lptport+2,4);  //Alles Sperren
+      form1.lpt.writeport(lptport,yneu); //Daten Y
+      form1.lpt.writeport(lptport+2,0); //Alles raus
+    end
+else form1.lpt.writeport(lptport+2,5);// Ende enable Output
+port:=bl;
+//Pause
+    for p:=1 to ((form1.sb2.position*4)*form1.sb7.position) do
+    begin
+     application.ProcessMessages;
+     pp:=pp+1;
+        if status= 0 then
+            begin
+              application.ProcessMessages;
+              form1.lpt.writeport(lptport+2,1);
+              exit;
+              form1.button2.click;
+            end;
+      PP:=0;
+      application.ProcessMessages;
+    end;
+end;
+
+procedure bpause;
+var p,pp:integer;
+begin
+  for p:=1 to form1.sb3.position*50 do begin
+  application.ProcessMessages;pp:=pp+1;
+  if status= 0 then begin
+  form1.lpt.writeport(lptport+2,1);
+  exit;form1.button2.click;end;end;
+end;
+
+
+// - - - - Ausgabe Parallel ASM
+Procedure Ausgabeparallelasm;
+var p,pp,apw,bl:integer;
+var LPTP,LPTH : Word;
+begin
+LPTP:=lptport;
+LPTH:=lptport+2;
+pp:=0;
+bl:=port;
+if (form1.cb37.checked=true) then
+    begin
+     if port=1 then port:=2 else port:=1;
+    end;
+
+if form1.cb14.checked=true then
+   if port=1 then
+    begin
+       // Mit Blanking
+       asm
+         Mov DX,LPTh  // Alles sperren
+         Mov AL,1
+         Out DX,Al
+       end;
+       if form1.cb37.checked=false then bpause;
+       asm
+         Mov DX,LPTP  // Daten X
+         Mov AL,xneu
+         Out DX,Al
+
+         Mov DX,LPTh  // Oben Daten rein
+         Mov AL,7
+         Out DX,Al
+
+         Mov DX,LPTh  // Alles sperren
+         Mov AL,5
+         Out DX,Al
+
+         Mov DX,LPTP  // Daten Y
+         Mov AL,yneu
+         Out DX,Al
+
+         Mov DX,LPTh  // Alles raus
+         Mov AL,1
+         Out DX,Al
+       end;
+
+    end else
+    begin
+      // ohne Blanking
+      if status= 0 then begin exit;form1.button2.click; end;
+      asm
+        Mov DX,LPTh  // Alles sperren
+        Mov AL,4
+        Out DX,Al
+      end;
+
+      if form1.cb37.checked=true then bpause;
+      asm
+        Mov DX,LPTP // Daten X
+        Mov AL,xneu
+        Out DX,Al
+
+        Mov DX,LPTh  // Oben Daten rein
+        Mov AL,6
+        Out DX,Al
+
+        Mov DX,LPTh  // Alles Sperren
+        Mov AL,4
+        Out DX,Al
+
+        Mov DX,LPTP  // Daten Y
+        Mov AL,yneu
+        Out DX,Al
+
+        Mov DX,LPTh  // Alles Raus
+        Mov AL,0
+        Out DX,Al
+
+      end;
+    end
+else
+  asm
+   Mov DX,LPTh  // Ende enable Output
+   Mov AL,5
+   Out DX,Al
+  end;
+
+
+port:=bl;
+//Pause
+    for p:=1 to ((form1.sb2.position*4)*form1.sb7.position) do
+    begin
+     application.ProcessMessages;
+     pp:=pp+1;
+        if status= 0 then
+            begin
+              application.ProcessMessages;
+              form1.lpt.writeport(lptport+2,1);
+              exit;
+              form1.button2.click;
+            end;
+      PP:=0;
+      application.ProcessMessages;
+    end;
+end;
+end.
