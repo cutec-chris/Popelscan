@@ -13,10 +13,14 @@ procedure screenausgabe;
 procedure ausgabe_bsw;
 procedure Faderupdate;
 function bin(innum: longint; places: byte): string;
+function QueryPerformanceCount(aCount : Int64) : Boolean;
 
 implementation
-
-uses Lasersoftware, Image, Ausgabeeffekte;
+uses Lasersoftware, Image, Ausgabeeffekte
+{$IFDEF LINUX}
+ ,unixtype,Linux
+{$ENDIF}
+ ;
 
 procedure Faderupdate;
 var
@@ -136,7 +140,7 @@ begin
       // Erster Punkt im Bild
       if z = 1 then
       begin
-        //TODO:QueryPerformancecounter(Zykpoint^);
+        QueryPerformanceCount(Zykpoint^);
         if prozzyklus >= TT_Mir_h then
           Winkelberechnenhor;
         if prozzyklus >= TT_Mir_v then
@@ -342,6 +346,26 @@ begin
     innum := innum shr 1;
   end;
   Bin := Hstr;
+end;
+
+function QueryPerformanceCount(aCount: Int64): Boolean;
+{$IFDEF LINUX}
+var
+  aLoc : timespec;
+const
+  C_THOUSAND = 1000;
+  C_MILLION  = C_THOUSAND * C_THOUSAND;
+  C_BILLION  = C_THOUSAND * C_THOUSAND * C_THOUSAND;
+{$ENDIF LINUX}
+begin
+  Result := True;
+  {$IFDEF WINDOWS}
+  QueryPerformanceCounter(aCount);
+  {$ENDIF WINDOWS}
+  {$IFDEF LINUX}
+  clock_gettime(CLOCK_MONOTONIC,@aLoc);
+  aCount := (aloc.tv_sec * C_BILLION) + aloc.tv_nsec;
+  {$ENDIF LINUX}
 end;
 
 

@@ -1,9 +1,9 @@
 object Form1: TForm1
   Left = 257
-  Height = 700
+  Height = 721
   Top = 92
   Width = 1014
-  ClientHeight = 678
+  ClientHeight = 699
   ClientWidth = 1014
   Menu = MainMenu1
   OnCreate = FormCreate
@@ -101,20 +101,22 @@ object Form1: TForm1
     end
     object sb14: TTrackBar
       Left = 7
-      Height = 48
-      Top = 224
+      Height = 40
+      Top = 240
       Width = 169
       Frequency = 10
       Max = 60
       Min = 1
       OnChange = sb14Change
       Position = 1
+      TickMarks = tmBoth
+      TickStyle = tsNone
       TabOrder = 3
     end
     object Panel27: TPanel
       Left = 178
       Height = 17
-      Top = 232
+      Top = 256
       Width = 49
       Caption = '1 sec'
       TabOrder = 4
@@ -305,7 +307,7 @@ object Form1: TForm1
     object UpDown2: TUpDown
       Left = 47
       Height = 25
-      Top = 262
+      Top = 280
       Width = 15
       Associate = Panel28
       Min = 0
@@ -318,15 +320,15 @@ object Form1: TForm1
     object Panel28: TPanel
       Left = 6
       Height = 25
-      Top = 262
+      Top = 280
       Width = 41
       Caption = '136'
       TabOrder = 22
     end
     object cb31: TCheckBox
-      Left = 78
+      Left = 74
       Height = 24
-      Top = 266
+      Top = 280
       Width = 183
       Caption = 'Override Random with BPM'
       OnClick = cb31Click
@@ -344,7 +346,7 @@ object Form1: TForm1
     object cb37: TCheckBox
       Left = 142
       Height = 24
-      Top = 214
+      Top = 208
       Width = 95
       Caption = 'Invert Blank'
       OnClick = cb37Click
@@ -1033,8 +1035,8 @@ object Form1: TForm1
       Height = 457
       Top = 146
       Width = 553
-      ActivePage = mp3
-      TabIndex = 1
+      ActivePage = banks
+      TabIndex = 0
       TabOrder = 14
       OnChange = pg2Change
       object banks: TTabSheet

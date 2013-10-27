@@ -34,7 +34,7 @@ procedure testausgabe;
 
 implementation
 
-uses Lasersoftware, image;
+uses Lasersoftware, image,Ausgabe;
 
 {$IFDEF WINDOWS}
 procedure PortOut(Port: word; Data: byte); stdcall; external 'io.dll';
@@ -92,7 +92,7 @@ begin
   winkhor := (winkhor1 * 3.141592) / 90;
   if winkhor1 > winkhormax then
     winkhor1 := 0;
-  //TODO:QueryPerformancecounter(Zykpoint^);
+  QueryPerformanceCount(Zykpoint^);
   TT_Mir_h := prozzyklus + (form1.sb8.position * 5000);
   counter := 1;
 end;
@@ -103,7 +103,7 @@ begin
   winkver := (winkver1 * 3.141592) / 90;
   if winkver1 > winkvermax then
     winkver1 := 0;
-  //TODO:QueryPerformancecounter(Zykpoint^);
+  QueryPerformanceCount(Zykpoint^);
   TT_Mir_v := prozzyklus + (form1.sb9.position * 5000);
   counter := 1;
 end;
@@ -351,12 +351,12 @@ begin
   // Pause Neu
   if prozzyklusalt = 0 then
   begin
-    //TODO:QueryPerformancecounter(Zykpoint^);
+    QueryPerformanceCount(Zykpoint^);
     prozzyklusalt := prozzyklus + Del_Time - (IDelta * 8);
   end;
 
   repeat
-    //TODO:QueryPerformancecounter(Zykpoint^);
+    QueryPerformanceCount(Zykpoint^);
     application.ProcessMessages;
   until prozzyklus >= prozzyklusalt;
 
@@ -552,16 +552,16 @@ begin
     // Pause Neu
     if prozzyklusalt = 0 then
     begin
-      //TODO:QueryPerformancecounter(Zykpoint^);
+      QueryPerformanceCount(Zykpoint^);
       prozzyklusalt := prozzyklus + Del_Time - (IDelta * 8);
     end;
 
     repeat
-      //TODO:QueryPerformancecounter(Zykpoint^);
+      QueryPerformanceCount(Zykpoint^);
       application.ProcessMessages;
     until prozzyklus >= prozzyklusalt;
 
-    //TODO:QueryPerformancecounter(Zykpoint^);
+    QueryPerformanceCount(Zykpoint^);
     prozzyklusalt := prozzyklus + Del_Time - (IDelta * 5);
 
   end; // Ende Ausgabe

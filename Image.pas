@@ -83,6 +83,7 @@ end;
 // Zeichnen nach Mausklick
 procedure zeichnen;
 begin
+  form1.iOutput.canvas.Lock;
   if form1.rb1.Checked = True then
     form1.iOutput.canvas.pen.color := clblack;
   if form1.rb2.Checked = True then
@@ -144,7 +145,7 @@ begin
       inttohex(port, 2) + inttohex(xneu, 2) + inttohex(yneu, 2);
     punkte := punkte + 3;
   end;
-
+  form1.iOutput.canvas.Unlock;
 end;
 
 // Neuzeichnen

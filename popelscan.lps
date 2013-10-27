@@ -3,7 +3,7 @@
   <ProjectSession>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="15">
+    <Units Count="19">
       <Unit0>
         <Filename Value="popelscan.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -23,10 +23,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Lasersoftware"/>
-        <EditorIndex Value="6"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="707"/>
-        <CursorPos X="3" Y="722"/>
+        <TopLine Value="975"/>
+        <CursorPos X="1" Y="999"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -36,10 +37,10 @@
         <Filename Value="Ausgabe.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Ausgabe"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="49"/>
-        <CursorPos X="33" Y="70"/>
+        <TopLine Value="338"/>
+        <CursorPos X="1" Y="369"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -50,8 +51,8 @@
         <UnitName Value="Image"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="221"/>
-        <CursorPos X="3" Y="220"/>
+        <TopLine Value="1"/>
+        <CursorPos X="85" Y="3"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -60,12 +61,10 @@
         <Filename Value="Live.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Live"/>
-        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="116"/>
+        <TopLine Value="70"/>
         <CursorPos X="12" Y="134"/>
         <UsageCount Value="22"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit4>
       <Unit5>
@@ -77,7 +76,7 @@
         <UnitName Value="Shortcuts"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="2"/>
+        <TopLine Value="4"/>
         <CursorPos X="12" Y="33"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
@@ -90,8 +89,8 @@
         <UnitName Value="Ausgabeeffekte"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="11" Y="11"/>
+        <TopLine Value="78"/>
+        <CursorPos X="1" Y="96"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -100,11 +99,10 @@
         <Filename Value="Easylase.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Easylase"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="62"/>
-        <CursorPos X="1" Y="96"/>
+        <TopLine Value="70"/>
+        <CursorPos X="42" Y="15"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -113,12 +111,10 @@
         <Filename Value="BAIOPORT.PAS"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="BAIOPORT"/>
-        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
         <TopLine Value="25"/>
         <CursorPos X="1" Y="20"/>
         <UsageCount Value="22"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit8>
       <Unit9>
@@ -135,12 +131,10 @@
       </Unit9>
       <Unit10>
         <Filename Value="Lasersoftware.lfm"/>
-        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="81" Y="5"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit10>
       <Unit11>
@@ -179,127 +173,166 @@
         <CursorPos X="14" Y="577"/>
         <UsageCount Value="10"/>
       </Unit14>
+      <Unit15>
+        <Filename Value="stopwatch.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="stopwatch"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="29"/>
+        <CursorPos X="90" Y="41"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/packages/ptc/examples/image.pp"/>
+        <UnitName Value="ImageExample"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="11"/>
+        <UsageCount Value="10"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/rtl/linux/linux.pp"/>
+        <UnitName Value="Linux"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="428"/>
+        <CursorPos X="52" Y="445"/>
+        <UsageCount Value="10"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/rtl/linux/ptypes.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="13"/>
+        <CursorPos X="11" Y="137"/>
+        <UsageCount Value="10"/>
+      </Unit18>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="Ausgabeeffekte.pas"/>
-        <Caret Line="395" Column="21" TopLine="386"/>
+        <Caret Line="369" Column="1" TopLine="343"/>
       </Position1>
       <Position2>
         <Filename Value="Ausgabeeffekte.pas"/>
-        <Caret Line="37" Column="8" TopLine="20"/>
+        <Caret Line="370" Column="1" TopLine="343"/>
       </Position2>
       <Position3>
         <Filename Value="Ausgabeeffekte.pas"/>
-        <Caret Line="42" Column="1" TopLine="12"/>
+        <Caret Line="371" Column="1" TopLine="343"/>
       </Position3>
       <Position4>
-        <Filename Value="Image.pas"/>
-        <Caret Line="82" Column="16" TopLine="65"/>
+        <Filename Value="Ausgabeeffekte.pas"/>
+        <Caret Line="372" Column="1" TopLine="344"/>
       </Position4>
       <Position5>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="225" Column="5" TopLine="209"/>
+        <Filename Value="Ausgabeeffekte.pas"/>
+        <Caret Line="373" Column="1" TopLine="345"/>
       </Position5>
       <Position6>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="3" Column="72" TopLine="1"/>
+        <Filename Value="Ausgabeeffekte.pas"/>
+        <Caret Line="369" Column="38" TopLine="353"/>
       </Position6>
       <Position7>
-        <Filename Value="Shortcuts.pas"/>
-        <Caret Line="8" Column="30" TopLine="1"/>
+        <Filename Value="Lasersoftware.pas"/>
+        <Caret Line="420" Column="34" TopLine="412"/>
       </Position7>
       <Position8>
-        <Filename Value="Shortcuts.pas"/>
-        <Caret Line="22" Column="3" TopLine="2"/>
+        <Filename Value="Ausgabeeffekte.pas"/>
+        <Caret Line="4" Column="88" TopLine="1"/>
       </Position8>
       <Position9>
-        <Filename Value="Shortcuts.pas"/>
-        <Caret Line="28" Column="8" TopLine="2"/>
+        <Filename Value="Ausgabeeffekte.pas"/>
+        <Caret Line="95" Column="3" TopLine="13"/>
       </Position9>
       <Position10>
-        <Filename Value="Live.pas"/>
-        <Caret Line="91" Column="15" TopLine="74"/>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="16" Column="59" TopLine="1"/>
       </Position10>
       <Position11>
-        <Filename Value="Image.pas"/>
-        <Caret Line="37" Column="49" TopLine="22"/>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="356" Column="14" TopLine="332"/>
       </Position11>
       <Position12>
-        <Filename Value="Image.pas"/>
-        <Caret Line="26" Column="14" TopLine="8"/>
+        <Filename Value="stopwatch.pas"/>
+        <Caret Line="179" Column="36" TopLine="157"/>
       </Position12>
       <Position13>
-        <Filename Value="Image.pas"/>
-        <Caret Line="31" Column="11" TopLine="15"/>
+        <Filename Value="stopwatch.pas"/>
+        <Caret Line="168" Column="17" TopLine="151"/>
       </Position13>
       <Position14>
-        <Filename Value="Ausgabe.pas"/>
-        <Caret Line="1" Column="51" TopLine="1"/>
+        <Filename Value="stopwatch.pas"/>
+        <Caret Line="179" Column="15" TopLine="157"/>
       </Position14>
       <Position15>
-        <Filename Value="Ausgabe.pas"/>
-        <Caret Line="68" Column="25" TopLine="52"/>
+        <Filename Value="Ausgabeeffekte.pas"/>
+        <Caret Line="95" Column="24" TopLine="78"/>
       </Position15>
       <Position16>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="1557" Column="41" TopLine="1545"/>
+        <Filename Value="Ausgabeeffekte.pas"/>
+        <Caret Line="37" Column="34" TopLine="24"/>
       </Position16>
       <Position17>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="952" Column="10" TopLine="943"/>
+        <Filename Value="Ausgabeeffekte.pas"/>
+        <Caret Line="95" Column="20" TopLine="78"/>
       </Position17>
       <Position18>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="345" Column="48" TopLine="326"/>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="348" Column="40" TopLine="330"/>
       </Position18>
       <Position19>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="349" Column="19" TopLine="326"/>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="354" Column="3" TopLine="331"/>
       </Position19>
       <Position20>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="653" Column="42" TopLine="625"/>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="21" Column="8" TopLine="1"/>
       </Position20>
       <Position21>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="665" Column="39" TopLine="658"/>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="20" Column="6" TopLine="3"/>
       </Position21>
       <Position22>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="667" Column="76" TopLine="658"/>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="19" Column="42" TopLine="5"/>
       </Position22>
       <Position23>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="732" Column="1" TopLine="699"/>
+        <Filename Value="stopwatch.pas"/>
+        <Caret Line="179" Column="35" TopLine="157"/>
       </Position23>
       <Position24>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="411" Column="25" TopLine="386"/>
+        <Filename Value="stopwatch.pas"/>
+        <Caret Line="168" Column="20" TopLine="151"/>
       </Position24>
       <Position25>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="1703" Column="3" TopLine="1700"/>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="21" Column="17" TopLine="7"/>
       </Position25>
       <Position26>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="80" Column="28" TopLine="68"/>
+        <Filename Value="stopwatch.pas"/>
+        <Caret Line="187" Column="38" TopLine="157"/>
       </Position26>
       <Position27>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="236" Column="20" TopLine="207"/>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="359" Column="1" TopLine="338"/>
       </Position27>
       <Position28>
-        <Filename Value="Lasersoftware.pas"/>
-        <Caret Line="2519" Column="12" TopLine="2516"/>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="356" Column="115" TopLine="338"/>
       </Position28>
       <Position29>
-        <Filename Value="BAIOPORT.PAS"/>
-        <Caret Line="9" Column="61" TopLine="1"/>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="366" Column="1" TopLine="338"/>
       </Position29>
+      <Position30>
+        <Filename Value="Ausgabe.pas"/>
+        <Caret Line="367" Column="1" TopLine="338"/>
+      </Position30>
     </JumpHistory>
   </ProjectSession>
   <EditorMacros Count="0"/>

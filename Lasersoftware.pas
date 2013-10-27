@@ -9,7 +9,7 @@ uses
   Controls, Forms, Dialogs,
   StdCtrls, ExtCtrls, Menus, Ausgabe, Image, Live, FileCtrl, BAIOPORT,
   ComCtrls, {OleCtrls, isp3, MPlayer,} DBCtrls, FileUtil,
-  Ausgabeeffekte, Easylase;
+  Ausgabeeffekte, Easylase,stopwatch;
 
 type
 
@@ -409,17 +409,15 @@ type
     procedure midikeyoffsetChange(Sender: TObject);
     procedure EasyLaseUSB1Click(Sender: TObject);
     procedure Button31Click(Sender: TObject);
-
-
-
-
   private
+    FStopWatch: TStopWatch;
     procedure GetMidiInDevs;
   protected
     //procedure MMMIMDATA (var message : TMessage); message MM_MIM_DATA;
     //TODO: MIDI Support
   public
     procedure UpdateMidiIn(statusm, db1, db2: DWord);
+    property StopWatch : TStopWatch read FStopWatch;
   end;
 // USB
      {$IFDEF WINDOWS}
@@ -508,8 +506,7 @@ var
   Del_Time: int64;
 
   // Performancetiming
-  Freqpoint: ^int64;
-  Zykpoint: ^int64;
+  Zykpoint: PInt64;
   prozfreq: int64;
   prozzyklus: int64;
   prozzyklusalt: int64;
@@ -555,9 +552,6 @@ var
 
 
 implementation
-
-//uses fmxutils;
-
 
 {$R *.lfm}
 function IntToBin(z: integer): string;
@@ -978,37 +972,33 @@ begin
   end;
   bStop.click;
 
-
-  // Query Performance Counter ini
-  Freqpoint := @prozfreq;
   Zykpoint := @prozzyklus;
-     {TODO:
-     QueryPerformancefrequency(Freqpoint^); QueryPerformancecounter(Zykpoint^);
-     QueryPerformanceFrequency(iFreq);
-     QueryPerformanceCounter(iCountStart);  QueryPerformanceCounter(iCountEnd);
-
-       // Aufwand für den Aufruf ermitteln, #
-       // um die Präzision zu erhöhen
-       iDelta := iCountEnd-iCountStart;
-       QueryPerformanceCounter(iCountStart);
-       while true do
+  FStopWatch := TStopWatch.Create;
+  // Aufwand für den Aufruf ermitteln, #
+  // um die Präzision zu erhöhen
+  FStopWatch.Start();
+  FStopWatch.Stop();
+  iDelta := FStopWatch.ElapsedTicks;
+  FStopWatch.Reset();
+  FStopWatch.Start();
+  while true do
+    begin
+      FStopWatch.Stop();
+      if FStopWatch.ElapsedMilliseconds>=1000 then
         begin
-         QueryPerformanceCounter(iCountEnd);
-             if ((iCountEnd-iCountStart-iDelta)/iFreq) >= 1 then
-               begin
-                iCountPerSec := (iCountEnd-iCountStart-iDelta);
-                break;
-               end;
+          iCountPerSec := FStopWatch.ElapsedTicks;
+          break;
         end;
-       // Timingvariable
-       iCounttime:=iCountPerSec;
-
-       //ICounttime = Clicks per sec
-        QueryPerformancecounter(Zykpoint^);
-       Delay_pps:=sb2.position*10;
-       Delay_Time:=Icounttime / Delay_PPS;
-       Del_Time:=Round(Delay_Time);
-      }
+      FStopWatch.Start();
+    end;
+  // Timingvariable
+  iCounttime:=iCountPerSec;
+  //ICounttime = Clicks per sec
+  FStopWatch.Reset();
+  QueryPerformanceCount(Zykpoint^);
+  Delay_pps:=sb2.position*10;
+  Delay_Time:=Icounttime / Delay_PPS;
+  Del_Time:=Round(Delay_Time);
 end;
 
 // Menue "Neue Datei"
